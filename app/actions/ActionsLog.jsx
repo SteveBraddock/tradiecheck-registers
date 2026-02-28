@@ -281,9 +281,9 @@ export default function ActionsLog() {
   }
 
   const filtered = entries.filter(e => {
-    if (filterStatus !== "All" && e.status !== filterStatus) return false;
-    if (filterOwner !== "All" && e.owner !== filterOwner) return false;
-    if (filterCategory !== "All" && e.category !== filterCategory) return false;
+    if (filterStatus !== "All" && !filterStatus.startsWith("All") && e.status !== filterStatus) return false;
+    if (filterOwner !== "All" && !filterOwner.startsWith("All") && e.owner !== filterOwner) return false;
+    if (filterCategory !== "All" && !filterCategory.startsWith("All") && e.category !== filterCategory) return false;
     if (search && !e.action.toLowerCase().includes(search.toLowerCase()) && !(e.meeting || "").toLowerCase().includes(search.toLowerCase()) && !(e.decision || "").toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
@@ -706,8 +706,8 @@ export default function ActionsLog() {
             { label: "Owner", value: filterOwner, set: setFilterOwner, opts: ["All", ...OWNERS] },
             { label: "Category", value: filterCategory, set: setFilterCategory, opts: ["All", ...CATEGORIES] },
           ].map(f => (
-            <select key={f.label} value={f.value} onChange={e => f.set(e.target.value)} style={{ ...selectStyle, width: "auto", flex: "none", paddingRight: 28 }}>
-              {f.opts.map(o => <option key={o}>{o === "All" ? (f.label === "Status" ? "All Statuses" : f.label === "Category" ? "All Categories" : `All ${f.label}s`) : o}</option>)}
+            <select key={f.label} value={f.value} onChange={e => { console.log("FILTER SET TO:", e.target.value); f.set(e.target.value); }} style={{ ...selectStyle, width: "auto", flex: "none", paddingRight: 28 }}>
+              {f.opts.map(o => <option key={o} value={o}>{o === "All" ? (f.label === "Status" ? "All Statuses" : f.label === "Category" ? "All Categories" : `All ${f.label}s`) : o}</option>)}
             </select>
           ))}
           <div style={{ fontSize: 13, color: "#888", fontFamily: "sans-serif", marginLeft: "auto" }}>{filtered.length} item{filtered.length !== 1 ? "s" : ""}</div>
