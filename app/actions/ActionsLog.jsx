@@ -91,6 +91,7 @@ export default function ActionsLog() {
   const [filterOwner, setFilterOwner] = useState("All");
   const [filterCategory, setFilterCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("num-desc");
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [importMode, setImportMode] = useState(null);
   const [importPreview, setImportPreview] = useState(null);
@@ -286,6 +287,15 @@ export default function ActionsLog() {
     if (filterCategory !== "All" && !filterCategory.startsWith("All") && e.category !== filterCategory) return false;
     if (search && !e.action.toLowerCase().includes(search.toLowerCase()) && !(e.meeting || "").toLowerCase().includes(search.toLowerCase()) && !(e.decision || "").toLowerCase().includes(search.toLowerCase())) return false;
     return true;
+  });
+  filtered.sort((a, b) => {
+    if (sortBy === "num-asc") return (a.num || 0) - (b.num || 0);
+    if (sortBy === "num-desc") return (b.num || 0) - (a.num || 0);
+    if (sortBy === "date-asc") return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
+    if (sortBy === "date-desc") return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+    if (sortBy === "due-asc") return new Date(a.dueDate || "9999") - new Date(b.dueDate || "9999");
+    if (sortBy === "due-desc") return new Date(b.dueDate || 0) - new Date(a.dueDate || 0);
+    return 0;
   });
 
   function exportPDF() {
@@ -710,6 +720,14 @@ export default function ActionsLog() {
               {f.opts.map(o => <option key={o} value={o}>{o === "All" ? (f.label === "Status" ? "All Statuses" : f.label === "Category" ? "All Categories" : `All ${f.label}s`) : o}</option>)}
             </select>
           ))}
+          <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{ ...selectStyle, width: "auto", flex: "none", paddingRight: 28 }}>
+            <option value="num-desc">Ref # (newest)</option>
+            <option value="num-asc">Ref # (oldest)</option>
+            <option value="date-desc">Created (newest)</option>
+            <option value="date-asc">Created (oldest)</option>
+            <option value="due-asc">Due date (soonest)</option>
+            <option value="due-desc">Due date (latest)</option>
+          </select>
           <div style={{ fontSize: 13, color: "#888", fontFamily: "sans-serif", marginLeft: "auto" }}>{filtered.length} item{filtered.length !== 1 ? "s" : ""}</div>
         </div>
 
