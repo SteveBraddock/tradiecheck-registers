@@ -23,7 +23,7 @@ export default function AuthWrapper({ children }) {
 
   if (loading) return <div style={{ fontFamily: "sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>Loading...</div>
 
-  if (!session) return <Login onLogin={() => {}} />
+  if (!session && pathname !== '/reset-password') return <Login onLogin={() => {}} />
 
   return (
     <div>
