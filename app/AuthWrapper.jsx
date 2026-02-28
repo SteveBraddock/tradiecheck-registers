@@ -42,4 +42,68 @@ function ResetForm({ onBack }) {
             </div>
             <div style={{ marginBottom: 20 }}>
               <label style={{ display: "block", fontSize: 11, color: "#888", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 4 }}>Confirm Password</label>
-              <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required style={{ width: "100%", padding: "10px 12px", border: "1.5px solid #D8E6EE", borderRadius: 6, fontSize: 14, boxSizing: "border-box", colo
+              <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required style={{ width: "100%", padding: "10px 12px", border: "1.5px solid #D8E6EE", borderRadius: 6, fontSize: 14, boxSizing: "border-box", color: "#3D3D3D" }} />
+            </div>
+            {error && <div style={{ color: "#B02020", fontSize: 13, marginBottom: 14, textAlign: "center" }}>{error}</div>}
+            <button type="submit" disabled={loading} style={{ width: "100%", padding: "12px", background: "#4AABDB", color: "#FFF", border: "none", borderRadius: 6, fontSize: 14, fontWeight: 700, cursor: loading ? "wait" : "pointer" }}>
+              {loading ? "Updating..." : "Update Password"}
+            </button>
+            <div style={{ textAlign: "center", marginTop: 16 }}>
+              <button onClick={onBack} type="button" style={{ background: "none", border: "none", color: "#4AABDB", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}>Cancel</button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default function AuthWrapper({ children }) {
+  const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [recovering, setRecovering] = useState(false)
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash.includes('type=recovery')) {
+      setRecovering(true)
+    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setLoading(false)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session)
+      if (event === 'PASSWORD_RECOVERY') setRecovering(true)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (loading) return <div style={{ fontFamily: "sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>Loading...</div>
+
+  if (recovering) return <ResetForm onBack={() => setRecovering(false)} />
+
+  if (!session) return <Login onLogin={() => {}} />
+
+  return (
+    <div>
+      <div style={{ background: "#3D3D3D", padding: "8px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "sans-serif", fontSize: 13 }}>
+        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+          <Link href="/" style={{ color: "#FFF", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>TradieCheck</Link>
+          <Link href="/register" style={{ color: pathname === "/register" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/register" ? 700 : 400 }}>Register</Link>
+          <Link href="/actions" style={{ color: pathname === "/actions" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/actions" ? 700 : 400 }}>Actions</Link>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ color: "#888", fontSize: 12 }}>{session.user.email}</span>
+          <button onClick={() => setRecovering(true)} style={{ background: "transparent", border: "1px solid #888", borderRadius: 4, padding: "5px 12px", fontSize: 12, color: "#AAA", cursor: "pointer", fontWeight: 600 }}>
+            Change Password
+          </button>
+          <button onClick={() => supabase.auth.signOut()} style={{ background: "#4AABDB", border: "none", borderRadius: 4, padding: "5px 12px", fontSize: 12, color: "#FFF", cursor: "pointer", fontWeight: 600 }}>
+            Sign Out
+          </button>
+        </div>
+      </div>
+      {children}
+    </div>
+  )
+}
