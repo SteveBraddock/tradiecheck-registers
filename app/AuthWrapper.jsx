@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { supabase } from '../lib/supabase'
 import Login from './login'
 
-function ResetForm() {
+function ResetForm({ onBack }) {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
@@ -32,7 +32,7 @@ function ResetForm() {
         {message ? (
           <div style={{ textAlign: "center" }}>
             <div style={{ color: "#1B7A4A", fontSize: 14, marginBottom: 20 }}>{message}</div>
-            <a href="/" style={{ color: "#4AABDB", fontSize: 13 }}>Go to TradieCheck</a>
+            <button onClick={onBack} style={{ background: "none", border: "none", color: "#4AABDB", fontSize: 13, cursor: "pointer", textDecoration: "underline" }}>Back to TradieCheck</button>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
@@ -42,50 +42,4 @@ function ResetForm() {
             </div>
             <div style={{ marginBottom: 20 }}>
               <label style={{ display: "block", fontSize: 11, color: "#888", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: 4 }}>Confirm Password</label>
-              <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required style={{ width: "100%", padding: "10px 12px", border: "1.5px solid #D8E6EE", borderRadius: 6, fontSize: 14, boxSizing: "border-box", color: "#3D3D3D" }} />
-            </div>
-            {error && <div style={{ color: "#B02020", fontSize: 13, marginBottom: 14, textAlign: "center" }}>{error}</div>}
-            <button type="submit" disabled={loading} style={{ width: "100%", padding: "12px", background: "#4AABDB", color: "#FFF", border: "none", borderRadius: 6, fontSize: 14, fontWeight: 700, cursor: loading ? "wait" : "pointer" }}>
-              {loading ? "Updating..." : "Update Password"}
-            </button>
-          </form>
-        )}
-      </div>
-    </div>
-  )
-}
-
-export default function AuthWrapper({ children }) {
-  const [session, setSession] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [recovering, setRecovering] = useState(false)
-  const pathname = usePathname()
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash.includes('type=recovery')) {
-      setRecovering(true)
-    }
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      setLoading(false)
-    })
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setSession(session)
-      if (event === 'PASSWORD_RECOVERY') setRecovering(true)
-    })
-    return () => subscription.unsubscribe()
-  }, [])
-
-  if (loading) return <div style={{ fontFamily: "sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>Loading...</div>
-
-  if (recovering) return <ResetForm />
-
-  if (!session) return <Login onLogin={() => {}} />
-
-  return (
-    <div>
-      <div style={{ background: "#3D3D3D", padding: "8px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "sans-serif", fontSize: 13 }}>
-        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-          <Link href="/" style={{ color: "#FFF", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>TradieCheck</Link>
-          <Link href="/register" style={{ color: pathname === "/register" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/register" ? 700 : 400 }}>Register</Link>
-          <Link href="/actions" style={{ color: pathname === "/actions" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/actions" ? 700 : 400 }}>Actions
+              <input type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required style={{ width: "100%", padding: "10px 12px", border: "1.5px solid #D8E6EE", borderRadius: 6, fontSize: 14, boxSizing: "border-box", colo
