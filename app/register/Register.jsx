@@ -36,8 +36,8 @@ function formatDate(iso) {
   return d.toLocaleDateString("en-NZ", { day: "numeric", month: "short", year: "numeric" });
 }
 
-const labelStyle = { fontSize: 11, fontWeight: 700, color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 4, fontFamily: "sans-serif" };
-const inputStyle = { width: "100%", padding: "8px 10px", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, fontSize: 14, fontFamily: "sans-serif", color: TC_CHARCOAL, background: "#FFF", boxSizing: "border-box" };
+const labelStyle = { fontSize: 11, fontWeight: 700, color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 4, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" };
+const inputStyle = { width: "100%", padding: "8px 10px", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, fontSize: 14, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: TC_CHARCOAL, background: "#FFF", boxSizing: "border-box" };
 
 export default function Register() {
   const [entries, setEntries] = useState([]);
@@ -153,17 +153,17 @@ export default function Register() {
   const counts = { ideas: entries.filter(e => e.type === "Idea").length, issues: entries.filter(e => e.type === "Issue").length, open: entries.filter(e => e.status === "Open").length, resolved: entries.filter(e => e.status === "Resolved").length };
 
   return (
-    <div style={{ fontFamily: "'Georgia', serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
+    <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
       {/* Header */}
       <div style={{ background: "#FFF", padding: "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `4px solid ${TC_BLUE}`, boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, background: TC_BLUE, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 20, color: "#FFF", fontFamily: "sans-serif" }}>TC</div>
+          <div style={{ width: 48, height: 48, background: TC_BLUE, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 20, color: "#FFF", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>TC</div>
           <div style={{ borderLeft: `2px solid ${TC_BLUE}`, paddingLeft: 16 }}>
             <div style={{ color: TC_CHARCOAL, fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px" }}>Ideas & Issues Register</div>
-            <div style={{ color: "#888", fontSize: 11, fontFamily: "sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>TradieCheck Internal</div>
+            <div style={{ color: "#888", fontSize: 11, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>TradieCheck Internal</div>
           </div>
         </div>
-        <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
+        <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
           <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> Add Entry
         </button>
       </div>
@@ -178,8 +178,8 @@ export default function Register() {
             { label: "Resolved", value: counts.resolved, color: TC_GREEN },
           ].map(s => (
             <div key={s.label} style={{ background: "#FFF", border: `1px solid ${TC_BORDER}`, borderRadius: 8, padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: `3px solid ${s.color}` }}>
-              <div style={{ fontSize: 13, color: "#888", fontFamily: "sans-serif" }}>{s.label}</div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: s.color, fontFamily: "sans-serif", lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontSize: 13, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>{s.label}</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: s.color, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", lineHeight: 1 }}>{s.value}</div>
             </div>
           ))}
         </div>
@@ -197,7 +197,7 @@ export default function Register() {
                     border: `2px solid ${form.type === t ? TYPE_COLORS[t].border : TC_BORDER}`,
                     background: form.type === t ? TYPE_COLORS[t].bg : "#FFF",
                     color: form.type === t ? TYPE_COLORS[t].text : "#999",
-                    fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 13
+                    fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13
                   }}>{t}</button>
                 ))}
               </div>
@@ -229,8 +229,8 @@ export default function Register() {
               </div>
             </div>
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={handleSubmit} style={{ background: TC_CHARCOAL, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 24px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 14 }}>{editId ? "Save Changes" : "Add to Register"}</button>
-              <button onClick={resetForm} style={{ background: "transparent", color: "#666", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 24px", fontFamily: "sans-serif", fontSize: 14, cursor: "pointer" }}>Cancel</button>
+              <button onClick={handleSubmit} style={{ background: TC_CHARCOAL, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 24px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14 }}>{editId ? "Save Changes" : "Add to Register"}</button>
+              <button onClick={resetForm} style={{ background: "transparent", color: "#666", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 24px", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14, cursor: "pointer" }}>Cancel</button>
             </div>
           </div>
         )}
@@ -244,16 +244,16 @@ export default function Register() {
             <option value="All">All Categories</option>
             {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
-          <div style={{ fontSize: 13, color: "#888", fontFamily: "sans-serif", marginLeft: "auto" }}>{filtered.length} item{filtered.length !== 1 ? "s" : ""}</div>
+          <div style={{ fontSize: 13, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginLeft: "auto" }}>{filtered.length} item{filtered.length !== 1 ? "s" : ""}</div>
         </div>
 
         {/* Entries */}
         {loading ? (
-          <div style={{ textAlign: "center", padding: 60, color: "#888", fontFamily: "sans-serif" }}>Loading…</div>
+          <div style={{ textAlign: "center", padding: 60, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>Loading…</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: 60 }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>💡</div>
-            <div style={{ color: "#888", fontFamily: "sans-serif", fontSize: 15 }}>
+            <div style={{ color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 15 }}>
               {entries.length === 0 ? "Nothing yet — add your first idea or issue above." : "No entries match your filters."}
             </div>
           </div>
@@ -277,45 +277,45 @@ function EntryCard({ entry, onEdit, onDelete, onStatusChange }) {
     <div style={{ background: "#FFF", border: `1.5px solid ${TC_BORDER}`, borderLeft: `4px solid ${tc.border}`, borderRadius: 10, overflow: "hidden" }}>
       <div style={{ padding: "16px 20px", display: "flex", alignItems: "flex-start", gap: 12, cursor: "pointer" }} onClick={() => setExpanded(x => !x)}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, paddingTop: 2 }}>
-          <span style={{ background: tc.bg, color: tc.text, fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4, fontFamily: "sans-serif", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>{entry.type.toUpperCase()}</span>
-          <span style={{ background: pc.bg, color: pc.text, fontSize: 9, fontWeight: 700, padding: "1px 5px", borderRadius: 3, fontFamily: "sans-serif" }}>{entry.priority}</span>
+          <span style={{ background: tc.bg, color: tc.text, fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>{entry.type.toUpperCase()}</span>
+          <span style={{ background: pc.bg, color: pc.text, fontSize: 9, fontWeight: 700, padding: "1px 5px", borderRadius: 3, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>{entry.priority}</span>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <span style={{ fontSize: 15, fontWeight: 700, color: TC_CHARCOAL, letterSpacing: "-0.2px" }}>{entry.title}</span>
-            <span style={{ fontSize: 11, color: "#888", fontFamily: "sans-serif", background: "#EDF2F5", padding: "3px 8px", borderRadius: 4 }}>{entry.category}</span>
+            <span style={{ fontSize: 11, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", background: "#EDF2F5", padding: "3px 8px", borderRadius: 4 }}>{entry.category}</span>
           </div>
           {entry.description && !expanded && (
-            <div style={{ fontSize: 13, color: "#666", marginTop: 3, fontFamily: "sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 500 }}>{entry.description}</div>
+            <div style={{ fontSize: 13, color: "#666", marginTop: 3, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 500 }}>{entry.description}</div>
           )}
           {(entry.tags || []).length > 0 && (
             <div style={{ display: "flex", gap: 6, marginTop: 6, flexWrap: "wrap" }}>
-              {(entry.tags || []).map(t => <span key={t} style={{ background: "#EDF6FC", color: TC_BLUE, fontSize: 11, padding: "2px 8px", borderRadius: 20, fontFamily: "sans-serif" }}>#{t}</span>)}
+              {(entry.tags || []).map(t => <span key={t} style={{ background: "#EDF6FC", color: TC_BLUE, fontSize: 11, padding: "2px 8px", borderRadius: 20, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>#{t}</span>)}
             </div>
           )}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-          <span style={{ background: sc.bg, color: sc.text, fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, fontFamily: "sans-serif", display: "flex", alignItems: "center", gap: 5 }}>
+          <span style={{ background: sc.bg, color: sc.text, fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", display: "flex", alignItems: "center", gap: 5 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: sc.dot, display: "inline-block" }} />{entry.status}
           </span>
-          <span style={{ fontSize: 11, color: "#AAA", fontFamily: "sans-serif", whiteSpace: "nowrap" }}>{formatDate(entry.created_at)}</span>
+          <span style={{ fontSize: 11, color: "#AAA", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", whiteSpace: "nowrap" }}>{formatDate(entry.created_at)}</span>
           <span style={{ color: "#CCC", fontSize: 16 }}>{expanded ? "▲" : "▼"}</span>
         </div>
       </div>
 
       {expanded && (
         <div style={{ borderTop: `1px solid ${TC_BORDER}`, padding: "14px 20px 14px 52px" }}>
-          {entry.description && <p style={{ margin: "0 0 14px", fontSize: 14, color: "#444", lineHeight: 1.6, fontFamily: "sans-serif" }}>{entry.description}</p>}
+          {entry.description && <p style={{ margin: "0 0 14px", fontSize: 14, color: "#444", lineHeight: 1.6, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>{entry.description}</p>}
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-            <span style={{ fontSize: 12, color: "#999", fontFamily: "sans-serif", marginRight: 4 }}>Move to:</span>
+            <span style={{ fontSize: 12, color: "#999", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginRight: 4 }}>Move to:</span>
             {STATUSES.filter(s => s !== entry.status).map(s => (
-              <button key={s} onClick={() => onStatusChange(entry.id, s)} style={{ background: STATUS_COLORS[s].bg, color: STATUS_COLORS[s].text, border: "none", borderRadius: 4, padding: "4px 12px", fontSize: 12, cursor: "pointer", fontFamily: "sans-serif", fontWeight: 600 }}>{s}</button>
+              <button key={s} onClick={() => onStatusChange(entry.id, s)} style={{ background: STATUS_COLORS[s].bg, color: STATUS_COLORS[s].text, border: "none", borderRadius: 4, padding: "4px 12px", fontSize: 12, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontWeight: 600 }}>{s}</button>
             ))}
             <div style={{ flex: 1 }} />
-            <button onClick={() => onEdit(entry)} style={{ background: "transparent", border: `1px solid ${TC_BORDER}`, borderRadius: 5, padding: "4px 12px", fontSize: 12, cursor: "pointer", fontFamily: "sans-serif", color: TC_CHARCOAL }}>Edit</button>
-            <button onClick={() => onDelete(entry.id)} style={{ background: "transparent", border: "1px solid #F5A5A5", borderRadius: 5, padding: "4px 12px", fontSize: 12, cursor: "pointer", fontFamily: "sans-serif", color: "#E84040" }}>Delete</button>
+            <button onClick={() => onEdit(entry)} style={{ background: "transparent", border: `1px solid ${TC_BORDER}`, borderRadius: 5, padding: "4px 12px", fontSize: 12, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: TC_CHARCOAL }}>Edit</button>
+            <button onClick={() => onDelete(entry.id)} style={{ background: "transparent", border: "1px solid #F5A5A5", borderRadius: 5, padding: "4px 12px", fontSize: 12, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: "#E84040" }}>Delete</button>
           </div>
-          <div style={{ marginTop: 10, fontSize: 11, color: "#BBB", fontFamily: "sans-serif" }}>
+          <div style={{ marginTop: 10, fontSize: 11, color: "#BBB", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>
             Created {formatDate(entry.created_at)} · Updated {formatDate(entry.updated_at)}
           </div>
         </div>
@@ -328,8 +328,9 @@ function FilterChips({ options, value, onChange }) {
   return (
     <div style={{ display: "flex", gap: 4 }}>
       {options.map(o => (
-        <button key={o} onClick={() => onChange(o)} style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${value === o ? TC_CHARCOAL : TC_BORDER}`, background: value === o ? TC_CHARCOAL : "#FFF", color: value === o ? "#FFF" : "#555", fontSize: 12, cursor: "pointer", fontFamily: "sans-serif", fontWeight: value === o ? 600 : 400, whiteSpace: "nowrap" }}>{o}</button>
+        <button key={o} onClick={() => onChange(o)} style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${value === o ? TC_CHARCOAL : TC_BORDER}`, background: value === o ? TC_CHARCOAL : "#FFF", color: value === o ? "#FFF" : "#555", fontSize: 12, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontWeight: value === o ? 600 : 400, whiteSpace: "nowrap" }}>{o}</button>
       ))}
     </div>
   );
 }
+

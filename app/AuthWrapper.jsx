@@ -25,7 +25,7 @@ function ResetForm({ onBack }) {
   }
 
   return (
-    <div style={{ fontFamily: "sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ background: "#FFF", borderRadius: 12, padding: 40, width: 360, boxShadow: "0 2px 12px rgba(0,0,0,0.08)", border: "1px solid #D8E6EE" }}>
         <img src="/logo.png" alt="TradieCheck" style={{ display: "block", margin: "0 auto 20px", height: 80 }} />
         <p style={{ color: "#888", textAlign: "center", marginBottom: 28, fontSize: 13 }}>Set your new password</p>
@@ -79,7 +79,7 @@ export default function AuthWrapper({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  if (loading) return <div style={{ fontFamily: "sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>Loading...</div>
+  if (loading) return <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center", color: "#888" }}>Loading...</div>
 
   if (recovering) return <ResetForm onBack={() => setRecovering(false)} />
 
@@ -87,7 +87,7 @@ export default function AuthWrapper({ children }) {
 
   return (
     <div>
-      <div style={{ background: "#3D3D3D", padding: "8px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "sans-serif", fontSize: 13 }}>
+      <div style={{ background: "#3D3D3D", padding: "8px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           <Link href="/" style={{ color: "#FFF", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>TradieCheck</Link>
           <Link href="/register" style={{ color: pathname === "/register" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/register" ? 700 : 400 }}>Register</Link>
@@ -108,4 +108,5 @@ export default function AuthWrapper({ children }) {
     </div>
   )
 }
+
 

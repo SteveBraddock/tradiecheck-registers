@@ -1,7 +1,7 @@
 import Link from 'next/link'
 export default function Home() {
   return (
-    <div style={{ fontFamily: "sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: "#F5F8FA", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <div style={{ textAlign: "center" }}>
         <img src="/TradieCheckLogo_transparent.png" alt="TradieCheck" style={{ display: "block", margin: "0 auto 20px", height: 80 }} />
         <p style={{ color: "#888", marginBottom: 40, fontSize: 15 }}>Internal Registers</p>
@@ -26,4 +26,5 @@ export default function Home() {
     </div>
   )
 }
+
 

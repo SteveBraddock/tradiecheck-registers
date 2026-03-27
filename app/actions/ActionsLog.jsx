@@ -78,8 +78,8 @@ function entryToDb(entry) {
   };
 }
 
-const labelStyle = { fontSize: 11, fontWeight: 700, color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 4, fontFamily: "sans-serif" };
-const inputStyle = { width: "100%", padding: "8px 10px", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, fontSize: 14, fontFamily: "sans-serif", color: TC_CHARCOAL, background: "#FFF", boxSizing: "border-box" };
+const labelStyle = { fontSize: 11, fontWeight: 700, color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 4, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" };
+const inputStyle = { width: "100%", padding: "8px 10px", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, fontSize: 14, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: TC_CHARCOAL, background: "#FFF", boxSizing: "border-box" };
 const selectStyle = { ...inputStyle, cursor: "pointer" };
 
 export default function ActionsLog() {
@@ -532,31 +532,31 @@ export default function ActionsLog() {
   };
 
   return (
-    <div style={{ fontFamily: "'Georgia', serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
+    <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
       {/* Header */}
       <div style={{ background: "#FFF", padding: "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `4px solid ${TC_BLUE}`, boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, background: TC_BLUE, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 20, color: "#FFF", fontFamily: "sans-serif" }}>TC</div>
+          <div style={{ width: 48, height: 48, background: TC_BLUE, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 20, color: "#FFF", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>TC</div>
           <div style={{ borderLeft: `2px solid ${TC_BLUE}`, paddingLeft: 16 }}>
             <div style={{ color: TC_CHARCOAL, fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px" }}>Actions & Decisions Log</div>
-            <div style={{ color: "#888", fontSize: 11, fontFamily: "sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>Meeting Outcomes Tracker</div>
+            <div style={{ color: "#888", fontSize: 11, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>Meeting Outcomes Tracker</div>
           </div>
         </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-          <button onClick={exportCSV} title="Download CSV backup" style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "10px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+          <button onClick={exportCSV} title="Download CSV backup" style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "10px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
             💾 Backup CSV
           </button>
-          <label title="Import CSV backup" style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "10px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+          <label title="Import CSV backup" style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "10px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
             📂 Import CSV
             <input type="file" accept=".csv" onChange={handleFileSelect} style={{ display: "none" }} />
           </label>
-          <button onClick={exportPDF} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+          <button onClick={exportPDF} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
             ↓ Export Report
           </button>
-          <button onClick={seedConstitutionRules} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
+          <button onClick={seedConstitutionRules} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
             📋 Load Constitution Rules
           </button>
-          <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
+          <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> Add Action
           </button>
         </div>
@@ -567,30 +567,30 @@ export default function ActionsLog() {
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ background: "#FFF", borderRadius: 12, padding: 28, maxWidth: 560, width: "90%", boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
             <div style={{ fontSize: 18, fontWeight: 700, color: TC_CHARCOAL, marginBottom: 6 }}>Import CSV</div>
-            <div style={{ fontSize: 13, color: "#666", fontFamily: "sans-serif", marginBottom: 16 }}>
+            <div style={{ fontSize: 13, color: "#666", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginBottom: 16 }}>
               <strong>{importPreview.filename}</strong> — {importPreview.rows.length} action{importPreview.rows.length !== 1 ? "s" : ""} found
             </div>
             <div style={{ background: TC_LIGHT_BG, border: `1px solid ${TC_BORDER}`, borderRadius: 8, padding: 14, marginBottom: 20, maxHeight: 200, overflowY: "auto" }}>
               {importPreview.rows.slice(0, 8).map((r, i) => (
-                <div key={i} style={{ fontSize: 12, fontFamily: "sans-serif", padding: "4px 0", borderBottom: i < Math.min(importPreview.rows.length, 8) - 1 ? `1px solid ${TC_BORDER}` : "none", color: TC_CHARCOAL }}>
+                <div key={i} style={{ fontSize: 12, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", padding: "4px 0", borderBottom: i < Math.min(importPreview.rows.length, 8) - 1 ? `1px solid ${TC_BORDER}` : "none", color: TC_CHARCOAL }}>
                   <span style={{ background: TC_BLUE, color: "#FFF", fontSize: 9, fontWeight: 700, padding: "1px 5px", borderRadius: 3, marginRight: 6 }}>ACT-{String(r.num || i + 1).padStart(3, "0")}</span>
                   {r.action}
                 </div>
               ))}
               {importPreview.rows.length > 8 && (
-                <div style={{ fontSize: 11, color: "#888", fontFamily: "sans-serif", padding: "6px 0 0" }}>…and {importPreview.rows.length - 8} more</div>
+                <div style={{ fontSize: 11, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", padding: "6px 0 0" }}>…and {importPreview.rows.length - 8} more</div>
               )}
             </div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: TC_CHARCOAL, fontFamily: "sans-serif", marginBottom: 10 }}>How would you like to import?</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: TC_CHARCOAL, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginBottom: 10 }}>How would you like to import?</div>
             <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
-              <button onClick={() => confirmImport("replace")} style={{ flex: 1, background: "#FDE8E8", color: "#B02020", border: "2px solid #F5A5A5", borderRadius: 8, padding: "12px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 13 }}>
+              <button onClick={() => confirmImport("replace")} style={{ flex: 1, background: "#FDE8E8", color: "#B02020", border: "2px solid #F5A5A5", borderRadius: 8, padding: "12px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
                 🔄 Replace All<br /><span style={{ fontWeight: 400, fontSize: 11 }}>Wipe existing, load CSV only</span>
               </button>
-              <button onClick={() => confirmImport("merge")} style={{ flex: 1, background: "#EDF6FC", color: "#2A7DAF", border: `2px solid ${TC_BLUE}`, borderRadius: 8, padding: "12px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 13 }}>
+              <button onClick={() => confirmImport("merge")} style={{ flex: 1, background: "#EDF6FC", color: "#2A7DAF", border: `2px solid ${TC_BLUE}`, borderRadius: 8, padding: "12px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
                 🔀 Merge<br /><span style={{ fontWeight: 400, fontSize: 11 }}>Add new, update matching IDs</span>
               </button>
             </div>
-            <button onClick={() => { setImportPreview(null); setImportMode(null); }} style={{ width: "100%", background: "transparent", color: "#666", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 16px", cursor: "pointer", fontFamily: "sans-serif", fontSize: 13 }}>
+            <button onClick={() => { setImportPreview(null); setImportMode(null); }} style={{ width: "100%", background: "transparent", color: "#666", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 16px", cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
               Cancel
             </button>
           </div>
@@ -607,8 +607,8 @@ export default function ActionsLog() {
             { label: "Overdue", value: counts.overdue, color: "#E84040" },
           ].map(s => (
             <div key={s.label} style={{ background: "#FFF", border: `1px solid ${TC_BORDER}`, borderRadius: 8, padding: "14px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: `3px solid ${s.color}` }}>
-              <div style={{ fontSize: 13, color: "#888", fontFamily: "sans-serif" }}>{s.label}</div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: s.color, fontFamily: "sans-serif", lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontSize: 13, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>{s.label}</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: s.color, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", lineHeight: 1 }}>{s.value}</div>
             </div>
           ))}
         </div>
@@ -686,24 +686,24 @@ export default function ActionsLog() {
                           {linked && <span style={{ color: "#FFF", fontSize: 10, fontWeight: 900, lineHeight: 1 }}>✓</span>}
                         </div>
                         <div>
-                          <div style={{ fontSize: 12, fontWeight: 700, color: TC_CHARCOAL, fontFamily: "sans-serif" }}>{rule.action}</div>
-                          <div style={{ fontSize: 11, color: "#888", fontFamily: "sans-serif", marginTop: 1 }}>{(rule.decision || "").slice(0, 100)}{(rule.decision || "").length > 100 ? "…" : ""}</div>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: TC_CHARCOAL, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>{rule.action}</div>
+                          <div style={{ fontSize: 11, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginTop: 1 }}>{(rule.decision || "").slice(0, 100)}{(rule.decision || "").length > 100 ? "…" : ""}</div>
                         </div>
                       </div>
                     );
                   })}
                 </div>
                 {(form.linkedRules || []).length > 0 && (
-                  <div style={{ fontSize: 11, color: TC_BLUE, fontFamily: "sans-serif", marginTop: 4 }}>{(form.linkedRules || []).length} rule{(form.linkedRules || []).length !== 1 ? "s" : ""} linked</div>
+                  <div style={{ fontSize: 11, color: TC_BLUE, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginTop: 4 }}>{(form.linkedRules || []).length} rule{(form.linkedRules || []).length !== 1 ? "s" : ""} linked</div>
                 )}
               </div>
             )}
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={handleSubmit} style={{ background: TC_CHARCOAL, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif", fontSize: 14 }}>
+              <button onClick={handleSubmit} style={{ background: TC_CHARCOAL, color: "#FFF", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14 }}>
                 {editId ? "Save Changes" : "Add Action"}
               </button>
-              <button onClick={resetForm} style={{ background: "transparent", color: "#666", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 16px", cursor: "pointer", fontFamily: "sans-serif", fontSize: 14 }}>Cancel</button>
+              <button onClick={resetForm} style={{ background: "transparent", color: "#666", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, padding: "10px 16px", cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14 }}>Cancel</button>
             </div>
           </div>
         )}
@@ -728,16 +728,16 @@ export default function ActionsLog() {
             <option value="due-asc">Due date (soonest)</option>
             <option value="due-desc">Due date (latest)</option>
           </select>
-          <div style={{ fontSize: 13, color: "#888", fontFamily: "sans-serif", marginLeft: "auto" }}>{filtered.length} item{filtered.length !== 1 ? "s" : ""}</div>
+          <div style={{ fontSize: 13, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginLeft: "auto" }}>{filtered.length} item{filtered.length !== 1 ? "s" : ""}</div>
         </div>
 
         {/* List */}
         {loading ? (
-          <div style={{ textAlign: "center", padding: 60, color: "#888", fontFamily: "sans-serif" }}>Loading…</div>
+          <div style={{ textAlign: "center", padding: 60, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>Loading…</div>
         ) : filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: 60 }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>📋</div>
-            <div style={{ color: "#888", fontFamily: "sans-serif", fontSize: 15 }}>
+            <div style={{ color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 15 }}>
               {entries.length === 0 ? "No actions yet. Add your first one!" : "No results match your filters."}
             </div>
           </div>
@@ -749,31 +749,31 @@ export default function ActionsLog() {
               const overdue = isOverdue(entry.dueDate, entry.status);
               return (
                 <div key={entry.id} style={{ background: "#FFF", border: `1.5px solid ${overdue ? "#F5A5A5" : TC_BORDER}`, borderRadius: 10, padding: "16px 20px", borderLeft: `4px solid ${overdue ? "#E84040" : sc.dot}` }}>
-                  {overdue && <div style={{ float: "right", background: "#FDE8E8", color: "#B02020", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, fontFamily: "sans-serif", letterSpacing: "0.05em" }}>OVERDUE</div>}
+                  {overdue && <div style={{ float: "right", background: "#FDE8E8", color: "#B02020", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", letterSpacing: "0.05em" }}>OVERDUE</div>}
 
                   <div style={{ marginBottom: 10 }}>
                     <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
-                      {entry.num && <span style={{ background: TC_BLUE, color: "#FFF", fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4, fontFamily: "sans-serif", letterSpacing: "0.03em", whiteSpace: "nowrap" }}>ACT-{String(entry.num).padStart(3, "0")}</span>}
+                      {entry.num && <span style={{ background: TC_BLUE, color: "#FFF", fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", letterSpacing: "0.03em", whiteSpace: "nowrap" }}>ACT-{String(entry.num).padStart(3, "0")}</span>}
                       <div style={{ fontSize: 15, fontWeight: 700, color: TC_CHARCOAL }}>{entry.action}</div>
                     </div>
                     {entry.decision && (
-                      <div style={{ fontSize: 13, color: "#555", fontFamily: "sans-serif", borderLeft: `3px solid ${TC_GREEN}`, paddingLeft: 10, background: "#F6FAF0", borderRadius: "0 4px 4px 0", padding: "6px 10px", marginBottom: 4 }}>
+                      <div style={{ fontSize: 13, color: "#555", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", borderLeft: `3px solid ${TC_GREEN}`, paddingLeft: 10, background: "#F6FAF0", borderRadius: "0 4px 4px 0", padding: "6px 10px", marginBottom: 4 }}>
                         <span style={{ fontWeight: 700, color: TC_GREEN, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em" }}>Decision: </span>{entry.decision}
                       </div>
                     )}
-                    {entry.notes && <div style={{ fontSize: 13, color: "#888", fontFamily: "sans-serif", marginTop: 4 }}>{entry.notes}</div>}
+                    {entry.notes && <div style={{ fontSize: 13, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginTop: 4 }}>{entry.notes}</div>}
 
                     {entry.linkedRules && entry.linkedRules.length > 0 && (() => {
                       const linked = entry.linkedRules.map(id => entries.find(e => e.id === id)).filter(Boolean);
                       if (!linked.length) return null;
                       return (
                         <div style={{ marginTop: 10, background: "#F0F7FC", border: `1px solid #C8E0EE`, borderRadius: 6, padding: "8px 12px" }}>
-                          <div style={{ fontSize: 10, fontWeight: 700, color: TC_BLUE, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "sans-serif", marginBottom: 6 }}>⚖️ Constitution Requirements</div>
+                          <div style={{ fontSize: 10, fontWeight: 700, color: TC_BLUE, textTransform: "uppercase", letterSpacing: "0.08em", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginBottom: 6 }}>⚖️ Constitution Requirements</div>
                           {linked.map(rule => (
                             <div key={rule.id} style={{ marginBottom: 6, paddingBottom: 6, borderBottom: `1px solid #D8EDFB` }}>
-                              <div style={{ fontSize: 12, fontWeight: 700, color: TC_CHARCOAL, fontFamily: "sans-serif" }}>{rule.action}</div>
-                              <div style={{ fontSize: 11, color: "#555", fontFamily: "sans-serif", marginTop: 2 }}>{rule.decision}</div>
-                              {rule.notes && <div style={{ fontSize: 10, color: "#888", fontFamily: "sans-serif", fontStyle: "italic", marginTop: 2 }}>{rule.notes}</div>}
+                              <div style={{ fontSize: 12, fontWeight: 700, color: TC_CHARCOAL, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>{rule.action}</div>
+                              <div style={{ fontSize: 11, color: "#555", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", marginTop: 2 }}>{rule.decision}</div>
+                              {rule.notes && <div style={{ fontSize: 10, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontStyle: "italic", marginTop: 2 }}>{rule.notes}</div>}
                             </div>
                           ))}
                         </div>
@@ -782,40 +782,40 @@ export default function ActionsLog() {
                   </div>
 
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-                    <select value={entry.status} onChange={e => handleStatusChange(entry.id, e.target.value)} style={{ background: sc.bg, color: sc.text, border: "none", borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "sans-serif" }}>
+                    <select value={entry.status} onChange={e => handleStatusChange(entry.id, e.target.value)} style={{ background: sc.bg, color: sc.text, border: "none", borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>
                       {STATUSES.map(s => <option key={s}>{s}</option>)}
                     </select>
 
-                    <span style={{ background: pc.bg, color: pc.text, borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 700, fontFamily: "sans-serif" }}>{entry.priority}</span>
+                    <span style={{ background: pc.bg, color: pc.text, borderRadius: 20, padding: "4px 10px", fontSize: 12, fontWeight: 700, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>{entry.priority}</span>
 
-                    <span style={{ fontSize: 12, color: "#555", fontFamily: "sans-serif", display: "flex", alignItems: "center", gap: 4 }}>
+                    <span style={{ fontSize: 12, color: "#555", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", display: "flex", alignItems: "center", gap: 4 }}>
                       <span>👤</span> {entry.owner}
                     </span>
 
                     {entry.dueDate && (
-                      <span style={{ fontSize: 12, color: overdue ? "#E84040" : "#666", fontFamily: "sans-serif", display: "flex", alignItems: "center", gap: 4, fontWeight: overdue ? 700 : 400 }}>
+                      <span style={{ fontSize: 12, color: overdue ? "#E84040" : "#666", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", display: "flex", alignItems: "center", gap: 4, fontWeight: overdue ? 700 : 400 }}>
                         <span>📅</span> {formatDate(entry.dueDate)}
                       </span>
                     )}
 
                     {entry.meeting && (
-                      <span style={{ fontSize: 12, color: TC_BLUE, fontFamily: "sans-serif", display: "flex", alignItems: "center", gap: 4 }}>
+                      <span style={{ fontSize: 12, color: TC_BLUE, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", display: "flex", alignItems: "center", gap: 4 }}>
                         <span>📋</span> {entry.meeting}
                       </span>
                     )}
 
-                    <span style={{ fontSize: 11, color: "#888", fontFamily: "sans-serif", background: "#EDF2F5", padding: "3px 8px", borderRadius: 4 }}>{entry.category}</span>
+                    <span style={{ fontSize: 11, color: "#888", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", background: "#EDF2F5", padding: "3px 8px", borderRadius: 4 }}>{entry.category}</span>
 
                     <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
-                      <button onClick={() => handleEdit(entry)} style={{ background: "transparent", border: `1px solid ${TC_BORDER}`, borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "sans-serif", color: TC_CHARCOAL }}>Edit</button>
+                      <button onClick={() => handleEdit(entry)} style={{ background: "transparent", border: `1px solid ${TC_BORDER}`, borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: TC_CHARCOAL }}>Edit</button>
                       {confirmDeleteId === entry.id ? (
                         <>
-                          <span style={{ fontSize: 12, fontFamily: "sans-serif", color: "#E84040" }}>Sure?</span>
-                          <button onClick={() => handleDelete(entry.id)} style={{ background: "#E84040", border: "none", borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "sans-serif", color: "#FFF", fontWeight: 700 }}>Yes</button>
-                          <button onClick={() => setConfirmDeleteId(null)} style={{ background: "transparent", border: `1px solid ${TC_BORDER}`, borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "sans-serif", color: "#666" }}>No</button>
+                          <span style={{ fontSize: 12, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: "#E84040" }}>Sure?</span>
+                          <button onClick={() => handleDelete(entry.id)} style={{ background: "#E84040", border: "none", borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: "#FFF", fontWeight: 700 }}>Yes</button>
+                          <button onClick={() => setConfirmDeleteId(null)} style={{ background: "transparent", border: `1px solid ${TC_BORDER}`, borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: "#666" }}>No</button>
                         </>
                       ) : (
-                        <button onClick={() => setConfirmDeleteId(entry.id)} style={{ background: "transparent", border: "1px solid #F5A5A5", borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "sans-serif", color: "#E84040" }}>Delete</button>
+                        <button onClick={() => setConfirmDeleteId(entry.id)} style={{ background: "transparent", border: "1px solid #F5A5A5", borderRadius: 5, padding: "4px 10px", cursor: "pointer", fontSize: 12, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: "#E84040" }}>Delete</button>
                       )}
                     </div>
                   </div>
@@ -828,3 +828,4 @@ export default function ActionsLog() {
     </div>
   );
 }
+
