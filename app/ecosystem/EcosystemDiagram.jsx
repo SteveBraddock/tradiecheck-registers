@@ -94,7 +94,10 @@ function assignOffsets(products) {
     const key = [p.from, p.to].sort().join("_");
     const group = groups[key];
     const idx = group.indexOf(p.id);
-    offsets[p.id] = OFFSET_OVERRIDES[p.id] !== undefined ? OFFSET_OVERRIDES[p.id] : (idx - (group.length - 1) / 2) * 32;
+    const rawOffset = OFFSET_OVERRIDES[p.id] !== undefined ? OFFSET_OVERRIDES[p.id] : (idx - (group.length - 1) / 2) * 32;
+    const sortedKey = [p.from, p.to].sort().join("_");
+    const isReversed = sortedKey.startsWith(p.to);
+    offsets[p.id] = isReversed ? -rawOffset : rawOffset;
   });
   return offsets;
 }
@@ -285,6 +288,7 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
 
 
 
