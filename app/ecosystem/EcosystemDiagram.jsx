@@ -185,9 +185,20 @@ export default function EcosystemDiagram() {
               return (
                 <g key={p.id} style={{ cursor: "pointer" }} onClick={() => setActiveProduct(activeProduct === p.id ? null : p.id)}>
                   <line x1={startX} y1={startY} x2={endX} y2={endY} stroke={p.color} strokeWidth={highlighted ? 2.5 : 1.5} strokeDasharray={p.dash ? "5,4" : "none"} strokeOpacity={opacity} markerEnd={`url(#arrow-${p.id})`} markerStart={p.bi ? `url(#arrow-back-${p.id})` : "none"} filter="none"/>
-                  <line x1={startX} y1={startY} x2={endX} y2={endY} stroke="transparent" strokeWidth={12}/>
                   <text x={midX + perpX * 14} y={midY + perpY * 14} textAnchor="middle" fontSize={highlighted ? 9 : 8} fill={p.color} fillOpacity={faded ? 0.1 : highlighted ? 1 : 0.7} transform={`rotate(${angle > 90 || angle < -90 ? angle + 180 : angle}, ${midX + perpX * 14}, ${midY + perpY * 14})`} style={{ pointerEvents: "none", fontFamily: FONT }}>{p.label}</text>
                 </g>
+              );
+            })}
+
+            {/* Hit targets rendered last so they sit above actor nodes */}
+            {PRODUCTS.map(p => {
+              if (!isVisible(p)) return null;
+              const from = getActor(p.from);
+              const to   = getActor(p.to);
+              if (!from || !to) return null;
+              const { startX, startY, endX, endY } = calcArrow(from, to, offsets[p.id] || 0);
+              return (
+                <line key={`hit-${p.id}`} x1={startX} y1={startY} x2={endX} y2={endY} stroke="transparent" strokeWidth={16} style={{ cursor: "pointer" }} onClick={() => setActiveProduct(activeProduct === p.id ? null : p.id)}/>
               );
             })}
 
@@ -269,6 +280,8 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
+
 
 
 
