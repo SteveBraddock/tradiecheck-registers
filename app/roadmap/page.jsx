@@ -1,7 +1,6 @@
 'use client';
  
 import { useState } from 'react';
-import Link from 'next/link';
  
 const COLORS = {
   homeowner:   { bg: '#0F2A1A', border: '#1E5C30', accent: '#6DBE45', label: 'Homeowner market' },
@@ -154,15 +153,13 @@ function Card({ card }) {
         }}>{card.title}</span>
       </div>
       {card.body && (
-        <div style={{ fontSize: 11, color: '#8899AA', lineHeight: 1.4 }}>{card.body}</div>
+        <div style={{ fontSize: 11, color: card.ghost ? '#6A8AA0' : '#FFFFFF', lineHeight: 1.4 }}>{card.body}</div>
       )}
     </div>
   );
 }
  
 export default function Roadmap() {
-  const [hover, setHover] = useState(null);
- 
   const cardsByLaneAndCol = {};
   LANES.forEach(l => {
     cardsByLaneAndCol[l.id] = {};
@@ -185,21 +182,6 @@ export default function Roadmap() {
       color: '#E0EAF4',
       padding: '0 0 40px',
     }}>
- 
-      {/* Header */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '16px 28px',
-        borderBottom: '1px solid #1A2A3A',
-        background: '#0A1520',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <Link href="/" style={{ color: '#4A7A9A', textDecoration: 'none', fontSize: 13 }}>← Home</Link>
-          <span style={{ color: '#1A3A5A' }}>|</span>
-          <span style={{ fontSize: 15, fontWeight: 600, color: '#E0EAF4' }}>Product Roadmap</span>
-        </div>
-        <img src="/TradieCheckLogo_transparent.png" alt="TradieCheck" style={{ height: 32 }} />
-      </div>
  
       <div style={{ padding: '20px 28px' }}>
  
