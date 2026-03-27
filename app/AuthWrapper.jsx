@@ -92,8 +92,7 @@ export default function AuthWrapper({ children }) {
           <Link href="/" style={{ color: "#FFF", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>TradieCheck</Link>
           <Link href="/register" style={{ color: pathname === "/register" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/register" ? 700 : 400 }}>Register</Link>
           <Link href="/ecosystem" style={{ color: pathname === "/ecosystem" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/ecosystem" ? 700 : 400 }}>Ecosystem</Link>
-          <Link href="/actions" style={{ color: pathname === "/actions" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/actions" ? 700 : 400 }}>Actions</Link>
-        </div>
+<Link href="/actions" style={{ color: pathname === "/actions" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/actions" ? 700 : 400 }}>Actions</Link>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <span style={{ color: "#888", fontSize: 12 }}>{session.user.email}</span>
           <button onClick={() => setRecovering(true)} style={{ background: "transparent", border: "1px solid #888", borderRadius: 4, padding: "5px 12px", fontSize: 12, color: "#AAA", cursor: "pointer", fontWeight: 600 }}>
