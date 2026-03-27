@@ -78,8 +78,8 @@ function calcArrow(from, to, offset = 0) {
 }
 
 const OFFSET_OVERRIDES = {
-  "p_search": -40,
-  "p_protect": 40,
+  "p_search": -20,
+  "p_protect": 20,
 };
 
 function assignOffsets(products) {
@@ -285,6 +285,7 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
 
 
 
