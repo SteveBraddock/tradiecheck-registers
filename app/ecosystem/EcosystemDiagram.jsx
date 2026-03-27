@@ -159,8 +159,8 @@ export default function EcosystemDiagram() {
       </div>
 
       <div style={{ display: "flex", flex: 1 }}>
-        <div style={{ flex: 1, position: "relative", overflow: "hidden", paddingTop: 20 }}>
-          <svg ref={svgRef} viewBox="0 0 1000 760" style={{ width: "100%", height: "100%", minHeight: 500 }}>
+        <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+          <svg ref={svgRef} viewBox="0 -20 1000 800" style={{ width: "100%", height: "100%", minHeight: 500 }}>
             <defs>
               {PRODUCTS.map(p => (
                 <marker key={`arrow-${p.id}`} id={`arrow-${p.id}`} markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
@@ -219,7 +219,7 @@ export default function EcosystemDiagram() {
                   {a.ring && <circle cx={a.x} cy={a.y} r={a.r + 8} fill="none" stroke={BLUE} strokeWidth={1} strokeOpacity={0.3} strokeDasharray="4,4"/>}
                   {(isActive || isPhaseActive) && <circle cx={a.x} cy={a.y} r={a.r + 4} fill={a.fill} fillOpacity={0.3} filter="url(#glow)"/>}
                   <circle cx={a.x} cy={a.y} r={a.r} fill={a.fill} stroke={isActive || isPhaseActive ? a.textColor : a.textColor + "40"} strokeWidth={isActive || isPhaseActive ? 1.5 : 1}/>
-                  <text x={a.x} y={a.y - (a.sub ? 6 : 0)} textAnchor="middle" fontSize={a.r > 36 ? 11 : 9} fontWeight="700" fill={a.textColor} style={{ pointerEvents: "none", fontFamily: FONT }}>{a.label}</text>
+                  <text x={a.x} y={a.y - (a.sub ? 6 : 0)} textAnchor="middle" fontSize={a.r > 36 ? 11 : a.label.length > 8 ? 7 : 9} fontWeight="700" fill={a.textColor} style={{ pointerEvents: "none", fontFamily: FONT }}>{a.label}</text>
                   {a.sub && <text x={a.x} y={a.y + 10} textAnchor="middle" fontSize={8} fill={a.textColor} fillOpacity={0.6} style={{ pointerEvents: "none", fontFamily: FONT }}>{a.sub}</text>}
                 </g>
               );
@@ -288,6 +288,9 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
+
+
 
 
 
