@@ -77,6 +77,11 @@ function calcArrow(from, to, offset = 0) {
   };
 }
 
+const OFFSET_OVERRIDES = {
+  "p_search": -40,
+  "p_protect": 40,
+};
+
 function assignOffsets(products) {
   const groups = {};
   products.forEach(p => {
@@ -89,7 +94,7 @@ function assignOffsets(products) {
     const key = [p.from, p.to].sort().join("_");
     const group = groups[key];
     const idx = group.indexOf(p.id);
-    offsets[p.id] = (idx - (group.length - 1) / 2) * 32;
+    offsets[p.id] = OFFSET_OVERRIDES[p.id] !== undefined ? OFFSET_OVERRIDES[p.id] : (idx - (group.length - 1) / 2) * 32;
   });
   return offsets;
 }
@@ -280,6 +285,8 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
+
 
 
 
