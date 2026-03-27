@@ -184,7 +184,7 @@ export default function EcosystemDiagram() {
                 <g key={p.id} style={{ cursor: "pointer" }} onClick={() => setActiveProduct(activeProduct === p.id ? null : p.id)}>
                   <line x1={startX} y1={startY} x2={endX} y2={endY} stroke={p.color} strokeWidth={highlighted ? 2.5 : 1.5} strokeDasharray={p.dash ? "5,4" : "none"} strokeOpacity={opacity} markerEnd={`url(#arrow-${p.id})`} markerStart={p.bi ? `url(#arrow-back-${p.id})` : "none"} filter={highlighted ? "url(#glow)" : "none"}/>
                   <line x1={startX} y1={startY} x2={endX} y2={endY} stroke="transparent" strokeWidth={12}/>
-                  <text x={midX} y={midY - 6} textAnchor="middle" fontSize={highlighted ? 9 : 8} fill={p.color} fillOpacity={faded ? 0.1 : highlighted ? 1 : 0.7} transform={`rotate(${angle > 90 || angle < -90 ? angle + 180 : angle}, ${midX}, ${midY - 6})`} style={{ pointerEvents: "none", fontFamily: FONT }}>{p.label}</text>
+                  <text x={midX} y={midY - 12} textAnchor="middle" fontSize={highlighted ? 9 : 8} fill={p.color} fillOpacity={faded ? 0.1 : highlighted ? 1 : 0.7} transform={`rotate(${angle > 90 || angle < -90 ? angle + 180 : angle}, ${midX}, ${midY - 12})`} style={{ pointerEvents: "none", fontFamily: FONT }}>{p.label}</text>
                 </g>
               );
             })}
@@ -267,6 +267,7 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
 
 
 
