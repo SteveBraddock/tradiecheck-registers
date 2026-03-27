@@ -72,6 +72,8 @@ function calcArrow(from, to, offset = 0) {
     midX:  (from.x + ux * from.r + px + to.x - ux * to.r + px) / 2,
     midY:  (from.y + uy * from.r + py + to.y - uy * to.r + py) / 2,
     angle: Math.atan2(to.y - from.y, to.x - from.x) * 180 / Math.PI,
+    perpX: -uy,
+    perpY: ux,
   };
 }
 
@@ -176,15 +178,15 @@ export default function EcosystemDiagram() {
               const from = getActor(p.from);
               const to   = getActor(p.to);
               if (!from || !to) return null;
-              const { startX, startY, endX, endY, midX, midY, angle } = calcArrow(from, to, offsets[p.id] || 0);
+              const { startX, startY, endX, endY, midX, midY, angle, perpX, perpY } = calcArrow(from, to, offsets[p.id] || 0);
               const faded = isFaded(p);
               const highlighted = isHighlighted(p);
               const opacity = faded ? 0.12 : highlighted ? 1 : 0.65;
               return (
                 <g key={p.id} style={{ cursor: "pointer" }} onClick={() => setActiveProduct(activeProduct === p.id ? null : p.id)}>
-                  <line x1={startX} y1={startY} x2={endX} y2={endY} stroke={p.color} strokeWidth={highlighted ? 2.5 : 1.5} strokeDasharray={p.dash ? "5,4" : "none"} strokeOpacity={opacity} markerEnd={`url(#arrow-${p.id})`} markerStart={p.bi ? `url(#arrow-back-${p.id})` : "none"} filter={highlighted ? "url(#glow)" : "none"}/>
+                  <line x1={startX} y1={startY} x2={endX} y2={endY} stroke={p.color} strokeWidth={highlighted ? 2.5 : 1.5} strokeDasharray={p.dash ? "5,4" : "none"} strokeOpacity={opacity} markerEnd={`url(#arrow-${p.id})`} markerStart={p.bi ? `url(#arrow-back-${p.id})` : "none"} filter="none"/>
                   <line x1={startX} y1={startY} x2={endX} y2={endY} stroke="transparent" strokeWidth={12}/>
-                  <text x={midX} y={midY - 12} textAnchor="middle" fontSize={highlighted ? 9 : 8} fill={p.color} fillOpacity={faded ? 0.1 : highlighted ? 1 : 0.7} transform={`rotate(${angle > 90 || angle < -90 ? angle + 180 : angle}, ${midX}, ${midY - 12})`} style={{ pointerEvents: "none", fontFamily: FONT }}>{p.label}</text>
+                  <text x={midX + perpX * 14} y={midY + perpY * 14} textAnchor="middle" fontSize={highlighted ? 9 : 8} fill={p.color} fillOpacity={faded ? 0.1 : highlighted ? 1 : 0.7} transform={`rotate(${angle > 90 || angle < -90 ? angle + 180 : angle}, ${midX + perpX * 14}, ${midY + perpY * 14})`} style={{ pointerEvents: "none", fontFamily: FONT }}>{p.label}</text>
                 </g>
               );
             })}
@@ -267,6 +269,10 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
+
+
+
 
 
 
