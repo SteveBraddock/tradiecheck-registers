@@ -105,7 +105,7 @@ export default function EcosystemDiagram() {
     <div style={{ fontFamily: FONT, background: DARK, minHeight: "100vh", color: "#C8DCF0", display: "flex", flexDirection: "column" }}>
 
       {/* Header */}
-      <div style={{ padding: "14px 24px", borderBottom: `1px solid ${BLUE}30`, background: MID, display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+      <div style={{ padding: "14px 24px", borderBottom: `1px solid ${BLUE}30`, background: "#FFFFFF", display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
 
         {/* Logo + Title */}
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -124,9 +124,7 @@ export default function EcosystemDiagram() {
         <div style={{ marginLeft: "auto", display: "flex", gap: 8, flexWrap: "wrap" }}>
           {Object.entries(PHASE_COLORS).map(([k, v]) => (
             <button key={k} onClick={() => setActivePhase(activePhase === k ? null : k)} style={{
-              background: activePhase === k ? v.color + "25" : "transparent",
-              border: `1px solid ${activePhase === k ? v.color : v.color + "40"}`,
-              color: activePhase === k ? v.color : v.color + "90",
+              background: activePhase && activePhase !== k ? v.color + "99" : v.color, border: "1px solid #fff", color: "#fff", opacity: activePhase && activePhase !== k ? 0.45 : 1,
               borderRadius: 4, padding: "4px 10px", fontSize: 11, cursor: "pointer",
               letterSpacing: 0.3, fontFamily: FONT, transition: "all 0.15s",
             }}>{v.label}</button>
@@ -203,7 +201,7 @@ export default function EcosystemDiagram() {
         </div>
 
         {/* Detail panel */}
-        <div style={{ width: 280, background: MID, borderLeft: "1px solid #1A3050", padding: "20px 18px", overflowY: "auto", display: "flex", flexDirection: "column", gap: 16, fontFamily: FONT }}>
+        <div style={{ width: 280, background: "#0F1E30", borderLeft: "1px solid #1A3050", padding: "20px 18px", overflowY: "auto", display: "flex", flexDirection: "column", gap: 16, fontFamily: FONT }}>
           {activeP ? (
             <>
               <div>
@@ -263,3 +261,5 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
+
