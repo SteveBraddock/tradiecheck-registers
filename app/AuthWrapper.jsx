@@ -91,6 +91,7 @@ export default function AuthWrapper({ children }) {
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           <Link href="/" style={{ color: "#FFF", textDecoration: "none", fontWeight: 700, fontSize: 14 }}>TradieCheck</Link>
           <Link href="/register" style={{ color: pathname === "/register" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/register" ? 700 : 400 }}>Register</Link>
+          <Link href="/ecosystem" style={{ color: pathname === "/ecosystem" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/ecosystem" ? 700 : 400 }}>Ecosystem</Link>
           <Link href="/actions" style={{ color: pathname === "/actions" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/actions" ? 700 : 400 }}>Actions</Link>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -107,3 +108,4 @@ export default function AuthWrapper({ children }) {
     </div>
   )
 }
+
