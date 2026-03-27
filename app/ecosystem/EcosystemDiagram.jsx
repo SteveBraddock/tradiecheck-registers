@@ -159,7 +159,7 @@ export default function EcosystemDiagram() {
       </div>
 
       <div style={{ display: "flex", flex: 1 }}>
-        <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+        <div style={{ flex: 1, position: "relative", overflow: "hidden", paddingTop: 20 }}>
           <svg ref={svgRef} viewBox="0 0 1000 760" style={{ width: "100%", height: "100%", minHeight: 500 }}>
             <defs>
               {PRODUCTS.map(p => (
@@ -288,6 +288,8 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
+
 
 
 
