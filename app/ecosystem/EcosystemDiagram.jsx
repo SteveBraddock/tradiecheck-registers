@@ -17,9 +17,9 @@ const ACTORS = [
   { id: "S",   label: "Supplier",        sub: "Manufacturer",     x: 160, y: 600, r: 34, fill: "#1A2A3A",  textColor: "#7ABCDA" },
   { id: "L",   label: "Lender / Bank",   sub: "Risk Partner",     x: 80,  y: 400, r: 34, fill: "#2A2A1A",  textColor: "#E8D46A" },
   { id: "EQ",  label: "Equifax",         sub: "Credit Data",      x: 760, y: 40,  r: 28, fill: "#1E1E2A",  textColor: "#9090C0" },
-  { id: "HN",  label: "HNRY",            sub: "Sole Trader Data", x: 500, y: 40,  r: 28, fill: "#1E1E2A",  textColor: "#9090C0" },
-  { id: "IP",  label: "3rd Party Escrow",        sub: "Escrow",   x: 240, y: 40,  r: 28, fill: "#1E2A1A",  textColor: "#80B080" },
-  { id: "PUR", label: "Purchaser",       sub: "Off-plan buyer",   x: 260, y: 720, r: 28, fill: "#1A1A2A",  textColor: "#A090D0" },
+  { id: "HN",  label: "HNRY",            sub: "Sole Trader Data", x: 500, y: 40,  r: 36, fill: "#1E1E2A",  textColor: "#9090C0" },
+  { id: "IP",  label: "3rd Party Escrow",        sub: "Escrow",   x: 240, y: 40,  r: 44, fill: "#1E2A1A",  textColor: "#80B080" },
+  { id: "PUR", label: "Purchaser",       sub: "Off-plan buyer",   x: 260, y: 720, r: 34, fill: "#1A1A2A",  textColor: "#A090D0" },
 ];
 
 const PRODUCTS = [
@@ -269,6 +269,10 @@ export default function EcosystemDiagram() {
     </div>
   );
 }
+
+
+
+
 
 
 
