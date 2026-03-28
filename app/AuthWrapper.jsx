@@ -18,18 +18,14 @@ function PageHeader({ pathname }) {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 24,
-      padding: '20px 28px',
+      padding: '16px 28px',
       background: '#FFFFFF',
       borderBottom: '1px solid #E0EAF0',
     }}>
-      <img
-        src="/TradieCheckLogo_transparent.png"
-        alt="TradieCheck"
-        style={{ height: 52, flexShrink: 0 }}
-      />
+      <img src="/TradieCheckLogo_transparent.png" alt="TradieCheck" style={{ height: 52, flexShrink: 0 }} />
       <div style={{ width: 1, height: 52, background: '#D0DDE6', flexShrink: 0 }} />
       <div>
-        <div style={{ fontSize: 12, color: '#8899AA', marginBottom: 3, letterSpacing: '0.02em' }}>Internal Reference</div>
+        <div style={{ fontSize: 12, color: '#8899AA', marginBottom: 3 }}>Internal Reference</div>
         <div style={{ fontSize: 20, fontWeight: 700, color: '#0A1520' }}>{title}</div>
       </div>
     </div>
@@ -128,12 +124,8 @@ export default function AuthWrapper({ children }) {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <span style={{ color: "#888", fontSize: 12 }}>{session.user.email}</span>
-          <button onClick={() => setRecovering(true)} style={{ background: "transparent", border: "1px solid #888", borderRadius: 4, padding: "5px 12px", fontSize: 12, color: "#AAA", cursor: "pointer", fontWeight: 600 }}>
-            Change Password
-          </button>
-          <button onClick={() => supabase.auth.signOut()} style={{ background: "#4AABDB", border: "none", borderRadius: 4, padding: "5px 12px", fontSize: 12, color: "#FFF", cursor: "pointer", fontWeight: 600 }}>
-            Sign Out
-          </button>
+          <button onClick={() => setRecovering(true)} style={{ background: "transparent", border: "1px solid #888", borderRadius: 4, padding: "5px 12px", fontSize: 12, color: "#AAA", cursor: "pointer", fontWeight: 600 }}>Change Password</button>
+          <button onClick={() => supabase.auth.signOut()} style={{ background: "#4AABDB", border: "none", borderRadius: 4, padding: "5px 12px", fontSize: 12, color: "#FFF", cursor: "pointer", fontWeight: 600 }}>Sign Out</button>
         </div>
       </div>
       <PageHeader pathname={pathname} />
