@@ -318,10 +318,10 @@ export default function ActionsLog() {
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, sans-serif; color: #3D3D3D; background: #fff; font-size: 11px; }
-    .header { background: #3D3D3D; color: white; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #4AABDB; }
-    .header-title { font-size: 16px; font-weight: bold; }
-    .header-sub { font-size: 9px; color: #AAB8C2; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
-    .header-date { font-size: 9px; color: #AAB8C2; }
+    . { background: #3D3D3D; color: white; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #4AABDB; }
+    .-title { font-size: 16px; font-weight: bold; }
+    .-sub { font-size: 9px; color: #AAB8C2; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+    .-date { font-size: 9px; color: #AAB8C2; }
     .stats { display: flex; gap: 10px; padding: 14px 20px; background: #F5F8FA; border-bottom: 1px solid #D8E6EE; }
     .stat { flex: 1; background: white; border: 1px solid #D8E6EE; border-radius: 6px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; }
     .stat-label { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -534,14 +534,15 @@ export default function ActionsLog() {
   return (
     <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
       {/* Header */}
-      <div style={{ background: "#FFF", padding: "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `4px solid ${TC_BLUE}`, boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, background: TC_BLUE, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 20, color: "#FFF", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>TC</div>
-          <div style={{ borderLeft: `2px solid ${TC_BLUE}`, paddingLeft: 16 }}>
-            <div style={{ color: TC_CHARCOAL, fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px" }}>Actions & Decisions Log</div>
-            <div style={{ color: "#888", fontSize: 11, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>Meeting Outcomes Tracker</div>
-          </div>
-        </div>
+     <div style={{ background: "#FFF", padding: "12px 24px", display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap", alignItems: "center", borderBottom: `1px solid ${TC_BORDER}` }}>
+        <button onClick={exportCSV} title="Download CSV backup" style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>💾 Backup CSV</button>
+        <label title="Import CSV backup" style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
+          📂 Import CSV<input type="file" accept=".csv" onChange={handleFileSelect} style={{ display: "none" }} />
+        </label>
+        <button onClick={exportPDF} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BORDER}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>↓ Export Report</button>
+        <button onClick={seedConstitutionRules} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>📋 Load Constitution Rules</button>
+        <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "8px 18px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14 }}>+ Add Action</button>
+      </div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           <button onClick={exportCSV} title="Download CSV backup" style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "10px 16px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
             💾 Backup CSV
