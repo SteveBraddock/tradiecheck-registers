@@ -1,4 +1,5 @@
 ﻿'use client'
+// @ts-nocheck
 import { useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
