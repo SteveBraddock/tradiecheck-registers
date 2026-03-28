@@ -507,7 +507,12 @@ export default function OnboardingPage() {
         ) : (
           <>
             <div style={{ background: GREY_BG, borderRadius: 10, padding: '20px 24px', marginBottom: 24 }}>
-              {[['Liquidity', Math.floor(ratioScore * 0.31), 20], ['Leverage', Math.floor(ratioScore * 0.23), 15], ['Profitability', Math.floor(ratioScore * 0.23), 15], ['Efficiency', Math.floor(ratioScore * 0.23), 15]].map(([lbl, score, max]) => (
+              {[
+                ['Cash flow', Math.floor(ratioScore * 0.31), 20, 'Can the business pay its bills on time? Looks at cash coming in vs money owed short term.'],
+                ['Debt levels', Math.floor(ratioScore * 0.23), 15, 'How much is funded by debt vs what you own? Lower debt relative to assets is better.'],
+                ['Profitability', Math.floor(ratioScore * 0.23), 15, 'Is the business making money after costs? Measures profit left from every dollar of revenue.'],
+                ['Turning jobs into cash', Math.floor(ratioScore * 0.23), 15, 'How quickly does the business collect payment after completing work?'],
+              ].map(([lbl, score, max, desc]) => (
                 <div key={lbl} style={{ marginBottom: 14 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
                     <span style={{ fontWeight: 600, color: TEXT }}>{lbl}</span>
