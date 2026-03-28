@@ -199,7 +199,7 @@ export default function OnboardingPage() {
   const steps = [
     // Step 0 - Email
     <div key={0}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Let's get started</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Let's get started</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Enter your email address to begin. We'll save your progress as you go.</p>
       <label style={label}>Email address</label>
       <input style={{ ...inputStyle, marginBottom:20 }} type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@yourbusiness.co.nz" />
@@ -211,7 +211,7 @@ export default function OnboardingPage() {
 
     // Step 1 - Structure
     <div key={1}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>What type of business are you registering?</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>What type of business are you registering?</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>All three structures follow Path A  the same verification process.</p>
       {['Company','Trust','Partnership'].map(s => (
         <div key={s} onClick={()=>setStructure(s)} style={{ padding:'16px 20px', borderRadius:10, border:`2px solid ${structure===s?'#1E90D4':'#D8E6EE'}`, background:structure===s?'#E6F1FB':'#fff', cursor:'pointer', marginBottom:10 }}>
@@ -231,7 +231,7 @@ export default function OnboardingPage() {
 
     // Step 2 - NZBN
     <div key={2}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Entity verification</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Entity verification</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Enter your NZBN or Company Number. We'll verify directly with the Companies Register.</p>
       {!company ? (
         <>
@@ -276,7 +276,7 @@ export default function OnboardingPage() {
 
     // Step 3 - Credit
     <div key={3}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Credit check</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Credit check</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>We run an Equifax Standard Business Report. This is mandatory  you cannot opt out.</p>
       {!credit ? (
         <>
@@ -312,7 +312,7 @@ export default function OnboardingPage() {
 
     // Step 4 - Ratios
     <div key={4}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Financial ratio assessment</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Financial ratio assessment</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Upload your last three years of annual financial accounts. We calculate 11 ratios across 4 categories.</p>
       {ratioScore === null ? (
         <>
@@ -350,7 +350,7 @@ export default function OnboardingPage() {
 
     // Step 5 - Gate
     <div key={5}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Financial gate</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Financial gate</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Your combined credit and ratio score determines whether you can proceed.</p>
       <div style={{ textAlign:'center', padding:'32px', borderRadius:12, marginBottom:24, background:gatePass?'#EEF7E8':'#FEE2E2', border:`2px solid ${gatePass?'#6DBE45':'#DC2626'}` }}>
         <div style={{ fontSize:11, fontWeight:600, color:'#64748B', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:10 }}>Combined Score</div>
@@ -381,7 +381,7 @@ export default function OnboardingPage() {
 
     // Step 6 - Insurance
     <div key={6}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Insurance verification</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Insurance verification</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Upload your Certificate of Currency. Minimum $2M public liability cover required.</p>
       <div onClick={()=>setInsFile(true)} style={{ border:`2px dashed ${insFile?'#6DBE45':'#D8E6EE'}`, borderRadius:8, padding:'24px', textAlign:'center', cursor:'pointer', background:insFile?'#EEF7E8':'#F5F8FA', marginBottom:20 }}>
         {insFile?<span style={{ color:'#3E7A22', fontWeight:600 }}> Certificate attached (mock)</span>:<span style={{ color:'#64748B' }}>Click to attach Certificate of Currency</span>}
@@ -397,7 +397,7 @@ export default function OnboardingPage() {
 
     // Step 7 - Trades
     <div key={7}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Work categories & licences</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Work categories & licences</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Select all trade categories your business operates in.</p>
       {TRADE_GROUPS.map(g=>(
         <div key={g.group} style={{ marginBottom:20 }}>
@@ -424,7 +424,7 @@ export default function OnboardingPage() {
 
     // Step 8 - Portfolio
     <div key={8}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Portfolio & references</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Portfolio & references</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Upload 5 photos of your best work and provide 5 client email addresses. Minimum 3 of 5 survey responses required.</p>
       <div style={{ marginBottom:24 }}>
         <div style={{ fontSize:13, fontWeight:600, marginBottom:10 }}>Work photos  {photos}/5</div>
@@ -451,7 +451,7 @@ export default function OnboardingPage() {
 
     // Step 9 - Reputation
     <div key={9}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Reputation scan</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Reputation scan</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Automated scan across search engines, social media, news, and review platforms.</p>
       <InfoBox type="info">This scan runs continuously throughout your membership  not just at application. All material findings are reviewed by a TradieCheck Analyst before any action is taken.</InfoBox>
       <div style={{ display:'flex', justifyContent:'space-between' }}>
@@ -462,7 +462,7 @@ export default function OnboardingPage() {
 
     // Step 10 - Subscription
     <div key={10}>
-      <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Choose your subscription</div>
+      <div style={{ fontSize:22, fontWeight:700, marginBottom:8, color:"#1a1a1a" }}>Choose your subscription</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>All tiers include the TradieCheck Verified badge. Upgrade for TradieWallet and deeper monitoring.</p>
       {TIERS.map(t=>(
         <div key={t.id} onClick={()=>setTier(t.id)} style={{ padding:'20px 22px', borderRadius:10, border:`2px solid ${tier===t.id?'#1E90D4':t.highlight?'#E6F1FB':'#D8E6EE'}`, background:tier===t.id?'#E6F1FB':'#fff', cursor:'pointer', marginBottom:12, position:'relative' }}>
