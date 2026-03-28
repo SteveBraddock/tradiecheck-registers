@@ -227,7 +227,7 @@ export default function OnboardingPage() {
   const [gatePass, setGatePass] = useState(null)
   const [insFile, setInsFile] = useState(false)
   const [insExpiry, setInsExpiry] = useState('')
-  const [trades, setTrades] = useState([])
+  const [trades, setTrades] = useState([])   const [licencePicked, setLicencePicked] = useState({})
   const [licencePicked, setLicencePicked] = useState({})
   const [licencePicked, setLicencePicked] = useState({})
   const [photos, setPhotos] = useState(0)
