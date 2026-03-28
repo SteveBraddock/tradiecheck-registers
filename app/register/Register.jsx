@@ -157,7 +157,7 @@ export default function Register() {
       {/* Header */}
       <div style={{ background: "#FFF", padding: "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `4px solid ${TC_BLUE}`, boxShadow: "0 2px 8px rgba(0,0,0,0.07)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 48, height: 48, background: TC_BLUE, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 20, color: "#FFF", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" }}>TC</div>
+<img src="/TradieCheckLogo_transparent.png" alt="TradieCheck" style={{ height: 48 }} />
           <div style={{ borderLeft: `2px solid ${TC_BLUE}`, paddingLeft: 16 }}>
             <div style={{ color: TC_CHARCOAL, fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px" }}>Ideas & Issues Register</div>
             <div style={{ color: "#888", fontSize: 11, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>TradieCheck Internal</div>
