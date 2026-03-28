@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 // @ts-nocheck
 import { useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
@@ -159,7 +159,7 @@ export default function OnboardingPage() {
       if (!res.ok) { setNzbnError(json.error ?? 'Lookup failed'); setBusy(false); return }
       const d = json.data
       const months = (Date.now() - new Date(d.registrationDate)) / (1000*60*60*24*30.4)
-      if (months < 36) { setNzbnError(`Incorporated ${new Date(d.registrationDate).toLocaleDateString('en-NZ',{month:'long',year:'numeric'})} €” less than 36 months. Minimum 3-year trading history required.`); setBusy(false); return }
+      if (months < 36) { setNzbnError(`Incorporated ${new Date(d.registrationDate).toLocaleDateString('en-NZ',{month:'long',year:'numeric'})}  less than 36 months. Minimum 3-year trading history required.`); setBusy(false); return }
       setCompany(d)
     } catch { setNzbnError('Could not reach Companies Register. Please try again.') }
     setBusy(false)
@@ -205,27 +205,27 @@ export default function OnboardingPage() {
       <input style={{ ...inputStyle, marginBottom:20 }} type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@yourbusiness.co.nz" />
       <InfoBox type="info">Your email is used to send your verification result and to resume your application if needed.</InfoBox>
       <div style={{ display:'flex', justifyContent:'flex-end' }}>
-        <Btn onClick={()=>save(1)} disabled={!/\S+@\S+\.\S+/.test(email)}>Get started †’</Btn>
+        <Btn onClick={()=>save(1)} disabled={!/\S+@\S+\.\S+/.test(email)}>Get started </Btn>
       </div>
     </div>,
 
     // Step 1 - Structure
     <div key={1}>
       <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>What type of business are you registering?</div>
-      <p style={{ color:'#64748B', marginBottom:24 }}>All three structures follow Path A €” the same verification process.</p>
+      <p style={{ color:'#64748B', marginBottom:24 }}>All three structures follow Path A  the same verification process.</p>
       {['Company','Trust','Partnership'].map(s => (
         <div key={s} onClick={()=>setStructure(s)} style={{ padding:'16px 20px', borderRadius:10, border:`2px solid ${structure===s?'#1E90D4':'#D8E6EE'}`, background:structure===s?'#E6F1FB':'#fff', cursor:'pointer', marginBottom:10 }}>
           <div style={{ fontWeight:600, fontSize:15 }}>{s}</div>
           <div style={{ fontSize:13, color:'#64748B', marginTop:3 }}>
-            {s==='Company'&&'NZ registered company (Ltd) €” NZBN required'}
+            {s==='Company'&&'NZ registered company (Ltd)  NZBN required'}
             {s==='Trust'&&'Family or trading trust with NZBN registration'}
             {s==='Partnership'&&'Formal partnership registered with the Companies Office'}
           </div>
         </div>
       ))}
       <div style={{ display:'flex', justifyContent:'space-between', marginTop:24 }}>
-        <Btn variant="ghost" onClick={()=>setStep(0)}>† Back</Btn>
-        <Btn onClick={()=>save(2)} disabled={!structure}>Continue †’</Btn>
+        <Btn variant="ghost" onClick={()=>setStep(0)}> Back</Btn>
+        <Btn onClick={()=>save(2)} disabled={!structure}>Continue </Btn>
       </div>
     </div>,
 
@@ -240,15 +240,15 @@ export default function OnboardingPage() {
           <div style={{ fontSize:12, color:'#64748B', marginBottom:20 }}>Found at app.companiesoffice.govt.nz</div>
           {nzbnError && <InfoBox type="error">{nzbnError}</InfoBox>}
           <div style={{ display:'flex', justifyContent:'space-between' }}>
-            <Btn variant="ghost" onClick={()=>setStep(1)}>† Back</Btn>
+            <Btn variant="ghost" onClick={()=>setStep(1)}> Back</Btn>
             <Btn onClick={lookupNZBN} disabled={busy||nzbn.length<7}>
-              {busy ? <span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span> : 'Look up entity †’'}
+              {busy ? <span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span> : 'Look up entity '}
             </Btn>
           </div>
         </>
       ) : (
         <>
-          <InfoBox type="success"><strong>Entity confirmed</strong> €” {company.entityName}</InfoBox>
+          <InfoBox type="success"><strong>Entity confirmed</strong>  {company.entityName}</InfoBox>
           <div style={{ background:'#F5F8FA', borderRadius:10, padding:'16px 20px', marginBottom:24 }}>
             {[['Entity',company.entityName],['NZBN',company.nzbn],['Status',company.entityStatusCode],['Registered',new Date(company.registrationDate).toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})],['GST',(company.gstNumbers?.length??0)>0?'Registered':'Not shown']].map(([k,v])=>(
               <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'5px 0', borderBottom:'1px solid #D8E6EE', fontSize:14 }}>
@@ -258,7 +258,7 @@ export default function OnboardingPage() {
           </div>
           {(company.directors||[]).filter(d=>d.roleStatus==='ACTIVE').length > 0 && (
             <>
-              <label style={label}>Confirm your director role €” select your name</label>
+              <label style={label}>Confirm your director role  select your name</label>
               {(company.directors||[]).filter(d=>d.roleStatus==='ACTIVE').map(d=>(
                 <div key={d.fullName} onClick={()=>setDirector(d.fullName)} style={{ padding:'12px 16px', borderRadius:8, border:`2px solid ${director===d.fullName?'#1E90D4':'#D8E6EE'}`, background:director===d.fullName?'#E6F1FB':'#fff', cursor:'pointer', marginBottom:8, fontSize:14, fontWeight:500 }}>
                   {d.fullName} <span style={{ fontSize:12, color:'#64748B' }}>. Director since {d.appointmentDate}</span>
@@ -267,8 +267,8 @@ export default function OnboardingPage() {
             </>
           )}
           <div style={{ display:'flex', justifyContent:'space-between', marginTop:16 }}>
-            <Btn variant="ghost" onClick={()=>setCompany(null)}>† Change NZBN</Btn>
-            <Btn onClick={()=>save(3)} disabled={(company.directors||[]).filter(d=>d.roleStatus==='ACTIVE').length>0&&!director}>Continue †’</Btn>
+            <Btn variant="ghost" onClick={()=>setCompany(null)}> Change NZBN</Btn>
+            <Btn onClick={()=>save(3)} disabled={(company.directors||[]).filter(d=>d.roleStatus==='ACTIVE').length>0&&!director}>Continue </Btn>
           </div>
         </>
       )}
@@ -277,16 +277,16 @@ export default function OnboardingPage() {
     // Step 3 - Credit
     <div key={3}>
       <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Credit check</div>
-      <p style={{ color:'#64748B', marginBottom:24 }}>We run an Equifax Standard Business Report. This is mandatory €” you cannot opt out.</p>
+      <p style={{ color:'#64748B', marginBottom:24 }}>We run an Equifax Standard Business Report. This is mandatory  you cannot opt out.</p>
       {!credit ? (
         <>
           <div style={{ background:'#F5F8FA', borderRadius:8, padding:'14px 16px', marginBottom:20, fontSize:13.5 }}>
-            <strong>Thresholds:</strong> 701+ Auto-Pass (25 pts) . 501€“700 Monitor (15 pts) . Below 501 Declined
+            <strong>Thresholds:</strong> 701+ Auto-Pass (25 pts) . 501700 Monitor (15 pts) . Below 501 Declined
           </div>
           <InfoBox type="warn">By proceeding you consent to TradieCheck obtaining your business credit report from Equifax. This consent is stored for 7 years.</InfoBox>
           <div style={{ display:'flex', justifyContent:'space-between' }}>
-            <Btn variant="ghost" onClick={()=>setStep(2)}>† Back</Btn>
-            <Btn onClick={runCredit} disabled={busy}>{busy?<span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span>:'I consent €” run credit check †’'}</Btn>
+            <Btn variant="ghost" onClick={()=>setStep(2)}> Back</Btn>
+            <Btn onClick={runCredit} disabled={busy}>{busy?<span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span>:'I consent  run credit check '}</Btn>
           </div>
         </>
       ) : (
@@ -296,15 +296,15 @@ export default function OnboardingPage() {
             <div style={{ fontSize:72, fontWeight:800, lineHeight:1, color: credit.result==='Auto-Pass'?'#3E7A22':credit.result==='Monitor'?'#E87722':'#DC2626', marginBottom:12 }}>{credit.score}</div>
             <div style={{ fontSize:11, color:'#64748B', marginBottom:16 }}>out of 1,200</div>
             <span style={{ padding:'5px 16px', borderRadius:20, fontWeight:600, fontSize:14, background:credit.result==='Auto-Pass'?'#EEF7E8':credit.result==='Monitor'?'#FEF3E8':'#FEE2E2', color:credit.result==='Auto-Pass'?'#3E7A22':credit.result==='Monitor'?'#E87722':'#DC2626' }}>
-              {credit.result==='Auto-Pass'?'Auto-Pass':credit.result==='Monitor'?'Monitor €” higher ratio bar required':'Declined'}
+              {credit.result==='Auto-Pass'?'Auto-Pass':credit.result==='Monitor'?'Monitor  higher ratio bar required':'Declined'}
             </span>
           </div>
           {credit.result==='Decline'&&<InfoBox type="error"><strong>Application paused.</strong> Score below minimum threshold. 6-month wait applies. $90 reapplication fee within 12 months.</InfoBox>}
-          {credit.result==='Monitor'&&<InfoBox type="warn">Monitor range €” you can continue, but ratios must score at least 55/65 rather than the standard 45/65.</InfoBox>}
+          {credit.result==='Monitor'&&<InfoBox type="warn">Monitor range  you can continue, but ratios must score at least 55/65 rather than the standard 45/65.</InfoBox>}
           {credit.result==='Auto-Pass'&&<InfoBox type="success">Excellent result. You've cleared the credit threshold with full points.</InfoBox>}
           <div style={{ display:'flex', justifyContent:'space-between' }}>
-            <Btn variant="ghost" onClick={()=>setStep(2)}>† Back</Btn>
-            <Btn onClick={()=>save(4)} disabled={credit.result==='Decline'}>{credit.result==='Decline'?'Application paused':'Continue †’'}</Btn>
+            <Btn variant="ghost" onClick={()=>setStep(2)}> Back</Btn>
+            <Btn onClick={()=>save(4)} disabled={credit.result==='Decline'}>{credit.result==='Decline'?'Application paused':'Continue '}</Btn>
           </div>
         </>
       )}
@@ -319,15 +319,15 @@ export default function OnboardingPage() {
           <InfoBox type="info">Premium subscribers can connect Xero or MYOB to automate this step.</InfoBox>
           {['Year 1 (most recent)','Year 2','Year 3'].map(y=>(
             <div key={y} style={{ border:`2px dashed ${insFile?'#6DBE45':'#D8E6EE'}`, borderRadius:8, padding:'18px', textAlign:'center', marginBottom:12, cursor:'pointer', background:'#F5F8FA' }} onClick={()=>setInsFile(true)}>
-              <span style={{ fontSize:14, color:'#64748B' }}>Annual accounts €” {y} {insFile?'œ“':''}</span>
+              <span style={{ fontSize:14, color:'#64748B' }}>Annual accounts  {y} {insFile?'':''}</span>
             </div>
           ))}
           <div style={{ background:'#F5F8FA', borderRadius:8, padding:'12px 16px', marginBottom:20, fontSize:13 }}>
             Score required: {credit?.result==='Monitor'?'55/65 (Monitor threshold)':'45/65 (standard)'}
           </div>
           <div style={{ display:'flex', justifyContent:'space-between' }}>
-            <Btn variant="ghost" onClick={()=>setStep(3)}>† Back</Btn>
-            <Btn onClick={runRatios} disabled={!insFile||busy}>{busy?<span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span>:'Calculate ratios †’'}</Btn>
+            <Btn variant="ghost" onClick={()=>setStep(3)}> Back</Btn>
+            <Btn onClick={runRatios} disabled={!insFile||busy}>{busy?<span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span>:'Calculate ratios '}</Btn>
           </div>
         </>
       ) : (
@@ -341,8 +341,8 @@ export default function OnboardingPage() {
             </div>
           ))}
           <div style={{ display:'flex', justifyContent:'space-between', marginTop:24 }}>
-            <Btn variant="ghost" onClick={()=>setStep(3)}>† Back</Btn>
-            <Btn onClick={()=>save(5)}>View combined score †’</Btn>
+            <Btn variant="ghost" onClick={()=>setStep(3)}> Back</Btn>
+            <Btn onClick={()=>save(5)}>View combined score </Btn>
           </div>
         </>
       )}
@@ -357,7 +357,7 @@ export default function OnboardingPage() {
         <div style={{ fontSize:72, fontWeight:800, lineHeight:1, color:gatePass?'#3E7A22':'#DC2626', marginBottom:10 }}>{combinedScore}</div>
         <div style={{ fontSize:13, color:'#64748B', marginBottom:16 }}>out of 90 required</div>
         <div style={{ display:'inline-block', padding:'6px 20px', borderRadius:20, background:gatePass?'#6DBE45':'#DC2626', color:'#fff', fontWeight:700, fontSize:15 }}>
-          {gatePass?'PASSED €” proceed to documents':'DECLINED €” threshold not met'}
+          {gatePass?'PASSED  proceed to documents':'DECLINED  threshold not met'}
         </div>
       </div>
       <div style={{ display:'flex', gap:16, marginBottom:24 }}>
@@ -374,8 +374,8 @@ export default function OnboardingPage() {
       </div>
       {!gatePass&&<InfoBox type="error"><strong>Application not passed.</strong> 6-month wait applies. You'll receive a full breakdown by email.</InfoBox>}
       <div style={{ display:'flex', justifyContent:'space-between' }}>
-        <Btn variant="ghost" onClick={()=>setStep(4)}>† Back</Btn>
-        <Btn onClick={()=>save(6)} disabled={!gatePass}>{gatePass?'Proceed to documents †’':'Application paused'}</Btn>
+        <Btn variant="ghost" onClick={()=>setStep(4)}> Back</Btn>
+        <Btn onClick={()=>save(6)} disabled={!gatePass}>{gatePass?'Proceed to documents ':'Application paused'}</Btn>
       </div>
     </div>,
 
@@ -384,14 +384,14 @@ export default function OnboardingPage() {
       <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Insurance verification</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Upload your Certificate of Currency. Minimum $2M public liability cover required.</p>
       <div onClick={()=>setInsFile(true)} style={{ border:`2px dashed ${insFile?'#6DBE45':'#D8E6EE'}`, borderRadius:8, padding:'24px', textAlign:'center', cursor:'pointer', background:insFile?'#EEF7E8':'#F5F8FA', marginBottom:20 }}>
-        {insFile?<span style={{ color:'#3E7A22', fontWeight:600 }}>œ“ Certificate attached (mock)</span>:<span style={{ color:'#64748B' }}>Click to attach Certificate of Currency</span>}
+        {insFile?<span style={{ color:'#3E7A22', fontWeight:600 }}> Certificate attached (mock)</span>:<span style={{ color:'#64748B' }}>Click to attach Certificate of Currency</span>}
       </div>
       <label style={label}>Policy expiry date</label>
       <input style={{ ...inputStyle, marginBottom:20 }} type="date" value={insExpiry} onChange={e=>setInsExpiry(e.target.value)} />
-      <InfoBox type="info">Automated reminders at 60 and 30 days before expiry. Badge suspended immediately on lapse €” no grace period.</InfoBox>
+      <InfoBox type="info">Automated reminders at 60 and 30 days before expiry. Badge suspended immediately on lapse  no grace period.</InfoBox>
       <div style={{ display:'flex', justifyContent:'space-between' }}>
-        <Btn variant="ghost" onClick={()=>setStep(5)}>† Back</Btn>
-        <Btn onClick={()=>save(7)} disabled={!insFile||!insExpiry}>Continue †’</Btn>
+        <Btn variant="ghost" onClick={()=>setStep(5)}> Back</Btn>
+        <Btn onClick={()=>save(7)} disabled={!insFile||!insExpiry}>Continue </Btn>
       </div>
     </div>,
 
@@ -407,7 +407,7 @@ export default function OnboardingPage() {
             return (
               <div key={t.id} onClick={()=>toggleTrade(t.id)} style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', borderRadius:8, border:`1.5px solid ${sel?'#1E90D4':'#D8E6EE'}`, background:sel?'#E6F1FB':'#fff', cursor:'pointer', marginBottom:6 }}>
                 <div style={{ width:18, height:18, borderRadius:4, border:`2px solid ${sel?'#1E90D4':'#D8E6EE'}`, background:sel?'#1E90D4':'#fff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  {sel&&<span style={{ color:'#fff', fontSize:11, fontWeight:700 }}>œ“</span>}
+                  {sel&&<span style={{ color:'#fff', fontSize:11, fontWeight:700 }}></span>}
                 </div>
                 <span style={{ flex:1, fontSize:14 }}>{t.label}</span>
                 {t.licensed&&<span style={{ fontSize:11, padding:'2px 8px', borderRadius:10, background:'#FEF3E8', color:'#E87722', fontWeight:600 }}>{t.reg} required</span>}
@@ -417,8 +417,8 @@ export default function OnboardingPage() {
         </div>
       ))}
       <div style={{ display:'flex', justifyContent:'space-between', marginTop:8 }}>
-        <Btn variant="ghost" onClick={()=>setStep(6)}>† Back</Btn>
-        <Btn onClick={()=>save(8)} disabled={trades.length===0}>Continue †’</Btn>
+        <Btn variant="ghost" onClick={()=>setStep(6)}> Back</Btn>
+        <Btn onClick={()=>save(8)} disabled={trades.length===0}>Continue </Btn>
       </div>
     </div>,
 
@@ -427,25 +427,25 @@ export default function OnboardingPage() {
       <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Portfolio & references</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Upload 5 photos of your best work and provide 5 client email addresses. Minimum 3 of 5 survey responses required.</p>
       <div style={{ marginBottom:24 }}>
-        <div style={{ fontSize:13, fontWeight:600, marginBottom:10 }}>Work photos €” {photos}/5</div>
+        <div style={{ fontSize:13, fontWeight:600, marginBottom:10 }}>Work photos  {photos}/5</div>
         <div style={{ display:'flex', gap:10, flexWrap:'wrap', marginBottom:8 }}>
           {[...Array(5)].map((_,i)=>(
             <div key={i} onClick={i===photos?()=>setPhotos(p=>Math.min(p+1,5)):undefined} style={{ width:80, height:80, borderRadius:8, border:`2px dashed ${i<photos?'#6DBE45':'#D8E6EE'}`, background:i<photos?'#EEF7E8':'#F5F8FA', display:'flex', alignItems:'center', justifyContent:'center', cursor:i===photos?'pointer':'default', fontSize:24 }}>
-              {i<photos?'ðŸ-¼':i===photos?'+':''}
+              {i<photos?'-':i===photos?'+':''}
             </div>
           ))}
         </div>
       </div>
       <div onClick={()=>setVideo(true)} style={{ border:`2px dashed ${video?'#6DBE45':'#D8E6EE'}`, borderRadius:8, padding:'18px', textAlign:'center', cursor:'pointer', background:video?'#EEF7E8':'#F5F8FA', marginBottom:24 }}>
-        {video?<span style={{ color:'#3E7A22', fontWeight:600 }}>œ“ Video attached (mock)</span>:<span style={{ color:'#64748B' }}>Add work video (recommended, under 3 mins)</span>}
+        {video?<span style={{ color:'#3E7A22', fontWeight:600 }}> Video attached (mock)</span>:<span style={{ color:'#64748B' }}>Add work video (recommended, under 3 mins)</span>}
       </div>
       <div style={{ fontSize:13, fontWeight:600, marginBottom:8 }}>Client reference emails</div>
       {refs.map((r,i)=>(
         <input key={i} type="email" value={r} onChange={e=>setRefs(prev=>{const n=[...prev];n[i]=e.target.value;return n})} placeholder={`Client ${i+1} email address`} style={{ ...inputStyle, marginBottom:8 }} />
       ))}
       <div style={{ display:'flex', justifyContent:'space-between', marginTop:16 }}>
-        <Btn variant="ghost" onClick={()=>setStep(7)}>† Back</Btn>
-        <Btn onClick={()=>save(9)} disabled={photos<5}>Continue †’</Btn>
+        <Btn variant="ghost" onClick={()=>setStep(7)}> Back</Btn>
+        <Btn onClick={()=>save(9)} disabled={photos<5}>Continue </Btn>
       </div>
     </div>,
 
@@ -453,10 +453,10 @@ export default function OnboardingPage() {
     <div key={9}>
       <div style={{ fontSize:22, fontWeight:700, marginBottom:8 }}>Reputation scan</div>
       <p style={{ color:'#64748B', marginBottom:24 }}>Automated scan across search engines, social media, news, and review platforms.</p>
-      <InfoBox type="info">This scan runs continuously throughout your membership €” not just at application. All material findings are reviewed by a TradieCheck Analyst before any action is taken.</InfoBox>
+      <InfoBox type="info">This scan runs continuously throughout your membership  not just at application. All material findings are reviewed by a TradieCheck Analyst before any action is taken.</InfoBox>
       <div style={{ display:'flex', justifyContent:'space-between' }}>
-        <Btn variant="ghost" onClick={()=>setStep(8)}>† Back</Btn>
-        <Btn onClick={runReputation} disabled={busy}>{busy?<span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span>:'Run reputation scan †’'}</Btn>
+        <Btn variant="ghost" onClick={()=>setStep(8)}> Back</Btn>
+        <Btn onClick={runReputation} disabled={busy}>{busy?<span style={{ display:'flex', alignItems:'center', gap:8 }}><Spinner/>{busyMsg}</span>:'Run reputation scan '}</Btn>
       </div>
     </div>,
 
@@ -476,18 +476,18 @@ export default function OnboardingPage() {
       ))}
       <InfoBox type="info">Annual billing available at 15% discount. Payment processed on approval only.</InfoBox>
       <div style={{ display:'flex', justifyContent:'space-between' }}>
-        <Btn variant="ghost" onClick={()=>setStep(9)}>† Back</Btn>
-        <Btn onClick={()=>save(11)}>Submit application †’</Btn>
+        <Btn variant="ghost" onClick={()=>setStep(9)}> Back</Btn>
+        <Btn onClick={()=>save(11)}>Submit application </Btn>
       </div>
     </div>,
 
     // Step 11 - Done
     <div key={11} style={{ textAlign:'center', padding:'20px 0' }}>
-      <div style={{ fontSize:56, marginBottom:16 }}>œ…</div>
+      <div style={{ fontSize:56, marginBottom:16 }}></div>
       <h2 style={{ fontSize:24, fontWeight:800, color:'#3E7A22', marginBottom:12 }}>Application submitted</h2>
       <p style={{ fontSize:15, color:'#64748B', lineHeight:1.7, marginBottom:28 }}>A Verification Analyst will review your documents within 3 business days. Two-person sign-off is required before your badge is issued.</p>
       <div style={{ background:'#F5F8FA', borderRadius:10, padding:'20px 24px', textAlign:'left', marginBottom:28 }}>
-        {[['Entity',company?.entityName??'€”'],['Director',director||'€”'],['Credit result',credit?.result??'€”'],['Combined score',`${combinedScore}/90`],['Work categories',`${trades.length} selected`],['Subscription',tier]].map(([k,v])=>(
+        {[['Entity',company?.entityName??''],['Director',director||''],['Credit result',credit?.result??''],['Combined score',`${combinedScore}/90`],['Work categories',`${trades.length} selected`],['Subscription',tier]].map(([k,v])=>(
           <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'6px 0', borderBottom:'1px solid #D8E6EE', fontSize:13.5 }}>
             <span style={{ color:'#64748B' }}>{k}</span><span style={{ fontWeight:600 }}>{v}</span>
           </div>
@@ -504,7 +504,7 @@ export default function OnboardingPage() {
         <div style={{ maxWidth:620, margin:'0 auto' }}>
           <div style={{ textAlign:'center', marginBottom:28 }}>
             <Image src="/TradieCheckLogo_transparent.png" alt="TradieCheck" width={160} height={40} style={{ objectFit:'contain' }} priority />
-            <div style={{ fontSize:13, color:'#64748B', marginTop:6 }}>Path A Verification €” Company / Trust / Partnership</div>
+            <div style={{ fontSize:13, color:'#64748B', marginTop:6 }}>Path A Verification  Company / Trust / Partnership</div>
           </div>
           {step < 11 && <ProgressBar step={step} total={12} />}
           <div style={{ background:'#fff', border:'1px solid #D8E6EE', borderRadius:12, padding:'32px 36px' }}>
@@ -512,7 +512,7 @@ export default function OnboardingPage() {
           </div>
           {step > 0 && step < 11 && (
             <div style={{ textAlign:'center', marginTop:16, fontSize:12, color:'#64748B' }}>
-              Progress saved automatically{appId&&` . ID: ${appId.slice(0,8)}€¦`}
+              Progress saved automatically{appId&&` . ID: ${appId.slice(0,8)}`}
             </div>
           )}
         </div>
