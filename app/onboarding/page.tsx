@@ -74,7 +74,7 @@ function Btn({ children, onClick, variant='primary', disabled=false }) {
   const styles = {
     primary: { background:'#1E90D4', color:'#fff', border:'none' },
     secondary: { background:'#fff', color:'#1E90D4', border:'2px solid #1E90D4' },
-    ghost: { background:'transparent', color:'#1a1a1a' border:'1px solid #D8E6EE' },
+    ghost: { background:'transparent', color:'#1a1a1a', border:'1px solid #D8E6EE' },
   }
   return <button onClick={onClick} disabled={disabled} style={{ padding:'11px 26px', borderRadius:8, fontWeight:700, fontSize:15, color:'#1a1a1a', cursor:disabled?'not-allowed':'pointer', opacity:disabled?0.5:1, fontFamily:'inherit', ...styles[variant] }}>{children}</button>
 }
