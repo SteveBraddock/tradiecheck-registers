@@ -322,8 +322,26 @@ export default function ActionsLog() {
   return (
     <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
 
-      {/* Action buttons toolbar */}
-      <div style={{ background: "#FFF", padding: "0 28px 14px", display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap", alignItems: "center", borderBottom: `1px solid ${TC_BORDER}` }}>
+{/* Header */}
+      <div style={{ background: "#FFF", padding: "16px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${TC_BORDER}` }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <img src="/TradieCheckLogo_transparent.png" alt="TradieCheck" style={{ height: 48 }} />
+          <div style={{ width: 1, height: 48, background: TC_BORDER }} />
+          <div>
+            <div style={{ fontSize: 12, color: "#8899AA", marginBottom: 2 }}>Internal Reference</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: TC_CHARCOAL }}>Actions & Decisions Log</div>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+          <button onClick={exportCSV} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>💾 Backup CSV</button>
+          <label style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>
+            📂 Import CSV<input type="file" accept=".csv" onChange={handleFileSelect} style={{ display: "none" }} />
+          </label>
+          <button onClick={exportPDF} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BORDER}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>↓ Export Report</button>
+          <button onClick={seedConstitutionRules} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>📋 Load Constitution Rules</button>
+          <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "8px 18px", fontWeight: 700, cursor: "pointer", fontSize: 14 }}>+ Add Action</button>
+        </div>
+      </div>
         <button onClick={exportCSV} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>💾 Backup CSV</button>
         <label style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
           📂 Import CSV<input type="file" accept=".csv" onChange={handleFileSelect} style={{ display: "none" }} />
