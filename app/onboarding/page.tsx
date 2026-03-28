@@ -548,7 +548,7 @@ export default function OnboardingPage() {
         }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Combined Score</div>
           <div style={{ fontSize: 72, fontWeight: 800, lineHeight: 1, color: gatePass ? GREEN_DARK : RED, marginBottom: 10 }}>{combinedScore}</div>
-          <div style={{ fontSize: 13, color: TEXT_SECONDARY, marginBottom: 16 }}>90 required to proceed</div>
+          <div style={{ fontSize: 13, color: TEXT_SECONDARY, marginBottom: 16 }}>Ratio threshold: {credit?.result === 'Monitor' ? '55' : '45'}/65 required</div>
           <div style={{ display: 'inline-block', padding: '6px 20px', borderRadius: 20, background: gatePass ? GREEN : RED, color: WHITE, fontWeight: 700, fontSize: 15 }}>
             {gatePass ? 'PASSED - proceed to documents' : 'DECLINED - threshold not met'}
           </div>
