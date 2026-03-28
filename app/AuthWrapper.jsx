@@ -5,6 +5,37 @@ import Link from 'next/link'
 import { supabase } from '../lib/supabase'
 import Login from './login'
 
+const PAGE_TITLES = {
+  '/register':  'Ideas & Issues Register',
+  '/actions':   'Actions & Decisions Log',
+  '/ecosystem': 'Product Ecosystem Map',
+  '/roadmap':   'Product Roadmap',
+}
+
+function PageHeader({ pathname }) {
+  const title = PAGE_TITLES[pathname]
+  if (!title) return null
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 24,
+      padding: '20px 28px',
+      background: '#FFFFFF',
+      borderBottom: '1px solid #E0EAF0',
+    }}>
+      <img
+        src="/TradieCheckLogo_transparent.png"
+        alt="TradieCheck"
+        style={{ height: 52, flexShrink: 0 }}
+      />
+      <div style={{ width: 1, height: 52, background: '#D0DDE6', flexShrink: 0 }} />
+      <div>
+        <div style={{ fontSize: 12, color: '#8899AA', marginBottom: 3, letterSpacing: '0.02em' }}>Internal Reference</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: '#0A1520' }}>{title}</div>
+      </div>
+    </div>
+  )
+}
+
 function ResetForm({ onBack }) {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
@@ -105,6 +136,7 @@ export default function AuthWrapper({ children }) {
           </button>
         </div>
       </div>
+      <PageHeader pathname={pathname} />
       {children}
     </div>
   )
