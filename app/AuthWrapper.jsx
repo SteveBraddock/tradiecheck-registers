@@ -6,9 +6,6 @@ import { supabase } from '../lib/supabase'
 import Login from './login'
 
 const PAGE_TITLES = {
-  '/register':  'Ideas & Issues Register',
-  '/actions':   'Actions & Decisions Log',
-  '/ecosystem': 'Product Ecosystem Map',
   '/roadmap':   'Product Roadmap',
 }
 
