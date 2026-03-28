@@ -303,7 +303,7 @@ export default function OnboardingPage() {
     const rs = Math.floor(threshold + Math.random() * 15)
     const creditPts = credit?.result === 'Auto-Pass' ? 25 : 15
     const combined = creditPts + rs
-    setRatioScore(rs); setCombinedScore(combined); setGatePass(combined >= 90)
+    setRatioScore(rs); setCombinedScore(combined); setGatePass(rs >= threshold)
     setBusy(false)
   }
 
@@ -491,8 +491,8 @@ export default function OnboardingPage() {
         <StepTitle title="Financial ratio assessment" subtitle="Upload your last three years of annual financial accounts. We calculate 11 ratios across liquidity, leverage, profitability and efficiency." />
         {ratioScore === null ? (
           <>
-            <InfoBox type="info">Premium subscribers can connect Xero or MYOB to automate this step. We cross-check your IRD number against your NZBN record before accepting any connection.</InfoBox>
-            {['Year 1 (most recent)', 'Year 2', 'Year 3'].map((y, i) => (
+            <div style={{ marginBottom: 20 }}>   <div style={{ fontSize: 13, fontWeight: 600, color: TEXT, marginBottom: 10 }}>Connect your accounting software (Premium and above)</div>   <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>     <button onClick={() => setAccountsFile(true)} style={{ flex: 1, padding: '14px', borderRadius: 8, border: '2px solid #00B4D8', background: accountsFile ? '#E0F7FA' : '#fff', cursor: 'pointer', fontWeight: 600, fontSize: 14, color: '#006B82', fontFamily: 'inherit' }}>       Connect Xero     </button>     <button onClick={() => setAccountsFile(true)} style={{ flex: 1, padding: '14px', borderRadius: 8, border: '2px solid #6C2DC7', background: accountsFile ? '#F3E8FF' : '#fff', cursor: 'pointer', fontWeight: 600, fontSize: 14, color: '#4A1D8A', fontFamily: 'inherit' }}>       Connect MYOB     </button>   </div>   {accountsFile && <InfoBox type="success">Connected - we will pull 3 years of financial data and cross-check your IRD number against your NZBN record before calculating ratios.</InfoBox>}   {!accountsFile && <div style={{ textAlign: 'center', fontSize: 12, color: TEXT_SECONDARY, margin: '4px 0 12px' }}>or upload accounts manually below</div>} </div>
+            {!accountsFile && ['Year 1 (most recent)', 'Year 2', 'Year 3'].map((y, i) => (
               <MockFilePicker key={y} label={'Annual financial accounts - ' + y} hint={i === 0 ? 'Must be signed off by your accountant. PDF or Excel.' : undefined} onPick={() => setAccountsFile(true)} picked={accountsFile} />
             ))}
             <div style={{ background: GREY_BG, borderRadius: 8, padding: '12px 16px', marginBottom: 20, fontSize: 13.5, color: TEXT }}>
@@ -508,7 +508,12 @@ export default function OnboardingPage() {
         ) : (
           <>
             <div style={{ background: GREY_BG, borderRadius: 10, padding: '20px 24px', marginBottom: 24 }}>
-              {[['Liquidity', Math.floor(ratioScore * 0.31), 20], ['Leverage', Math.floor(ratioScore * 0.23), 15], ['Profitability', Math.floor(ratioScore * 0.23), 15], ['Efficiency', Math.floor(ratioScore * 0.23), 15]].map(([lbl, score, max]) => (
+              {[
+                ['Cash flow', Math.floor(ratioScore * 0.31), 20, 'Can the business pay its bills on time? Looks at cash coming in vs money owed short term.'],
+                ['Debt levels', Math.floor(ratioScore * 0.23), 15, 'How much is funded by debt vs what you own? Lower debt relative to assets is better.'],
+                ['Profitability', Math.floor(ratioScore * 0.23), 15, 'Is the business making money after costs? Measures profit left from every dollar of revenue.'],
+                ['Turning jobs into cash', Math.floor(ratioScore * 0.23), 15, 'How quickly does the business collect payment after completing work?'],
+              ].map(([lbl, score, max, desc]) => (
                 <div key={lbl} style={{ marginBottom: 14 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 4 }}>
                     <span style={{ fontWeight: 600, color: TEXT }}>{lbl}</span>
@@ -544,7 +549,7 @@ export default function OnboardingPage() {
         }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: TEXT_SECONDARY, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Combined Score</div>
           <div style={{ fontSize: 72, fontWeight: 800, lineHeight: 1, color: gatePass ? GREEN_DARK : RED, marginBottom: 10 }}>{combinedScore}</div>
-          <div style={{ fontSize: 13, color: TEXT_SECONDARY, marginBottom: 16 }}>90 required to proceed</div>
+          <div style={{ fontSize: 13, color: TEXT_SECONDARY, marginBottom: 16 }}>Ratio threshold: {credit?.result === 'Monitor' ? '55' : '45'}/65 required</div>
           <div style={{ display: 'inline-block', padding: '6px 20px', borderRadius: 20, background: gatePass ? GREEN : RED, color: WHITE, fontWeight: 700, fontSize: 15 }}>
             {gatePass ? 'PASSED - proceed to documents' : 'DECLINED - threshold not met'}
           </div>
@@ -561,7 +566,7 @@ export default function OnboardingPage() {
             <div style={{ fontSize: 12, color: TEXT_SECONDARY }}>Required: {threshold}/65</div>
           </div>
         </div>
-        {!gatePass && <InfoBox type="error"><strong>Application not passed.</strong> A 6-month wait period applies. You will receive a full breakdown by email including which categories fell below benchmark.</InfoBox>}
+        {!gatePass && <InfoBox type="error"><strong>We're not able to verify your business finances right now.</strong> This doesn't mean your business isn't doing well - it means some of our financial benchmarks weren't met at this point in time. You'll receive a detailed breakdown by email explaining exactly what we looked at and what would need to improve. You're welcome to reapply in 6 months. If you think there's been an error, contact us at support@tradiecheck.co.nz.</InfoBox>}
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Btn variant="ghost" onClick={() => setStep(4)}>Back</Btn>
           <Btn onClick={() => saveAndGo(6)} disabled={!gatePass}>{gatePass ? 'Proceed to documents' : 'Application paused'}</Btn>
@@ -805,7 +810,7 @@ export default function OnboardingPage() {
           </div>
           {step < 11 && <ProgressBar step={step} total={12} />}
           <div style={{ background: WHITE, border: '1px solid ' + BORDER, borderRadius: 12, padding: '32px 36px' }}>
-            <CurrentStep />
+            {steps[step] ? steps[step]() : S0()}
           </div>
           {step > 0 && step < 11 && (
             <div style={{ textAlign: 'center', marginTop: 16, fontSize: 12, color: TEXT_SECONDARY }}>
