@@ -323,7 +323,7 @@ export default function ActionsLog() {
     <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
 
       {/* Action buttons toolbar */}
-      <div style={{ background: "#FFF", padding: "12px 24px", display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap", alignItems: "center", borderBottom: `1px solid ${TC_BORDER}` }}>
+      <div style={{ background: "#FFF", padding: "0 28px 14px", display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap", alignItems: "center", borderBottom: `1px solid ${TC_BORDER}` }}>
         <button onClick={exportCSV} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>💾 Backup CSV</button>
         <label style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
           📂 Import CSV<input type="file" accept=".csv" onChange={handleFileSelect} style={{ display: "none" }} />
