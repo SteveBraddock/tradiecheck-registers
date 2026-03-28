@@ -229,7 +229,6 @@ export default function OnboardingPage() {
   const [insExpiry, setInsExpiry] = useState('')
   const [trades, setTrades] = useState([])   const [licencePicked, setLicencePicked] = useState({})
   const [licencePicked, setLicencePicked] = useState({})
-  const [licencePicked, setLicencePicked] = useState({})
   const [photos, setPhotos] = useState(0)
   const [video, setVideo] = useState(false)
   const [refs, setRefs] = useState(['', '', '', '', ''])
