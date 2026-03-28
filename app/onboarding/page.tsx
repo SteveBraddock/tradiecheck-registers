@@ -302,7 +302,7 @@ export default function OnboardingPage() {
     const rs = Math.floor(threshold + Math.random() * 15)
     const creditPts = credit?.result === 'Auto-Pass' ? 25 : 15
     const combined = creditPts + rs
-    setRatioScore(rs); setCombinedScore(combined); setGatePass(combined >= 90)
+    setRatioScore(rs); setCombinedScore(combined); setGatePass(rs >= threshold)
     setBusy(false)
   }
 
