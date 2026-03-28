@@ -40,44 +40,26 @@ function isOverdue(dueDate, status) {
 
 function dbToEntry(row) {
   return {
-    id: row.id,
-    num: row.num,
-    action: row.action,
-    decision: row.decision || "",
-    owner: row.owner || "TBD / Unassigned",
-    category: row.category,
-    priority: row.priority,
-    status: row.status,
-    dueDate: row.due_date || "",
-    meeting: row.meeting || "",
-    notes: row.notes || "",
-    linkedRules: row.linked_rules || [],
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
+    id: row.id, num: row.num, action: row.action, decision: row.decision || "",
+    owner: row.owner || "TBD / Unassigned", category: row.category, priority: row.priority,
+    status: row.status, dueDate: row.due_date || "", meeting: row.meeting || "",
+    notes: row.notes || "", linkedRules: row.linked_rules || [],
+    createdAt: row.created_at, updatedAt: row.updated_at,
   };
 }
 
 function entryToDb(entry) {
   return {
-    id: entry.id,
-    num: entry.num,
-    action: entry.action,
-    decision: entry.decision || "",
-    owner: entry.owner || "TBD / Unassigned",
-    category: entry.category,
-    priority: entry.priority,
-    status: entry.status,
-    due_date: entry.dueDate || "",
-    meeting: entry.meeting || "",
-    notes: entry.notes || "",
-    linked_rules: entry.linkedRules || [],
-    created_at: entry.createdAt,
-    updated_at: entry.updatedAt,
+    id: entry.id, num: entry.num, action: entry.action, decision: entry.decision || "",
+    owner: entry.owner || "TBD / Unassigned", category: entry.category, priority: entry.priority,
+    status: entry.status, due_date: entry.dueDate || "", meeting: entry.meeting || "",
+    notes: entry.notes || "", linked_rules: entry.linkedRules || [],
+    created_at: entry.createdAt, updated_at: entry.updatedAt,
   };
 }
 
-const labelStyle = { fontSize: 11, fontWeight: 700, color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 4, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif" };
-const inputStyle = { width: "100%", padding: "8px 10px", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, fontSize: 14, fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", color: TC_CHARCOAL, background: "#FFF", boxSizing: "border-box" };
+const labelStyle = { fontSize: 11, fontWeight: 700, color: "#888", letterSpacing: "0.08em", textTransform: "uppercase", display: "block", marginBottom: 4 };
+const inputStyle = { width: "100%", padding: "8px 10px", border: `1.5px solid ${TC_BORDER}`, borderRadius: 6, fontSize: 14, color: TC_CHARCOAL, background: "#FFF", boxSizing: "border-box" };
 const selectStyle = { ...inputStyle, cursor: "pointer" };
 
 export default function ActionsLog() {
@@ -105,15 +87,10 @@ export default function ActionsLog() {
   async function loadEntries() {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('action_entries')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await supabase.from('action_entries').select('*').order('created_at', { ascending: false });
       if (error) throw error;
       if (data) setEntries(data.map(dbToEntry));
-    } catch (e) {
-      console.error('Error loading entries:', e);
-    }
+    } catch (e) { console.error('Error loading entries:', e); }
     setLoading(false);
   }
 
@@ -121,16 +98,16 @@ export default function ActionsLog() {
     const rules = [
       { action: "Board Resolutions — Passing Threshold", decision: "A resolution of the Board is passed if a majority of votes cast is in favour. The chairperson does NOT have a casting vote. (Constitution Schedule 2, clauses 34 & 33)", notes: "A Director present is presumed to have voted in favour unless they expressly abstain or dissent.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
       { action: "Board Quorum Requirement", decision: "A quorum is a majority of Directors entitled to vote. No business may be transacted without a quorum. If no quorum within 20 minutes, meeting adjourns automatically by 2 working days. (Schedule 2, clauses 27–29)", notes: "At the adjourned meeting, if still no quorum within 20 minutes, Directors present constitute a quorum.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Written Board Resolutions", decision: "A resolution signed or assented to in writing by ALL Directors entitled to vote is as valid as a resolution passed at a duly convened Board meeting. May be signed in counterparts including by email. A copy must be entered in the minute book. (Schedule 2, clauses 37–39)", notes: "This enables decisions to be made without a formal meeting if all Directors agree in writing.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Board Meeting Notice Requirements", decision: "At least 2 days' written notice required for Board meetings. In urgent cases, at least 2 business hours' notice is sufficient if the chairperson (or another Director in their absence) deems it necessary. Notice must specify date, time, place and participation method. (Schedule 2, clauses 24–25)", notes: "Notice can be delivered by hand, email, or to last known address. Irregularity in notice is waived if all Directors attend without protest.", category: "Constitution Rule", status: "Done", priority: "Medium", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Shareholder Decisions — Ordinary Resolutions", decision: "Ordinary resolutions require a simple majority (>50%) of votes cast. Used for: appointing/removing Directors, approving Director remuneration and certain payments. A written resolution signed by shareholders holding ≥75% of voting rights is valid in lieu of a meeting. (Clause 8.4, s122 Companies Act 1993)", notes: "Shareholders holding ≥5% of voting rights may requisition a special meeting.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Shareholder Decisions — Special Resolutions (75% threshold)", decision: "The following require approval of shareholders holding ≥75% of voting rights: transferring shares outside pre-emption rights (clause 5.10f); drag-along and tag-along rights triggers. The Companies Act 1993 also requires 75% for altering the constitution and certain major transactions.", notes: "Tag-along applies when ≥50% of voting rights are being sold. Drag-along applies when ≥75% of voting rights are being sold.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Board Powers vs Shareholder Powers", decision: "The Board manages all business and affairs of the Company and may exercise all Company powers not reserved to Shareholders. Board may delegate powers to committees, individual Directors, employees or other persons — except powers listed in the Second Schedule to the Companies Act 1993. (Clauses 50–53)", notes: "Shareholder approval required for: Director remuneration beyond expenses (clause 59), liquidation distributions in kind (clause 66), and matters reserved by the Act.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Appointment & Removal of Directors", decision: "Directors appointed or removed by: (a) written notice signed by shareholders holding >50% of voting rights, OR (b) ordinary resolution, OR (c) as provided in any shareholders' agreement. Maximum 7 Directors unless changed by >50% shareholder vote. (Clauses 41–44)", notes: "Alternate Directors can be appointed by any Director by written notice, subject to majority Board approval.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Interested Director — Conflict of Interest Rules", decision: "A Director who is interested in a transaction MAY still: vote on any matter relating to it, attend and be counted for quorum, sign documents on behalf of the Company. However, the Director must comply with s140 Companies Act 1993 disclosure requirements. (Clauses 57–58)", notes: "Failure to disclose does not affect validity of the contract or arrangement, but the Director remains personally liable.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Signing Authority — Contracts & Deeds", decision: "A deed on behalf of the Company may be signed by: (a) two or more Directors, OR (b) one Director (or other Board-authorised person) with a witnessed signature, OR (c) one or more attorneys appointed under s181 of the Act. (Clause 65)", notes: "The Board may appoint attorneys either generally or for specific matters.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Minutes — Keeping Requirements", decision: "The Board must ensure minutes are kept of all Board meeting proceedings. Minutes signed as correct by the chairperson are prima facie evidence of proceedings unless shown to be inaccurate. Written resolutions must also be entered in the minute book. (Schedule 2, clauses 36 & 39)", notes: "This applies to all Board meetings and written resolutions.", category: "Constitution Rule", status: "Done", priority: "Medium", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
-      { action: "Pre-emptive Rights on Share Transfer", decision: "No shares may be transferred unless pre-emption rights (Schedule 3) have been exhausted — existing shareholders must be offered shares first at the proposed transfer price. Exceptions include: transfers to a Shareholder's own trust, intra-trust transfers, transfers approved in writing by holders of ≥75% voting rights, and drag-along/tag-along transfers. (Clauses 16–25, Schedule 3)", notes: "Board may refuse or delay registration of a transfer within 10 working days of receipt.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Written Board Resolutions", decision: "A resolution signed or assented to in writing by ALL Directors entitled to vote is as valid as a resolution passed at a duly convened Board meeting. May be signed in counterparts including by email. (Schedule 2, clauses 37–39)", notes: "This enables decisions to be made without a formal meeting if all Directors agree in writing.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Board Meeting Notice Requirements", decision: "At least 2 days' written notice required for Board meetings. In urgent cases, at least 2 business hours' notice is sufficient. (Schedule 2, clauses 24–25)", notes: "Notice can be delivered by hand, email, or to last known address.", category: "Constitution Rule", status: "Done", priority: "Medium", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Shareholder Decisions — Ordinary Resolutions", decision: "Ordinary resolutions require a simple majority (>50%) of votes cast. A written resolution signed by shareholders holding 75% of voting rights is valid in lieu of a meeting. (Clause 8.4, s122 Companies Act 1993)", notes: "Shareholders holding 5% of voting rights may requisition a special meeting.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Shareholder Decisions — Special Resolutions (75% threshold)", decision: "The following require approval of shareholders holding 75% of voting rights: transferring shares outside pre-emption rights; drag-along and tag-along rights triggers.", notes: "Tag-along applies when 50% of voting rights are being sold. Drag-along applies when 75% are being sold.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Board Powers vs Shareholder Powers", decision: "The Board manages all business and affairs of the Company and may exercise all Company powers not reserved to Shareholders. (Clauses 50–53)", notes: "Shareholder approval required for Director remuneration beyond expenses and liquidation distributions in kind.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Appointment & Removal of Directors", decision: "Directors appointed or removed by written notice signed by shareholders holding >50% of voting rights, OR ordinary resolution. Maximum 7 Directors. (Clauses 41–44)", notes: "Alternate Directors can be appointed by any Director by written notice, subject to majority Board approval.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Interested Director — Conflict of Interest Rules", decision: "A Director who is interested in a transaction MAY still vote, attend and be counted for quorum. Director must comply with s140 Companies Act 1993 disclosure requirements. (Clauses 57–58)", notes: "Failure to disclose does not affect validity of the contract.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Signing Authority — Contracts & Deeds", decision: "A deed may be signed by two or more Directors, OR one Director with a witnessed signature, OR attorneys appointed under s181. (Clause 65)", notes: "The Board may appoint attorneys either generally or for specific matters.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Minutes — Keeping Requirements", decision: "The Board must ensure minutes are kept of all Board meeting proceedings. Written resolutions must also be entered in the minute book. (Schedule 2, clauses 36 & 39)", notes: "This applies to all Board meetings and written resolutions.", category: "Constitution Rule", status: "Done", priority: "Medium", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
+      { action: "Pre-emptive Rights on Share Transfer", decision: "No shares may be transferred unless pre-emption rights (Schedule 3) have been exhausted. Exceptions include transfers to a Shareholder's own trust and transfers approved by holders of 75% voting rights. (Clauses 16–25, Schedule 3)", notes: "Board may refuse or delay registration of a transfer within 10 working days.", category: "Constitution Rule", status: "Done", priority: "High", owner: "Steve Braddock", meeting: "Constitution", dueDate: "" },
     ];
     const maxNum = entries.length > 0 ? Math.max(...entries.map(e => e.num || 0)) : 0;
     const now = new Date().toISOString();
@@ -205,7 +182,7 @@ export default function ActionsLog() {
     const done = entries.filter(e => e.status === "Done").length;
     const overdue = entries.filter(e => isOverdue(e.dueDate, e.status)).length;
     const statusDot = { "Not Started": "#4AABDB", "In Progress": "#8DC63F", "Done": "#2ECC7A", "Blocked": "#E84040", "Deferred": "#D4A820" };
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>TradieCheck Actions & Decisions Log</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;color:#3D3D3D;background:#fff;font-size:11px}.header{background:#3D3D3D;color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #4AABDB}.header-title{font-size:16px;font-weight:bold}.header-sub{font-size:9px;color:#AAB8C2;letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}.header-date{font-size:9px;color:#AAB8C2}.stats{display:flex;gap:10px;padding:14px 20px;background:#F5F8FA;border-bottom:1px solid #D8E6EE}.stat{flex:1;background:white;border:1px solid #D8E6EE;border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center}.stat-label{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:0.05em}.stat-value{font-size:20px;font-weight:bold}.content{padding:14px 20px}.card{background:white;border:1px solid #D8E6EE;border-radius:6px;margin-bottom:10px;padding:10px 12px;page-break-inside:avoid}.card-action{font-weight:bold;font-size:11px;margin-bottom:6px}.card-decision{background:#F6FAF0;border-left:3px solid #8DC63F;padding:5px 8px;margin-bottom:6px;font-size:10px;color:#555}.card-decision-label{font-weight:bold;color:#8DC63F;font-size:9px;text-transform:uppercase;letter-spacing:0.05em}.card-notes{font-size:9px;color:#888;font-style:italic;margin-bottom:6px}.overdue-badge{display:inline-block;background:#FDE8E8;color:#B02020;font-size:8px;font-weight:bold;padding:2px 6px;border-radius:3px;letter-spacing:0.05em;float:right}.card-meta-table{width:100%;border-collapse:collapse;margin-top:8px;border-top:1px solid #EEF2F5}.meta-label{font-size:8px;color:#999;text-transform:uppercase;letter-spacing:0.05em;padding:3px 8px 3px 0;white-space:nowrap;width:60px}.meta-value{font-size:9px;color:#3D3D3D;padding:3px 12px 3px 0}.footer{background:#3D3D3D;color:#AAB8C2;padding:8px 20px;display:flex;justify-content:space-between;font-size:8px;margin-top:20px}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.card{page-break-inside:avoid}}</style></head><body><div class="header"><div><div class="header-title">TradieCheck — Actions & Decisions Log</div><div class="header-sub">Meeting Outcomes Tracker</div></div><div class="header-date">Exported ${date}</div></div><div class="stats"><div class="stat"><span class="stat-label">Total</span><span class="stat-value" style="color:#3D3D3D">${entries.length}</span></div><div class="stat"><span class="stat-label">Open</span><span class="stat-value" style="color:#4AABDB">${open}</span></div><div class="stat"><span class="stat-label">Done</span><span class="stat-value" style="color:#8DC63F">${done}</span></div><div class="stat"><span class="stat-label">Overdue</span><span class="stat-value" style="color:#E84040">${overdue}</span></div></div><div class="content">${toExport.map(entry => { const over = isOverdue(entry.dueDate, entry.status); const dot = statusDot[entry.status] || "#3D3D3D"; const priorityColor = entry.priority === "High" ? "#B02020" : entry.priority === "Medium" ? "#8A6A10" : "#555"; return `<div class="card" style="border-left:4px solid ${over ? "#E84040" : dot};">${over ? '<div class="overdue-badge">OVERDUE</div>' : ""}<div class="card-action">${entry.num ? `<span style="background:#4AABDB;color:#fff;font-size:9px;font-weight:bold;padding:2px 6px;border-radius:3px;margin-right:6px">ACT-${String(entry.num).padStart(3,"0")}</span>` : ""}${entry.action}</div>${entry.decision ? `<div class="card-decision"><span class="card-decision-label">Decision: </span>${entry.decision}</div>` : ""}${entry.notes ? `<div class="card-notes">${entry.notes}</div>` : ""}<table class="card-meta-table"><tr><td class="meta-label">Status</td><td class="meta-value" style="color:${dot};font-weight:bold">${entry.status}</td><td class="meta-label">Priority</td><td class="meta-value" style="color:${priorityColor};font-weight:bold">${entry.priority}</td><td class="meta-label">Owner</td><td class="meta-value">${entry.owner}</td></tr><tr><td class="meta-label">Due Date</td><td class="meta-value" style="color:${over ? "#E84040" : "#333"}">${entry.dueDate ? formatDate(entry.dueDate) : "—"}</td><td class="meta-label">Meeting</td><td class="meta-value">${entry.meeting || "—"}</td><td class="meta-label">Category</td><td class="meta-value">${entry.category || "—"}</td></tr></table></div>`; }).join("")}</div><div class="footer"><span>TradieCheck — Confidential Internal Use Only</span><span>${toExport.length} action${toExport.length !== 1 ? "s" : ""} exported</span></div></body></html>`;
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>TradieCheck Actions Log</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;color:#3D3D3D;font-size:11px}.header{background:#3D3D3D;color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #4AABDB}.stats{display:flex;gap:10px;padding:14px 20px;background:#F5F8FA;border-bottom:1px solid #D8E6EE}.stat{flex:1;background:white;border:1px solid #D8E6EE;border-radius:6px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center}.content{padding:14px 20px}.card{background:white;border:1px solid #D8E6EE;border-radius:6px;margin-bottom:10px;padding:10px 12px;page-break-inside:avoid}.footer{background:#3D3D3D;color:#AAB8C2;padding:8px 20px;display:flex;justify-content:space-between;font-size:8px;margin-top:20px}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="header"><div><div style="font-size:16px;font-weight:bold">TradieCheck — Actions & Decisions Log</div></div><div style="font-size:9px;color:#AAB8C2">Exported ${date}</div></div><div class="stats"><div class="stat"><span style="font-size:9px;color:#888;text-transform:uppercase">Total</span><span style="font-size:20px;font-weight:bold;color:#3D3D3D">${entries.length}</span></div><div class="stat"><span style="font-size:9px;color:#888;text-transform:uppercase">Open</span><span style="font-size:20px;font-weight:bold;color:#4AABDB">${open}</span></div><div class="stat"><span style="font-size:9px;color:#888;text-transform:uppercase">Done</span><span style="font-size:20px;font-weight:bold;color:#8DC63F">${done}</span></div><div class="stat"><span style="font-size:9px;color:#888;text-transform:uppercase">Overdue</span><span style="font-size:20px;font-weight:bold;color:#E84040">${overdue}</span></div></div><div class="content">${toExport.map(entry => { const over = isOverdue(entry.dueDate, entry.status); const dot = statusDot[entry.status] || "#3D3D3D"; return `<div class="card" style="border-left:4px solid ${over ? "#E84040" : dot}"><div style="font-weight:bold;margin-bottom:4px">${entry.num ? `<span style="background:#4AABDB;color:#fff;font-size:9px;padding:2px 6px;border-radius:3px;margin-right:6px">ACT-${String(entry.num).padStart(3,"0")}</span>` : ""}${entry.action}</div>${entry.decision ? `<div style="background:#F6FAF0;border-left:3px solid #8DC63F;padding:5px 8px;margin-bottom:4px;font-size:10px"><strong style="color:#8DC63F">Decision: </strong>${entry.decision}</div>` : ""}${entry.notes ? `<div style="font-size:9px;color:#888;font-style:italic;margin-bottom:4px">${entry.notes}</div>` : ""}<div style="font-size:9px;color:#666">${entry.status} · ${entry.priority} · ${entry.owner}${entry.dueDate ? " · Due: " + formatDate(entry.dueDate) : ""}</div></div>`; }).join("")}</div><div class="footer"><span>TradieCheck — Confidential</span><span>${toExport.length} actions exported</span></div></body></html>`;
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -242,16 +219,11 @@ export default function ActionsLog() {
   }
 
   function parseCsvLine(line) {
-    const result = [];
-    let current = "";
-    let inQuotes = false;
+    const result = []; let current = ""; let inQuotes = false;
     for (let i = 0; i < line.length; i++) {
       const ch = line[i];
-      if (inQuotes) {
-        if (ch === '"') { if (i + 1 < line.length && line[i + 1] === '"') { current += '"'; i++; } else { inQuotes = false; } } else { current += ch; }
-      } else {
-        if (ch === '"') { inQuotes = true; } else if (ch === ",") { result.push(current); current = ""; } else { current += ch; }
-      }
+      if (inQuotes) { if (ch === '"') { if (i + 1 < line.length && line[i + 1] === '"') { current += '"'; i++; } else { inQuotes = false; } } else { current += ch; } }
+      else { if (ch === '"') { inQuotes = true; } else if (ch === ",") { result.push(current); current = ""; } else { current += ch; } }
     }
     result.push(current);
     return result;
@@ -299,13 +271,13 @@ export default function ActionsLog() {
     const now = new Date().toISOString();
     const incoming = importPreview.rows.map(r => ({ ...r, id: r.id || `import-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, num: r.num || 0, createdAt: r.createdAt || now, updatedAt: r.updatedAt || now }));
     if (mode === "replace") {
-      const { error: deleteError } = await supabase.from('action_entries').delete().neq('id', '');
-      if (deleteError) console.error('Error clearing entries:', deleteError);
-      const { error: insertError } = await supabase.from('action_entries').insert(incoming.map(entryToDb));
-      if (insertError) console.error('Error importing entries:', insertError);
+      const { error: de } = await supabase.from('action_entries').delete().neq('id', '');
+      if (de) console.error('Error clearing:', de);
+      const { error: ie } = await supabase.from('action_entries').insert(incoming.map(entryToDb));
+      if (ie) console.error('Error importing:', ie);
     } else {
       const { error } = await supabase.from('action_entries').upsert(incoming.map(entryToDb));
-      if (error) console.error('Error merging entries:', error);
+      if (error) console.error('Error merging:', error);
     }
     await loadEntries();
     setImportPreview(null);
@@ -322,8 +294,8 @@ export default function ActionsLog() {
   return (
     <div style={{ fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", minHeight: "100vh", background: TC_LIGHT_BG, color: TC_CHARCOAL }}>
 
-{/* Header */}
-      <div style={{ background: "#FFF", padding: "16px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${TC_BORDER}` }}>
+      {/* Header — logo + title + buttons on one line */}
+      <div style={{ background: "#FFF", padding: "14px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: `1px solid ${TC_BORDER}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <img src="/TradieCheckLogo_transparent.png" alt="TradieCheck" style={{ height: 48 }} />
           <div style={{ width: 1, height: 48, background: TC_BORDER }} />
@@ -333,22 +305,14 @@ export default function ActionsLog() {
           </div>
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-          <button onClick={exportCSV} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>💾 Backup CSV</button>
-          <label style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>
+          <button onClick={exportCSV} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "7px 13px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>💾 Backup CSV</button>
+          <label style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "7px 13px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>
             📂 Import CSV<input type="file" accept=".csv" onChange={handleFileSelect} style={{ display: "none" }} />
           </label>
-          <button onClick={exportPDF} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BORDER}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>↓ Export Report</button>
-          <button onClick={seedConstitutionRules} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>📋 Load Constitution Rules</button>
-          <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "8px 18px", fontWeight: 700, cursor: "pointer", fontSize: 14 }}>+ Add Action</button>
+          <button onClick={exportPDF} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BORDER}`, borderRadius: 6, padding: "7px 13px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>↓ Export Report</button>
+          <button onClick={seedConstitutionRules} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "7px 13px", fontWeight: 700, cursor: "pointer", fontSize: 13 }}>📋 Load Constitution Rules</button>
+          <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "7px 18px", fontWeight: 700, cursor: "pointer", fontSize: 14 }}>+ Add Action</button>
         </div>
-      </div>
-        <button onClick={exportCSV} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>💾 Backup CSV</button>
-        <label style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BLUE}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>
-          📂 Import CSV<input type="file" accept=".csv" onChange={handleFileSelect} style={{ display: "none" }} />
-        </label>
-        <button onClick={exportPDF} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_BORDER}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>↓ Export Report</button>
-        <button onClick={seedConstitutionRules} style={{ background: "transparent", color: TC_CHARCOAL, border: `2px solid ${TC_GREEN}`, borderRadius: 6, padding: "8px 14px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 13 }}>📋 Load Constitution Rules</button>
-        <button onClick={() => { resetForm(); setShowForm(true); }} style={{ background: TC_GREEN, color: "#FFF", border: "none", borderRadius: 6, padding: "8px 18px", fontWeight: 700, cursor: "pointer", fontFamily: "'Inter','Segoe UI','Helvetica Neue',Arial,sans-serif", fontSize: 14 }}>+ Add Action</button>
       </div>
 
       {/* Import Preview Modal */}
@@ -487,10 +451,10 @@ export default function ActionsLog() {
               const overdue = isOverdue(entry.dueDate, entry.status);
               return (
                 <div key={entry.id} style={{ background: "#FFF", border: `1.5px solid ${overdue ? "#F5A5A5" : TC_BORDER}`, borderRadius: 10, padding: "16px 20px", borderLeft: `4px solid ${overdue ? "#E84040" : sc.dot}` }}>
-                  {overdue && <div style={{ float: "right", background: "#FDE8E8", color: "#B02020", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4, letterSpacing: "0.05em" }}>OVERDUE</div>}
+                  {overdue && <div style={{ float: "right", background: "#FDE8E8", color: "#B02020", fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 4 }}>OVERDUE</div>}
                   <div style={{ marginBottom: 10 }}>
                     <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
-                      {entry.num && <span style={{ background: TC_BLUE, color: "#FFF", fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4, letterSpacing: "0.03em", whiteSpace: "nowrap" }}>ACT-{String(entry.num).padStart(3, "0")}</span>}
+                      {entry.num && <span style={{ background: TC_BLUE, color: "#FFF", fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 4, whiteSpace: "nowrap" }}>ACT-{String(entry.num).padStart(3, "0")}</span>}
                       <div style={{ fontSize: 15, fontWeight: 700, color: TC_CHARCOAL }}>{entry.action}</div>
                     </div>
                     {entry.decision && (
