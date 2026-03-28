@@ -228,6 +228,7 @@ export default function OnboardingPage() {
   const [insFile, setInsFile] = useState(false)
   const [insExpiry, setInsExpiry] = useState('')
   const [trades, setTrades] = useState([])
+  const [licencePicked, setLicencePicked] = useState({})
   const [photos, setPhotos] = useState(0)
   const [video, setVideo] = useState(false)
   const [refs, setRefs] = useState(['', '', '', '', ''])
@@ -630,7 +631,7 @@ export default function OnboardingPage() {
           <div style={{ marginTop: 8, marginBottom: 16 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: TEXT, marginBottom: 10 }}>Licence uploads required:</div>
             {licensedSelected.map(t => (
-              <MockFilePicker key={t.id} label={t.reg + ' Licence - ' + t.label} hint="Automated register lookup where available. Manual upload as fallback." onPick={() => {}} picked={false} />
+              <MockFilePicker key={t.id} label={t.reg + ' Licence - ' + t.label} hint="Automated register lookup where available. Manual upload as fallback." onPick={() => setLicencePicked(p => ({...p, [t.id]: true}))} picked={!!licencePicked[t.id]} />
             ))}
           </div>
         )}
