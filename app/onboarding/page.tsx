@@ -804,7 +804,7 @@ export default function OnboardingPage() {
           </div>
           {step < 11 && <ProgressBar step={step} total={12} />}
           <div style={{ background: WHITE, border: '1px solid ' + BORDER, borderRadius: 12, padding: '32px 36px' }}>
-            <CurrentStep />
+            {steps[step] ? steps[step]() : S0()}
           </div>
           {step > 0 && step < 11 && (
             <div style={{ textAlign: 'center', marginTop: 16, fontSize: 12, color: TEXT_SECONDARY }}>
