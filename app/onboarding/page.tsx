@@ -565,7 +565,7 @@ export default function OnboardingPage() {
             <div style={{ fontSize: 12, color: TEXT_SECONDARY }}>Required: {threshold}/65</div>
           </div>
         </div>
-        {!gatePass && <InfoBox type="error"><strong>Application not passed.</strong> A 6-month wait period applies. You will receive a full breakdown by email including which categories fell below benchmark.</InfoBox>}
+        {!gatePass && <InfoBox type="error"><strong>We're not able to verify your business finances right now.</strong> This doesn't mean your business isn't doing well - it means some of our financial benchmarks weren't met at this point in time. You'll receive a detailed breakdown by email explaining exactly what we looked at and what would need to improve. You're welcome to reapply in 6 months. If you think there's been an error, contact us at support@tradiecheck.co.nz.</InfoBox>}
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Btn variant="ghost" onClick={() => setStep(4)}>Back</Btn>
           <Btn onClick={() => saveAndGo(6)} disabled={!gatePass}>{gatePass ? 'Proceed to documents' : 'Application paused'}</Btn>
