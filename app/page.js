@@ -5,7 +5,7 @@ const TILES = [
   { href: "/actions",   icon: "📋", title: "Actions & Decisions", sub: "Log" },
   { href: "/ecosystem", icon: "🗺️", title: "Product Ecosystem",  sub: "Map" },
   { href: "/roadmap",   icon: "📅", title: "Product Roadmap",     sub: "Phase timeline" },
-  { href: '/onboarding', emoji: '🛡', title: 'Mock Onboarding', sub: 'Path A - Company / Trust' },
+  { href: '/onboarding', icon: '🛡', title: 'Mock Onboarding', sub: 'Path A - Company / Trust' },
 ];
 
 export default function Home() {
