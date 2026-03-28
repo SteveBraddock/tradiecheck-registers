@@ -252,7 +252,7 @@ export default function OnboardingPage() {
           <div style={{ background:'#F5F8FA', borderRadius:10, padding:'16px 20px', marginBottom:24 }}>
             {[['Entity',company.entityName],['NZBN',company.nzbn],['Status',company.entityStatusCode],['Registered',new Date(company.registrationDate).toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})],['GST',(company.gstNumbers?.length??0)>0?'Registered':'Not shown']].map(([k,v])=>(
               <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'5px 0', borderBottom:'1px solid #D8E6EE', fontSize:14 }}>
-                <span style={{ color:'#1a1a1a'}}>{k}</span><span style={{ fontWeight:600 }}>{v}</span>
+                <span style={{ color:'#1a1a1a'}}>{k}</span><span style={{ fontWeight:600, color:'#1a1a1a' }}>{v}</span>
               </div>
             ))}
           </div>
@@ -489,7 +489,7 @@ export default function OnboardingPage() {
       <div style={{ background:'#F5F8FA', borderRadius:10, padding:'20px 24px', textAlign:'left', marginBottom:28 }}>
         {[['Entity',company?.entityName??''],['Director',director||''],['Credit result',credit?.result??''],['Combined score',`${combinedScore}/90`],['Work categories',`${trades.length} selected`],['Subscription',tier]].map(([k,v])=>(
           <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'6px 0', borderBottom:'1px solid #D8E6EE', fontSize:13.5 }}>
-            <span style={{ color:'#1a1a1a' }}>{k}</span><span style={{ fontWeight:600 }}>{v}</span>
+            <span style={{ color:'#1a1a1a' }}>{k}</span><span style={{ fontWeight:600, color:'#1a1a1a' }}>{v}</span>
           </div>
         ))}
       </div>
