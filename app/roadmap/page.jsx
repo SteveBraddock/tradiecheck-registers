@@ -1,6 +1,6 @@
 'use client';
 
-import PageHeader from '../components/PageHeader';
+
 
 const COLORS = {
   homeowner:   { bg: '#0F2A1A', border: '#1E5C30', accent: '#6DBE45', label: 'Homeowner market' },
@@ -88,11 +88,10 @@ export default function Roadmap() {
   });
 
   return (
-    <div style={{ fontFamily: "'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif", minHeight: '100vh', background: '#080E16', color: '#E0EAF4' }}>
+  
+    <div style={{ fontFamily: "'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif", minHeight: '100vh' }}>
 
-      <PageHeader title="Product Roadmap" subtitle="Internal Reference" />
-
-      <div style={{ padding: '20px 28px 40px' }}>
+      <div style={{ background: '#080E16', color: '#E0EAF4', padding: '20px 28px 40px' }}>
 
         {/* Legend */}
         <div style={{ display: 'flex', gap: 20, marginBottom: 20, flexWrap: 'wrap' }}>
