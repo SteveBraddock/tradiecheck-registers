@@ -9,13 +9,14 @@ const MID    = "#4A5568";
 const LIGHT  = "#F4F8FC";
 const BORDER = "#D8E6EE";
 const WHITE  = "#FFFFFF";
+const RED    = "#E53E3E";
  
 const LAST_UPDATED = "2 April 2026";
  
 const OWNERS = [
-  "Steve Braddock", "Jade Clamp", "Helmut Modlik", "Mike Gollop", "Board",
+  "Steve Braddock", "Jade Clamp", "Helmut Modlik", "Mike Gollop",
   "Alicia Clamp", "Dentons", "IPromise", "Waitapu Group",
-  "BDO Wellington", "Steve / Waitapu", "Mike / Steve", "TBD"
+  "BDO Wellington", "Steve / Founders", "Steve / Waitapu", "Mike / Steve", "TBD"
 ];
  
 const WS_STATUS = {
@@ -23,12 +24,6 @@ const WS_STATUS = {
   amber: { bg: "#FFF8EE", border: "#F59E0B", dot: "#F59E0B", label: "In Progress" },
   red:   { bg: "#FEF0EE", border: "#E53E3E", dot: "#E53E3E", label: "Blocked"     },
   grey:  { bg: "#F4F4F4", border: "#9CA3AF", dot: "#9CA3AF", label: "Deferred"    },
-};
- 
-const ITEM_STATUS = {
-  done:        { label: "Done",        bg: "#EEF8EE", text: "#1E6B1E", dot: "#6DBE45" },
-  in_progress: { label: "In Progress", bg: "#EDF6FC", text: "#1A5A8A", dot: "#1E90D4" },
-  not_started: { label: "Not Started", bg: "#F4F4F4", text: "#555",    dot: "#9CA3AF" },
 };
  
 const DEP_STATUS = {
@@ -167,16 +162,16 @@ const UNBLOCKED = [
 ];
  
 const HORIZON = [
-  { priority: 1,  item: "Issue Waitapu Group handover pack",                                timing: "This week",         owner: "Steve Braddock"  },
-  { priority: 2,  item: "Confirm IPromise FSP registration then issue formal escrow briefing", timing: "This week",      owner: "Steve Braddock"  },
-  { priority: 3,  item: "Dentons response on T&C prominence standard",                      timing: "Awaiting",          owner: "Dentons"         },
-  { priority: 4,  item: "Agree funding approach across founders then progress documentation",timing: "April 2026",        owner: "Steve / Founders"},
-  { priority: 5,  item: "Path B (Sole Trader) onboarding build",                            timing: "April 2026",        owner: "Mike / Steve"    },
-  { priority: 6,  item: "HNRY API partnership outreach",                                    timing: "Post-Dentons reply", owner: "Steve Braddock"  },
-  { priority: 7,  item: "Customer segments + positioning/messaging framework",              timing: "April to May 2026",  owner: "Steve / Waitapu" },
-  { priority: 8,  item: "Financial model - resolve remaining placeholders",                 timing: "April to May 2026",  owner: "Steve / Mike"    },
-  { priority: 9,  item: "Mike Gollop - directorship and share allocation resolution",       timing: "TBD",               owner: "Mike Gollop"     },
-  { priority: 10, item: "Australian Pty Ltd incorporation",                                 timing: "Q3/Q4 2026",         owner: "Steve Braddock"  },
+  { priority: 1,  item: "Issue Waitapu Group handover pack",                                  timing: "This week",         owner: "Steve Braddock"  },
+  { priority: 2,  item: "Confirm IPromise FSP registration then issue formal escrow briefing", timing: "This week",         owner: "Steve Braddock"  },
+  { priority: 3,  item: "Dentons response on T&C prominence standard",                        timing: "Awaiting",          owner: "Dentons"         },
+  { priority: 4,  item: "Agree funding approach across founders then progress documentation",  timing: "April 2026",        owner: "Steve / Founders"},
+  { priority: 5,  item: "Path B (Sole Trader) onboarding build",                              timing: "April 2026",        owner: "Mike / Steve"    },
+  { priority: 6,  item: "HNRY API partnership outreach",                                      timing: "Post-Dentons reply", owner: "Steve Braddock"  },
+  { priority: 7,  item: "Customer segments + positioning/messaging framework",                timing: "April to May 2026",  owner: "Steve / Waitapu" },
+  { priority: 8,  item: "Financial model - resolve remaining placeholders",                   timing: "April to May 2026",  owner: "Steve / Mike"    },
+  { priority: 9,  item: "Mike Gollop - directorship and share allocation resolution",         timing: "TBD",               owner: "Mike Gollop"     },
+  { priority: 10, item: "Australian Pty Ltd incorporation",                                   timing: "Q3/Q4 2026",         owner: "Steve Braddock"  },
 ];
  
 const SNAPSHOT = [
@@ -188,6 +183,8 @@ const SNAPSHOT = [
   { label: "Legal counsel",     value: "Dentons Kensington Swan (Wellington) - David Ireland, Partner" },
   { label: "Preferred auditor", value: "BDO Wellington" },
 ];
+ 
+// ── Helpers ────────────────────────────────────────────────────────────────────
  
 function SectionHeader({ title }) {
   return (
@@ -206,30 +203,78 @@ function FilterBar({ options, active, onChange }) {
         <button key={o} onClick={() => onChange(o)} style={{
           padding: "4px 14px", borderRadius: 99, fontSize: 12, fontWeight: 600, cursor: "pointer",
           border: active === o ? `1.5px solid ${BLUE}` : `1.5px solid ${BORDER}`,
-          background: active === o ? BLUE : WHITE,
-          color: active === o ? WHITE : MID,
+          background: active === o ? BLUE : WHITE, color: active === o ? WHITE : MID,
         }}>{o}</button>
       ))}
     </div>
   );
 }
  
-function WorkstreamCard({ ws, items, onItemUpdate }) {
+// ── Workstream Card ────────────────────────────────────────────────────────────
+ 
+function WorkstreamCard({ ws, items, onItemUpdate, onItemAdd, onItemDelete }) {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editText, setEditText] = useState("");
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newItem, setNewItem] = useState({ text: "", owner: "Steve Braddock", afterId: "__end__" });
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const s = WS_STATUS[ws.status] || WS_STATUS.amber;
+  const doneCount = items.filter(i => i.item_status === "done").length;
  
-  async function handleUpdate(itemId, field, value) {
+  const inp = { fontSize: 12, border: `1.5px solid ${BORDER}`, borderRadius: 6, padding: "4px 8px", background: WHITE, color: DARK, fontFamily: "sans-serif", width: "100%", boxSizing: "border-box" };
+ 
+  async function handleFieldUpdate(itemId, field, value) {
     setSaving(itemId + field);
     const { error } = await supabase.from("sop_items").update({ [field]: value }).eq("id", itemId);
     if (!error) onItemUpdate(itemId, field, value);
     setSaving(null);
   }
  
-  const doneCount = items.filter(i => i.item_status === "done").length;
+  async function handleTextSave(item) {
+    if (editText.trim() === item.item_text) { setEditingId(null); return; }
+    setSaving(item.id + "text");
+    const { error } = await supabase.from("sop_items").update({ item_text: editText.trim() }).eq("id", item.id);
+    if (!error) onItemUpdate(item.id, "item_text", editText.trim());
+    setSaving(null);
+    setEditingId(null);
+  }
+ 
+  async function handleAdd() {
+    if (!newItem.text.trim()) return;
+    // Work out insert position
+    let newSortOrder;
+    if (newItem.afterId === "__start__") {
+      newSortOrder = items.length > 0 ? items[0].sort_order - 1 : 1;
+    } else if (newItem.afterId === "__end__") {
+      newSortOrder = items.length > 0 ? items[items.length - 1].sort_order + 1 : 1;
+    } else {
+      const afterItem = items.find(i => i.id === newItem.afterId);
+      const afterIdx = items.indexOf(afterItem);
+      const nextItem = items[afterIdx + 1];
+      newSortOrder = nextItem
+        ? (afterItem.sort_order + nextItem.sort_order) / 2
+        : afterItem.sort_order + 1;
+    }
+    const row = { workstream_id: ws.id, item_text: newItem.text.trim(), item_status: "not_started", owner: newItem.owner, sort_order: newSortOrder, archived: false };
+    const { data, error } = await supabase.from("sop_items").insert(row).select().single();
+    if (!error && data) {
+      onItemAdd(ws.id, data);
+      setNewItem({ text: "", owner: "Steve Braddock", afterId: "__end__" });
+      setShowAddForm(false);
+    }
+  }
+ 
+  async function handleDelete(itemId) {
+    const { error } = await supabase.from("sop_items").update({ archived: true }).eq("id", itemId);
+    if (!error) onItemDelete(itemId);
+    setConfirmDeleteId(null);
+  }
  
   return (
     <div style={{ border: `1.5px solid ${s.border}`, borderRadius: 10, background: WHITE, overflow: "hidden" }}>
+      {/* Header */}
       <div onClick={() => setOpen(!open)} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "14px 18px", cursor: "pointer", background: s.bg }}>
         <span style={{ display: "inline-block", width: 12, height: 12, borderRadius: "50%", background: s.dot, marginTop: 3, flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
@@ -240,46 +285,112 @@ function WorkstreamCard({ ws, items, onItemUpdate }) {
           </div>
           <div style={{ fontSize: 13, color: MID, lineHeight: 1.5, fontFamily: "sans-serif" }}>{ws.summary}</div>
         </div>
-        <div style={{ fontSize: 16, color: MID, flexShrink: 0, marginTop: 2 }}>{open ? "[-]" : "[+]"}</div>
+        <div style={{ fontSize: 14, color: MID, flexShrink: 0, marginTop: 2, fontWeight: 700 }}>{open ? "[-]" : "[+]"}</div>
       </div>
  
+      {/* Expanded */}
       {open && (
         <div style={{ borderTop: `1px solid ${BORDER}` }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 150px 190px", background: DARK, padding: "8px 16px", gap: 12 }}>
-            {["Action Item", "Status", "Owner"].map(h => (
+          {/* Column headers */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 140px 180px 64px", background: DARK, padding: "8px 16px", gap: 8 }}>
+            {["Action Item", "Status", "Owner", ""].map(h => (
               <div key={h} style={{ fontSize: 11, fontWeight: 700, color: "#8EA4BC", letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: "sans-serif" }}>{h}</div>
             ))}
           </div>
+ 
+          {/* Rows */}
           {items.map((item, i) => {
-            const isSaving = saving === item.id + "item_status" || saving === item.id + "owner";
+            const isSaving = saving === item.id + "item_status" || saving === item.id + "owner" || saving === item.id + "text";
+            const isEditing = editingId === item.id;
             return (
-              <div key={item.id} style={{ display: "grid", gridTemplateColumns: "1fr 150px 190px", padding: "10px 16px", gap: 12, alignItems: "center", background: i % 2 === 0 ? WHITE : LIGHT, borderTop: `1px solid ${BORDER}` }}>
-                <div style={{ fontSize: 13, color: DARK, fontFamily: "sans-serif", lineHeight: 1.4 }}>{item.item_text}</div>
+              <div key={item.id} style={{ display: "grid", gridTemplateColumns: "1fr 140px 180px 64px", padding: "10px 16px", gap: 8, alignItems: "center", background: i % 2 === 0 ? WHITE : LIGHT, borderTop: `1px solid ${BORDER}` }}>
+                {/* Item text - click to edit */}
                 <div>
-                  {isSaving
-                    ? <span style={{ fontSize: 11, color: MID, fontFamily: "sans-serif" }}>Saving...</span>
-                    : <select value={item.item_status} onChange={e => handleUpdate(item.id, "item_status", e.target.value)}
-                        style={{ fontSize: 12, border: `1.5px solid ${BORDER}`, borderRadius: 6, padding: "4px 8px", background: WHITE, color: DARK, cursor: "pointer", fontFamily: "sans-serif", width: "100%" }}>
-                        <option value="done">Done</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="not_started">Not Started</option>
-                      </select>
+                  {isEditing ? (
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <input value={editText} onChange={e => setEditText(e.target.value)}
+                        onKeyDown={e => { if (e.key === "Enter") handleTextSave(item); if (e.key === "Escape") setEditingId(null); }}
+                        autoFocus style={{ ...inp, flex: 1 }} />
+                      <button onClick={() => handleTextSave(item)} style={{ fontSize: 11, padding: "3px 8px", background: BLUE, color: WHITE, border: "none", borderRadius: 4, cursor: "pointer", fontWeight: 600 }}>Save</button>
+                      <button onClick={() => setEditingId(null)} style={{ fontSize: 11, padding: "3px 8px", background: "#eee", color: MID, border: "none", borderRadius: 4, cursor: "pointer" }}>Cancel</button>
+                    </div>
+                  ) : (
+                    <div onClick={() => { setEditingId(item.id); setEditText(item.item_text); }}
+                      style={{ fontSize: 13, color: DARK, fontFamily: "sans-serif", lineHeight: 1.4, cursor: "text", padding: "2px 4px", borderRadius: 4, transition: "background 0.1s" }}
+                      title="Click to edit">
+                      {item.item_text}
+                    </div>
+                  )}
+                </div>
+                {/* Status */}
+                <div>
+                  {isSaving ? <span style={{ fontSize: 11, color: MID }}>Saving...</span> :
+                    <select value={item.item_status} onChange={e => handleFieldUpdate(item.id, "item_status", e.target.value)} style={inp}>
+                      <option value="done">Done</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="not_started">Not Started</option>
+                    </select>
                   }
                 </div>
+                {/* Owner */}
                 <div>
-                  <select value={item.owner} onChange={e => handleUpdate(item.id, "owner", e.target.value)}
-                    style={{ fontSize: 12, border: `1.5px solid ${BORDER}`, borderRadius: 6, padding: "4px 8px", background: WHITE, color: DARK, cursor: "pointer", fontFamily: "sans-serif", width: "100%" }}>
+                  <select value={item.owner} onChange={e => handleFieldUpdate(item.id, "owner", e.target.value)} style={inp}>
                     {OWNERS.map(o => <option key={o} value={o}>{o}</option>)}
                   </select>
+                </div>
+                {/* Delete */}
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  {confirmDeleteId === item.id ? (
+                    <div style={{ display: "flex", gap: 4 }}>
+                      <button onClick={() => handleDelete(item.id)} style={{ fontSize: 10, padding: "2px 6px", background: RED, color: WHITE, border: "none", borderRadius: 4, cursor: "pointer", fontWeight: 700 }}>Yes</button>
+                      <button onClick={() => setConfirmDeleteId(null)} style={{ fontSize: 10, padding: "2px 6px", background: "#eee", color: MID, border: "none", borderRadius: 4, cursor: "pointer" }}>No</button>
+                    </div>
+                  ) : (
+                    <button onClick={() => setConfirmDeleteId(item.id)}
+                      style={{ fontSize: 16, background: "none", border: "none", color: "#CCC", cursor: "pointer", lineHeight: 1, padding: "2px 4px", borderRadius: 4 }}
+                      title="Archive item">x</button>
+                  )}
                 </div>
               </div>
             );
           })}
+ 
+          {/* Add form */}
+          {showAddForm ? (
+            <div style={{ padding: "12px 16px", background: "#F0F7FF", borderTop: `1px solid ${BORDER}` }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 180px 180px", gap: 8, marginBottom: 8 }}>
+                <input placeholder="Item text..." value={newItem.text} onChange={e => setNewItem(p => ({ ...p, text: e.target.value }))}
+                  onKeyDown={e => { if (e.key === "Enter") handleAdd(); if (e.key === "Escape") setShowAddForm(false); }}
+                  autoFocus style={inp} />
+                <select value={newItem.owner} onChange={e => setNewItem(p => ({ ...p, owner: e.target.value }))} style={inp}>
+                  {OWNERS.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+                <select value={newItem.afterId} onChange={e => setNewItem(p => ({ ...p, afterId: e.target.value }))} style={inp}>
+                  <option value="__start__">-- At the top --</option>
+                  {items.map(it => <option key={it.id} value={it.id}>After: {it.item_text.substring(0, 40)}{it.item_text.length > 40 ? "..." : ""}</option>)}
+                  <option value="__end__">-- At the bottom --</option>
+                </select>
+              </div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <button onClick={handleAdd} style={{ fontSize: 12, padding: "5px 14px", background: BLUE, color: WHITE, border: "none", borderRadius: 6, cursor: "pointer", fontWeight: 600 }}>Add Item</button>
+                <button onClick={() => setShowAddForm(false)} style={{ fontSize: 12, padding: "5px 14px", background: "#eee", color: MID, border: "none", borderRadius: 6, cursor: "pointer" }}>Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ padding: "10px 16px", borderTop: `1px solid ${BORDER}`, background: WHITE }}>
+              <button onClick={() => setShowAddForm(true)}
+                style={{ fontSize: 12, color: BLUE, background: "none", border: `1.5px dashed ${BLUE}`, borderRadius: 6, padding: "5px 14px", cursor: "pointer", fontWeight: 600 }}>
+                + Add item
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 }
+ 
+// ── Main ───────────────────────────────────────────────────────────────────────
  
 export default function StateOfPlay() {
   const [workstreams, setWorkstreams] = useState([]);
@@ -295,7 +406,7 @@ export default function StateOfPlay() {
     setLoading(true);
     const { data: wsList } = await supabase.from("sop_workstreams").select("*").order("sort_order");
     if (!wsList || wsList.length === 0) { await seedData(); return; }
-    const { data: allItems } = await supabase.from("sop_items").select("*").order("sort_order");
+    const { data: allItems } = await supabase.from("sop_items").select("*").eq("archived", false).order("sort_order");
     const grouped = {};
     (wsList || []).forEach(ws => { grouped[ws.id] = []; });
     (allItems || []).forEach(item => { if (grouped[item.workstream_id]) grouped[item.workstream_id].push(item); });
@@ -309,7 +420,7 @@ export default function StateOfPlay() {
     for (const ws of SEED_WORKSTREAMS) {
       const { items, ...wsData } = ws;
       const { data: inserted } = await supabase.from("sop_workstreams").insert(wsData).select().single();
-      if (inserted) await supabase.from("sop_items").insert(items.map(it => ({ ...it, workstream_id: inserted.id })));
+      if (inserted) await supabase.from("sop_items").insert(items.map(it => ({ ...it, workstream_id: inserted.id, archived: false })));
     }
     setSeeding(false);
     await loadData();
@@ -323,10 +434,27 @@ export default function StateOfPlay() {
     });
   }
  
+  function handleItemAdd(wsId, newItem) {
+    setItemsByWs(prev => {
+      const next = { ...prev };
+      const list = [...(next[wsId] || []), newItem].sort((a, b) => a.sort_order - b.sort_order);
+      next[wsId] = list;
+      return next;
+    });
+  }
+ 
+  function handleItemDelete(itemId) {
+    setItemsByWs(prev => {
+      const next = { ...prev };
+      for (const wsId in next) next[wsId] = next[wsId].filter(it => it.id !== itemId);
+      return next;
+    });
+  }
+ 
   const wsStatusLabels = ["All", "On Track", "In Progress", "Blocked", "Deferred"];
-  const filteredWS   = wsFilter   === "All" ? workstreams  : workstreams.filter(ws => WS_STATUS[ws.status]?.label === wsFilter);
+  const filteredWS   = wsFilter  === "All" ? workstreams  : workstreams.filter(ws => WS_STATUS[ws.status]?.label === wsFilter);
   const depStatuses  = ["All", ...Object.keys(DEP_STATUS)];
-  const filteredDeps = depFilter  === "All" ? DEPENDENCIES : DEPENDENCIES.filter(d => d.status === depFilter);
+  const filteredDeps = depFilter === "All" ? DEPENDENCIES : DEPENDENCIES.filter(d => d.status === depFilter);
  
   if (loading || seeding) return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: 300, gap: 12 }}>
@@ -340,9 +468,10 @@ export default function StateOfPlay() {
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 20px 80px", fontFamily: "sans-serif", background: "#1E90D4", minHeight: "100vh" }}>
  
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, color: "#1A2430", letterSpacing: "-0.02em" }}>State of Play</h1>
+        <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, color: WHITE, letterSpacing: "-0.02em" }}>State of Play</h1>
       </div>
  
+      {/* Snapshot */}
       <div style={{ background: DARK, borderRadius: 12, padding: "24px 28px", marginBottom: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: WHITE, fontFamily: "sans-serif" }}>TradieCheck</div>
@@ -361,14 +490,17 @@ export default function StateOfPlay() {
         </div>
       </div>
  
+      {/* Workstreams */}
       <SectionHeader title="Workstream Status" />
       <FilterBar options={wsStatusLabels} active={wsFilter} onChange={setWsFilter} />
       <div style={{ display: "grid", gap: 10 }}>
         {filteredWS.map(ws => (
-          <WorkstreamCard key={ws.id} ws={ws} items={itemsByWs[ws.id] || []} onItemUpdate={handleItemUpdate} />
+          <WorkstreamCard key={ws.id} ws={ws} items={itemsByWs[ws.id] || []}
+            onItemUpdate={handleItemUpdate} onItemAdd={handleItemAdd} onItemDelete={handleItemDelete} />
         ))}
       </div>
  
+      {/* Recently Unblocked */}
       <SectionHeader title="Recently Unblocked" />
       <div style={{ background: "#EEF8EE", border: "1.5px solid #6DBE45", borderRadius: 12, padding: "20px 24px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
@@ -390,6 +522,7 @@ export default function StateOfPlay() {
         </div>
       </div>
  
+      {/* Key Dependencies */}
       <SectionHeader title="Key Dependencies" />
       <FilterBar options={depStatuses} active={depFilter} onChange={setDepFilter} />
       <div style={{ borderRadius: 10, overflow: "hidden", border: `1.5px solid ${BORDER}` }}>
@@ -416,6 +549,7 @@ export default function StateOfPlay() {
         })}
       </div>
  
+      {/* On the Horizon */}
       <SectionHeader title="On the Horizon" />
       <div style={{ borderRadius: 10, overflow: "hidden", border: `1.5px solid ${BORDER}` }}>
         <div style={{ display: "grid", gridTemplateColumns: "40px 3fr 180px 160px", background: DARK, padding: "10px 16px", gap: 12 }}>
