@@ -7,6 +7,7 @@ import Login from './login'
 
 const PAGE_TITLES = {
   '/roadmap': 'Product Roadmap',
+  '/state-of-play': 'State of Play',
 }
 
 function PageHeader({ pathname }) {
@@ -118,6 +119,7 @@ export default function AuthWrapper({ children }) {
           <Link href="/ecosystem" style={{ color: pathname === "/ecosystem" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/ecosystem" ? 700 : 400 }}>Ecosystem</Link>
           <Link href="/actions" style={{ color: pathname === "/actions" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/actions" ? 700 : 400 }}>Actions</Link>
           <Link href="/roadmap" style={{ color: pathname === "/roadmap" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/roadmap" ? 700 : 400 }}>Roadmap</Link>
+          <Link href="/state-of-play" style={{ color: pathname === "/state-of-play" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/state-of-play" ? 700 : 400 }}>State of Play</Link>
           <Link href="/onboarding" style={{ color: pathname === "/onboarding" ? "#4AABDB" : "#AAA", textDecoration: "none", fontWeight: pathname === "/onboarding" ? 700 : 400 }}>Onboarding</Link>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
