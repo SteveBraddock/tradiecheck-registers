@@ -337,7 +337,7 @@ export default function StateOfPlay() {
   );
  
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 20px 80px", fontFamily: "sans-serif", background: "#F4F8FC", minHeight: "100vh" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 20px 80px", fontFamily: "sans-serif", background: "#1E90D4", minHeight: "100vh" }}>
  
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, color: "#1A2430", letterSpacing: "-0.02em" }}>State of Play</h1>
