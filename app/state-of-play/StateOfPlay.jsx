@@ -184,7 +184,7 @@ const SNAPSHOT = [
   { label: "Description",       value: "Trust and verification platform for NZ residential trades. Three-pillar model: identity/legitimacy, financial strength, reputation." },
   { label: "Core products",     value: "TradieCheck (verification) / TradieWallet (milestone escrow) / SubbieCheck (Phase 2) / SupplierCheck (Phase 2)" },
   { label: "Launch plan",       value: "Wellington pilot July 2026 -> National October 2026 -> Australia 2027" },
-  { label: "Team",              value: "Steve Braddock (CEO/CFO) / Jade Clamp (CIGO) / Mike Gollop (CTO, contractor) / Helmut Modlik (NED) / Alicia Clamp (Head of Ops, Oct 2026)" },
+  { label: "Team",              value: "Steve Braddock / Jade Clamp / Mike Gollop / Helmut Modlik / Alicia Clamp" },
   { label: "Legal counsel",     value: "Dentons Kensington Swan (Wellington) - David Ireland, Partner" },
   { label: "Preferred auditor", value: "BDO Wellington" },
 ];
@@ -343,7 +343,7 @@ export default function StateOfPlay() {
         <h1 style={{ margin: 0, fontSize: 26, fontWeight: 800, color: "#1A2430", letterSpacing: "-0.02em" }}>State of Play</h1>
       </div>
  
-      <div style={{ background: DARK, borderRadius: 12, padding: "24px 28px", marginBottom: 8 }}>
+      <div style={{ background: BLUE, borderRadius: 12, padding: "24px 28px", marginBottom: 8 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: WHITE, fontFamily: "sans-serif" }}>TradieCheck</div>
           <div style={{ height: 18, width: 1, background: "#334" }} />
@@ -353,7 +353,7 @@ export default function StateOfPlay() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12 }}>
           {SNAPSHOT.map((s, i) => (
-            <div key={i} style={{ background: "#243040", borderRadius: 8, padding: "12px 16px" }}>
+            <div key={i} style={{ background: "#1777B8", borderRadius: 8, padding: "12px 16px" }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: "#8EA4BC", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 5, fontFamily: "sans-serif" }}>{s.label}</div>
               <div style={{ fontSize: 13, color: WHITE, lineHeight: 1.5, fontFamily: "sans-serif" }}>{s.value}</div>
             </div>
