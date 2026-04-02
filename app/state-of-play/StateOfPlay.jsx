@@ -13,7 +13,7 @@ const WHITE  = "#FFFFFF";
 const LAST_UPDATED = "2 April 2026";
  
 const OWNERS = [
-  "Steve Braddock", "Jade Clamp", "Helmut Modlik", "Mike Gollop",
+  "Steve Braddock", "Jade Clamp", "Helmut Modlik", "Mike Gollop", "Board",
   "Alicia Clamp", "Dentons", "IPromise", "Waitapu Group",
   "BDO Wellington", "Steve / Founders", "Steve / Waitapu", "Mike / Steve", "TBD"
 ];
