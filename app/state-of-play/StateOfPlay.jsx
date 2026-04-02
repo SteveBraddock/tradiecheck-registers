@@ -128,7 +128,7 @@ const SEED_WORKSTREAMS = [
   },
   {
     title: "Financial Model", status: "amber", sort_order: 7,
-    summary: "Financial model v8 built (Python/openpyxl, 36-month April 2026ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“March 2029, Base and Growth scenarios, 17 tabs). Several inputs remain as placeholders pending external confirmation.",
+    summary: "Financial model v8 built (Python/openpyxl, 36-month April 2026ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å"March 2029, Base and Growth scenarios, 17 tabs). Several inputs remain as placeholders pending external confirmation.",
     items: [
       { item_text: "Financial model v8 complete (17 tabs, Base + Growth scenarios, 36-month horizon)", item_status: "done", owner: "Steve Braddock", sort_order: 1 },
       { item_text: "Monthly dev cost quantum ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â confirm with Mike", item_status: "not_started", owner: "Mike Gollop", sort_order: 2 },
@@ -141,7 +141,7 @@ const SEED_WORKSTREAMS = [
   },
   {
     title: "Australia Expansion", status: "grey", sort_order: 8,
-    summary: "Recommended structure: new Australian Pty Ltd subsidiary (not foreign branch). Practical setup window Q3ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Q4 2026 aligned with 2027 AU launch. Name appears clear in AU but manual verification still required.",
+    summary: "Recommended structure: new Australian Pty Ltd subsidiary (not foreign branch). Practical setup window Q3ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å"Q4 2026 aligned with 2027 AU launch. Name appears clear in AU but manual verification still required.",
     items: [
       { item_text: "Australian Pty Ltd incorporation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Q3/Q4 2026", item_status: "not_started", owner: "Steve Braddock", sort_order: 1 },
       { item_text: "Manual name/trademark/domain verification: ASIC Connect, IP Australia, .com.au", item_status: "not_started", owner: "Steve Braddock", sort_order: 2 },
@@ -173,23 +173,23 @@ const UNBLOCKED = [
  
 const HORIZON = [
   { priority: 1,  item: "Issue Waitapu Group handover pack",                                  timing: "This week",        owner: "Steve Braddock"  },
-  { priority: 2,  item: "Confirm IPromise FSP registration ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ issue formal escrow briefing",   timing: "This week",        owner: "Steve Braddock"  },
+  { priority: 2,  item: "Confirm IPromise FSP registration ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ issue formal escrow briefing",   timing: "This week",        owner: "Steve Braddock"  },
   { priority: 3,  item: "Dentons response on T&C prominence standard",                        timing: "Awaiting",         owner: "Dentons"         },
-  { priority: 4,  item: "Agree funding approach across founders ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ progress documentation",    timing: "April 2026",       owner: "Steve / Founders"},
+  { priority: 4,  item: "Agree funding approach across founders ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ progress documentation",    timing: "April 2026",       owner: "Steve / Founders"},
   { priority: 5,  item: "Path B (Sole Trader) onboarding build",                              timing: "April 2026",       owner: "Mike / Steve"    },
   { priority: 6,  item: "HNRY API partnership outreach",                                      timing: "Post-Dentons reply",owner: "Steve Braddock"  },
-  { priority: 7,  item: "Customer segments + positioning/messaging framework",                timing: "AprilÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“May 2026",   owner: "Steve / Waitapu" },
-  { priority: 8,  item: "Financial model ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â resolve remaining placeholders",                   timing: "AprilÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“May 2026",   owner: "Steve / Mike"    },
+  { priority: 7,  item: "Customer segments + positioning/messaging framework",                timing: "AprilÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å"May 2026",   owner: "Steve / Waitapu" },
+  { priority: 8,  item: "Financial model ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â resolve remaining placeholders",                   timing: "AprilÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å"May 2026",   owner: "Steve / Mike"    },
   { priority: 9,  item: "Mike Gollop ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â directorship and share allocation resolution",         timing: "TBD",              owner: "Mike Gollop"     },
-  { priority: 10, item: "Australian Pty Ltd incorporation",                                   timing: "Q3ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“Q4 2026",       owner: "Steve Braddock"  },
+  { priority: 10, item: "Australian Pty Ltd incorporation",                                   timing: "Q3ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å"Q4 2026",       owner: "Steve Braddock"  },
 ];
  
 const SNAPSHOT = [
   { label: "Entity",            value: "TradieCheck Limited (Co. No. 9370094)" },
   { label: "Description",       value: "Trust and verification platform for NZ residential trades. Three-pillar model: identity/legitimacy, financial strength, reputation." },
-  { label: "Core products",     value: "TradieCheck (verification) Ãƒâ€šÃ‚Â· TradieWallet (milestone escrow) Ãƒâ€šÃ‚Â· SubbieCheck (Phase 2) Ãƒâ€šÃ‚Â· SupplierCheck (Phase 2)" },
-  { label: "Launch plan",       value: "Wellington pilot July 2026 ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ National October 2026 ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Australia 2027" },
-  { label: "Team",              value: "Steve Braddock (CEO/CFO) Ãƒâ€šÃ‚Â· Jade Clamp (CIGO) Ãƒâ€šÃ‚Â· Mike Gollop (CTO, contractor) Ãƒâ€šÃ‚Â· Helmut Modlik (NED) Ãƒâ€šÃ‚Â· Alicia Clamp (Head of Ops, Oct 2026)" },
+  { label: "Core products",     value: "TradieCheck (verification) Ãƒâ€šÃ‚Â /  TradieWallet (milestone escrow) Ãƒâ€šÃ‚Â /  SubbieCheck (Phase 2) Ãƒâ€šÃ‚Â /  SupplierCheck (Phase 2)" },
+  { label: "Launch plan",       value: "Wellington pilot July 2026 ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ National October 2026 ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Australia 2027" },
+  { label: "Team",              value: "Steve Braddock (CEO/CFO) Ãƒâ€šÃ‚Â /  Jade Clamp (CIGO) Ãƒâ€šÃ‚Â /  Mike Gollop (CTO, contractor) Ãƒâ€šÃ‚Â /  Helmut Modlik (NED) Ãƒâ€šÃ‚Â /  Alicia Clamp (Head of Ops, Oct 2026)" },
   { label: "Legal counsel",     value: "Dentons Kensington Swan (Wellington) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â David Ireland, Partner" },
   { label: "Preferred auditor", value: "BDO Wellington" },
 ];
