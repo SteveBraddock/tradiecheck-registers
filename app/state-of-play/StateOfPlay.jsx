@@ -63,9 +63,8 @@ const SEED_WORKSTREAMS = [
     ]
   },
   { title: "Product & Technology", status: "amber", sort_order: 3,
-    summary: "Path A onboarding deployed to tradiecheck-registers.vercel.app. Path B (Sole Trader) not yet started. Escrow integration design pending IPromise briefing. Mike engaged as contractor pending separate matter resolution.",
+    summary: "Path A onboarding deployed to tradiecheck-registers.vercel.app. Path B (Sole Trader) not yet started. Escrow integration design pending IPromise briefing.",
     items: [
-      { item_text: "Next.js app deployed (tradiecheck-registers.vercel.app)", item_status: "done", owner: "Mike Gollop", sort_order: 1 },
       { item_text: "Path A (Company/Trust/Partnership) onboarding - multi-step mock deployed", item_status: "done", owner: "Mike Gollop", sort_order: 2 },
       { item_text: "Register, Actions Log, Ecosystem, Roadmap pages live", item_status: "done", owner: "Mike Gollop", sort_order: 3 },
       { item_text: "Path B (Sole Trader) onboarding build", item_status: "not_started", owner: "Mike Gollop", sort_order: 4 },
@@ -103,12 +102,11 @@ const SEED_WORKSTREAMS = [
     ]
   },
   { title: "Team & Governance", status: "amber", sort_order: 6,
-    summary: "Governance Blueprint drafted. Mike's directorship and shares on hold pending separate matter. Jade's full-time activation tied to business and milestone conditions. Founder vesting structure agreed.",
+    summary: "Governance Blueprint drafted. Jade's full-time activation tied to business and milestone conditions. Founder vesting structure agreed.",
     items: [
       { item_text: "Governance Blueprint drafted (v4)", item_status: "done", owner: "Steve Braddock", sort_order: 1 },
       { item_text: "Founder vesting: 3-year reverse, 12-month cliff, monthly post-cliff", item_status: "done", owner: "Steve Braddock", sort_order: 2 },
       { item_text: "Governance Blueprint finalisation", item_status: "not_started", owner: "Steve Braddock", sort_order: 3 },
-      { item_text: "Mike Gollop - directorship and share allocation (on hold pending separate matter)", item_status: "not_started", owner: "Mike Gollop", sort_order: 4 },
       { item_text: "Jade Clamp - full-time activation (tied to business and milestone conditions)", item_status: "not_started", owner: "Jade Clamp", sort_order: 5 },
       { item_text: "Alicia Clamp - salary activation October 2026", item_status: "not_started", owner: "Alicia Clamp", sort_order: 6 },
       { item_text: "Territory Rep: Auckland (July 2027), Christchurch (October 2027)", item_status: "not_started", owner: "Jade Clamp", sort_order: 7 },
@@ -145,7 +143,7 @@ const SEED_DEPENDENCIES = [
   { item: "Funding approach - founder alignment", owner: "Steve / Founders", status: "Open", note: "Best approach not yet agreed. Options being assessed across founders before any documentation or distribution.", sort_order: 5 },
   { item: "IPromise commercial terms", owner: "Steve / IPromise", status: "Pending", note: "$10/transaction placeholder in financial model. Formal terms required post-briefing.", sort_order: 6 },
   { item: "HNRY API partnership", owner: "Steve Braddock", status: "Open", note: "Outreach recommended post-Dentons opinion. Contact: hnry.co.nz/partners/nz or James Fuller (james@hnry.co.nz). Consent-based sole trader data for Path B onboarding automation.", sort_order: 7 },
-  { item: "Monthly dev cost quantum", owner: "Mike Gollop", status: "Open", note: "Required to finalise financial model v8. Placeholder in current model.", sort_order: 8 },
+  { item: "Monthly dev cost quantum", owner: " Gollop", status: "Open", note: "Required to finalise financial model v8. Placeholder in current model.", sort_order: 8 },
   { item: "AML/CFT Amendment Bill", owner: "Steve / Dentons", status: "Monitoring", note: "Currently progressing through Parliament. Broader definitions proposed. TradieCheck not captured under proposed definition provided structural safeguards maintained. Dentons to be consulted on passage.", sort_order: 9 },
   { item: "BDO Wellington - deferred tax asset review", owner: "Steve / BDO", status: "Deferred", note: "BDO to assess deferred tax asset recoverability. Timing TBD.", sort_order: 10 },
 ];
@@ -162,12 +160,11 @@ const SEED_HORIZON = [
   { priority: 2,  item: "Confirm IPromise FSP registration then issue formal escrow briefing", timing: "This week",         owner: "Steve Braddock"  },
   { priority: 3,  item: "Dentons response on T&C prominence standard",                        timing: "Awaiting",          owner: "Dentons"         },
   { priority: 4,  item: "Agree funding approach across founders then progress documentation",  timing: "April 2026",        owner: "Steve / Founders"},
-  { priority: 5,  item: "Path B (Sole Trader) onboarding build",                              timing: "April 2026",        owner: "Mike / Steve"    },
+  { priority: 5,  item: "Path B (Sole Trader) onboarding build",                              timing: "April 2026",        owner: " / Steve"    },
   { priority: 6,  item: "HNRY API partnership outreach",                                      timing: "Post-Dentons reply", owner: "Steve Braddock"  },
   { priority: 7,  item: "Customer segments + positioning/messaging framework",                timing: "April to May 2026", owner: "Steve / Waitapu" },
-  { priority: 8,  item: "Financial model - resolve remaining placeholders",                   timing: "April to May 2026", owner: "Steve / Mike"    },
-  { priority: 9,  item: "Mike Gollop - directorship and share allocation resolution",         timing: "TBD",               owner: "Mike Gollop"     },
-  { priority: 10, item: "Australian Pty Ltd incorporation",                                   timing: "Q3/Q4 2026",        owner: "Steve Braddock"  },
+  { priority: 8,  item: "Financial model - resolve remaining placeholders",                   timing: "April to May 2026", owner: "Steve / "    },
+  { priority: 9, item: "Australian Pty Ltd incorporation",                                   timing: "Q3/Q4 2026",        owner: "Steve Braddock"  },
 ];
  
 const SNAPSHOT = [
