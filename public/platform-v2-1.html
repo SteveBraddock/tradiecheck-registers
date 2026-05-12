@@ -1,0 +1,2475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TradieCheck v2.1 — Interactive Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --tc-blue:    #1E90D4;
+    --tc-blue-d:  #1577B0;
+    --tc-blue-l:  #D5E8F0;
+    --tc-blue-ll: #EEF6FB;
+    --tc-green:   #6DBE45;
+    --tc-green-d: #4E9A2A;
+    --tc-green-l: #E8F5E0;
+    --tc-charcoal:#313939;
+    --tc-grey:    #6B7574;
+    --tc-grey-l:  #E5E8EB;
+    --tc-grey-ll: #F5F5F5;
+    --tc-bg:      #F8F9FA;
+    --tc-white:   #FFFFFF;
+    --tc-amber:   #F0A500;
+    --shadow-sm:  0 1px 3px rgba(0,0,0,0.06);
+    --shadow:     0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg:  0 12px 32px rgba(0,0,0,0.12);
+    --radius:     12px;
+    --radius-sm:  8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--tc-charcoal);
+    background: var(--tc-bg);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.4;
+  }
+
+  /* ── Top bar ─────────────────────────────────────────── */
+  .topbar {
+    background: var(--tc-white);
+    border-bottom: 1px solid var(--tc-grey-l);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar .brand { display: flex; align-items: center; gap: 14px; }
+  .topbar img { height: 30px; }
+  .topbar .label {
+    font-size: 13px; color: var(--tc-grey); font-weight: 500;
+    border-left: 1px solid var(--tc-grey-l); padding-left: 14px;
+  }
+  .topbar .badge {
+    background: var(--tc-blue-l); color: var(--tc-blue-d);
+    padding: 5px 10px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+  }
+
+  /* ── Layout ──────────────────────────────────────────── */
+  .layout { display: flex; min-height: calc(100vh - 60px); }
+
+  /* Sidebar */
+  .sidebar {
+    width: 280px; flex-shrink: 0;
+    background: var(--tc-white);
+    border-right: 1px solid var(--tc-grey-l);
+    padding: 24px 16px;
+    overflow-y: auto;
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+    align-self: flex-start;
+  }
+  .sidebar h2 {
+    font-size: 11px; font-weight: 700; color: var(--tc-grey);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin: 0 0 12px 8px;
+  }
+  .sidebar h2:not(:first-child) { margin-top: 28px; }
+  .sidebar ul { list-style: none; }
+  .sidebar li { margin: 2px 0; }
+  .sidebar a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--tc-charcoal);
+    transition: background 0.15s ease;
+    cursor: pointer;
+  }
+  .sidebar a:hover { background: var(--tc-grey-ll); }
+  .sidebar a.active {
+    background: var(--tc-blue-l); color: var(--tc-blue-d); font-weight: 600;
+  }
+  .sidebar a .id {
+    width: 24px; height: 24px; border-radius: 6px;
+    background: var(--tc-grey-l); color: var(--tc-grey);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .sidebar a.active .id {
+    background: var(--tc-blue); color: var(--tc-white);
+  }
+  .sidebar a .text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .sidebar a .name { font-size: 14px; font-weight: 600; line-height: 1.3; display: block; }
+  .sidebar a .role { font-size: 11px; color: var(--tc-grey); display: block; }
+  .sidebar a.active .role { color: var(--tc-blue-d); }
+
+  /* Main */
+  .main {
+    flex: 1; padding: 32px;
+    max-width: 1100px; margin: 0 auto; width: 100%;
+  }
+  .surface { display: none; }
+  .surface.active { display: block; animation: fade 0.3s ease; }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .surface-header {
+    margin-bottom: 24px;
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  }
+  .surface-header .surface-id {
+    font-size: 14px; font-weight: 700;
+    color: var(--tc-blue); letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .surface-header h1 {
+    font-size: 28px; font-weight: 800; color: var(--tc-charcoal);
+  }
+  .surface-header .role-tag {
+    background: var(--tc-grey-l); color: var(--tc-grey);
+    padding: 3px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .surface-narration {
+    color: var(--tc-grey); font-size: 14px; margin-bottom: 24px;
+    max-width: 760px; line-height: 1.5;
+  }
+
+  /* Mockup container (looks like a phone-ish frame on desktop) */
+  .mockup {
+    background: var(--tc-white);
+    border: 1px solid var(--tc-grey-l);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .mockup-bar {
+    background: var(--tc-charcoal);
+    color: var(--tc-white);
+    padding: 8px 16px;
+    font-size: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .mockup-bar .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.35);
+  }
+  .mockup-bar .url {
+    background: rgba(255,255,255,0.1); padding: 3px 10px; border-radius: 4px;
+    font-family: monospace; font-size: 11px;
+    margin-left: 10px;
+    color: rgba(255,255,255,0.85);
+  }
+  .mockup-body { padding: 24px; }
+
+  /* ── Common UI primitives ────────────────────────────── */
+  .card {
+    background: var(--tc-white);
+    border: 1px solid var(--tc-grey-l);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .pill.assured  { background: var(--tc-green-l); color: var(--tc-green-d); }
+  .pill.trusted  { background: var(--tc-blue-l); color: var(--tc-blue-d); }
+  .pill.amber    { background: #FFF4E0; color: #B8740C; }
+  .pill.grey     { background: var(--tc-grey-l); color: var(--tc-grey); }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px;
+    padding: 10px 18px; border-radius: var(--radius-sm);
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    border: 1px solid transparent; cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+  }
+  .btn.primary {
+    background: var(--tc-blue); color: var(--tc-white);
+    border-color: var(--tc-blue);
+  }
+  .btn.primary:hover { background: var(--tc-blue-d); border-color: var(--tc-blue-d); }
+  .btn.secondary {
+    background: var(--tc-white); color: var(--tc-charcoal);
+    border-color: var(--tc-grey-l);
+  }
+  .btn.secondary:hover { border-color: var(--tc-blue); color: var(--tc-blue); }
+  .btn.success {
+    background: var(--tc-green); color: var(--tc-white);
+    border-color: var(--tc-green);
+  }
+  .btn.success:hover { background: var(--tc-green-d); border-color: var(--tc-green-d); }
+  .btn.large { padding: 14px 24px; font-size: 15px; }
+  .btn.full { width: 100%; }
+
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--tc-charcoal); margin-bottom: 6px;
+  }
+  .field .hint { font-size: 12px; color: var(--tc-grey); margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--tc-grey-l);
+    border-radius: var(--radius-sm);
+    font-family: inherit; font-size: 14px;
+    background: var(--tc-white);
+    color: var(--tc-charcoal);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: 2px solid var(--tc-blue-l);
+    border-color: var(--tc-blue);
+  }
+
+  /* ── Licence requirement panel (Surface A) ──────────── */
+  .licence-panel {
+    background: #FFF4E0;
+    border-left: 3px solid var(--tc-amber);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+  }
+  .licence-panel .top {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 6px;
+  }
+  .licence-panel .top .icon {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--tc-amber); color: var(--tc-white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .licence-panel .top .title {
+    font-size: 13px; font-weight: 700; color: #8a5b00;
+  }
+  .licence-panel .body {
+    font-size: 13px; color: var(--tc-charcoal); line-height: 1.5;
+  }
+  .licence-panel .body strong { color: #8a5b00; }
+
+  /* ── Licence badges (Surfaces E, H) ─────────────────── */
+  .licence-status {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600;
+  }
+  .licence-status.match {
+    background: var(--tc-green-l); color: var(--tc-green-d);
+  }
+  .licence-status.issue {
+    background: #FFF4E0; color: #8a5b00;
+  }
+  .pool-card .licence-line {
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px dashed var(--tc-grey-l);
+    font-size: 12px;
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Tier display (Fittings + Finish) ───────────────── */
+  .tier-display {
+    display: flex; align-items: center; gap: 8px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+    padding: 10px 14px;
+    background: var(--tc-blue-ll);
+    border-left: 3px solid var(--tc-blue);
+    border-radius: 6px;
+    font-size: 12px;
+  }
+  .tier-display .tier-label {
+    font-weight: 700; color: var(--tc-blue-d);
+    text-transform: uppercase; letter-spacing: 0.04em;
+    font-size: 11px;
+    margin-right: 4px;
+  }
+  .tier-pill-spec {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px;
+    background: var(--tc-white);
+    border: 1px solid var(--tc-blue);
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    color: var(--tc-blue-d);
+  }
+  .tier-pill-spec.compact {
+    padding: 2px 8px;
+    font-size: 10px;
+  }
+  .tier-pill-spec.diverge {
+    border-color: var(--tc-amber);
+    color: #8a5b00;
+    background: #FFF8EC;
+  }
+  .feed-tier-row {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .divergence-flag {
+    margin: 10px 0;
+    padding: 8px 12px;
+    background: #FFF4E0;
+    border-left: 3px solid var(--tc-amber);
+    border-radius: 4px;
+    font-size: 11px;
+    color: #8a5b00;
+    line-height: 1.45;
+  }
+  .divergence-flag strong { color: #6E4900; }
+  .tier-help {
+    font-size: 11px;
+    color: var(--tc-grey);
+    margin-top: 4px;
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* ── Post a job ──────────────────────────────────────── */
+  .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+  .photo-tile {
+    aspect-ratio: 1; background: var(--tc-grey-ll);
+    border: 2px dashed var(--tc-grey-l);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: var(--tc-grey);
+  }
+  .photo-tile.filled {
+    background: linear-gradient(135deg, var(--tc-grey-l), #CBD2D6);
+    border: 1px solid var(--tc-grey-l);
+  }
+  .post-info {
+    background: var(--tc-blue-ll); padding: 12px 14px;
+    border-left: 3px solid var(--tc-blue);
+    border-radius: 6px; font-size: 13px; color: var(--tc-charcoal);
+    margin-bottom: 20px; line-height: 1.5;
+  }
+  .address-privacy {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #FFF8EC;
+    border-left: 3px solid var(--tc-amber);
+    border-radius: 4px;
+    font-size: 12px;
+    color: #8a5b00;
+    line-height: 1.5;
+  }
+  .address-privacy .lock-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+  .address-privacy strong { color: #6E4900; }
+
+  /* Payment preference (Surface A) — 3 cards in a row */
+  .pref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .pref-card {
+    border: 2px solid var(--tc-grey-l);
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+    background: var(--tc-white);
+    position: relative;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .pref-card:hover {
+    border-color: var(--tc-grey);
+  }
+  .pref-card.selected {
+    border-color: var(--tc-blue);
+    background: var(--tc-blue-ll);
+  }
+  .pref-card .pref-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--tc-charcoal);
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pref-card .pref-desc {
+    font-size: 11px;
+    color: var(--tc-grey);
+    line-height: 1.45;
+    margin: 0;
+  }
+  .pref-card .pref-pill-rec {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--tc-green-d);
+    background: var(--tc-green-l);
+    padding: 2px 6px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+  .pref-card .pref-pill-neutral {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--tc-grey);
+    background: var(--tc-grey-l);
+    padding: 2px 6px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 600px) {
+    .pref-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Surface B: Tradie feed ──────────────────────────── */
+  .feed-list { display: flex; flex-direction: column; gap: 12px; }
+  .feed-card {
+    background: var(--tc-white);
+    border: 1px solid var(--tc-grey-l);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .feed-card:hover { border-color: var(--tc-blue); }
+  .feed-card .top-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .feed-card .category {
+    font-size: 11px; font-weight: 700; color: var(--tc-blue);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .feed-card .time { font-size: 12px; color: var(--tc-grey); }
+  .feed-card .scope-preview {
+    font-size: 14px; color: var(--tc-charcoal); line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .feed-card .meta-row { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--tc-grey); flex-wrap: wrap; }
+  .feed-card .meta-row .interest-count {
+    background: var(--tc-charcoal); color: var(--tc-white);
+    padding: 3px 9px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+  }
+  .feed-card.featured { border-color: var(--tc-blue); box-shadow: 0 4px 16px rgba(30,144,212,0.1); }
+
+  /* ── Surface C: Job detail + express interest ────────── */
+  .job-detail h3 { font-size: 20px; margin-bottom: 6px; }
+  .job-detail .meta { font-size: 13px; color: var(--tc-grey); margin-bottom: 14px; }
+  .job-detail .scope {
+    background: var(--tc-grey-ll); padding: 14px 16px;
+    border-left: 3px solid var(--tc-blue);
+    border-radius: 6px; margin-bottom: 16px;
+    font-size: 14px; line-height: 1.55;
+  }
+  .interest-paths {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-top: 20px;
+  }
+  .path-cta {
+    background: var(--tc-white);
+    border: 2px solid var(--tc-grey-l);
+    border-radius: var(--radius);
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+  .path-cta:hover { border-color: var(--tc-blue); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(30,144,212,0.1); }
+  .path-cta .title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .path-cta .sub { font-size: 12px; color: var(--tc-grey); line-height: 1.5; }
+  .path-cta .icon { font-size: 22px; margin-bottom: 8px; }
+  .discovery-panel {
+    margin-top: 24px; padding-top: 24px;
+    border-top: 1px solid var(--tc-grey-l);
+  }
+  .discovery-panel h4 {
+    font-size: 12px; font-weight: 700; color: var(--tc-grey);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px;
+  }
+
+  /* ── Surface D: Live discovery ───────────────────────── */
+  .question-list { display: flex; flex-direction: column; gap: 12px; }
+  .q-card {
+    display: flex; gap: 12px; padding: 12px 14px;
+    background: var(--tc-white);
+    border: 1px solid var(--tc-grey-l); border-left: 3px solid var(--tc-blue);
+    border-radius: var(--radius-sm);
+  }
+  .q-card.assured-q { border-left-color: var(--tc-green); }
+  .q-card .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--tc-blue-l); color: var(--tc-blue-d);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; flex-shrink: 0;
+  }
+  .q-card.assured-q .avatar { background: var(--tc-green-l); color: var(--tc-green-d); }
+  .q-card .q-body { flex: 1; min-width: 0; }
+  .q-card .q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .q-card .q-meta .who { font-weight: 700; font-size: 13px; }
+  .q-card .q-meta .time { font-size: 11px; color: var(--tc-grey); margin-left: auto; }
+  .q-card .q-text { font-size: 13px; color: var(--tc-charcoal); line-height: 1.5; font-style: italic; }
+  .answer-block {
+    margin-top: 8px; padding: 10px 12px;
+    background: var(--tc-blue-ll);
+    border-left: 3px solid var(--tc-blue);
+    border-radius: 6px;
+    font-size: 13px; line-height: 1.55;
+  }
+  .answer-block .a-label {
+    font-size: 11px; font-weight: 700; color: var(--tc-blue-d);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+  }
+
+  /* ── Surface E: Homeowner pool ───────────────────────── */
+  .pool-toolbar {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .pool-toolbar .count {
+    background: var(--tc-charcoal); color: var(--tc-white);
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 13px; font-weight: 700;
+  }
+  .chip {
+    padding: 5px 12px; background: var(--tc-grey-ll);
+    border: 1px solid var(--tc-grey-l);
+    border-radius: 999px; font-size: 12px; font-weight: 600;
+    color: var(--tc-grey); cursor: pointer;
+  }
+  .chip.active { background: var(--tc-blue); color: var(--tc-white); border-color: var(--tc-blue); }
+  .pool-list { display: flex; flex-direction: column; gap: 12px; }
+  .pool-card {
+    background: var(--tc-white);
+    border: 1px solid var(--tc-grey-l);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: grid; grid-template-columns: 24px 1fr auto; gap: 14px; align-items: start;
+    transition: all 0.15s ease;
+  }
+  .pool-card.checked {
+    border-color: var(--tc-blue);
+    box-shadow: 0 0 0 1px var(--tc-blue);
+  }
+  .pool-card .check {
+    width: 22px; height: 22px; border-radius: 5px;
+    border: 2px solid var(--tc-grey-l);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .pool-card.checked .check {
+    background: var(--tc-blue); border-color: var(--tc-blue); color: var(--tc-white);
+  }
+  .pool-card .check::after { content: '✓'; font-weight: 700; font-size: 14px; color: transparent; }
+  .pool-card.checked .check::after { color: var(--tc-white); }
+  .pool-card .who-block { min-width: 0; }
+  .pool-card .name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .pool-card .name { font-weight: 700; font-size: 15px; }
+  .pool-card .firm { font-size: 12px; color: var(--tc-grey); }
+  .pool-card .message { font-size: 13px; color: var(--tc-charcoal); margin: 6px 0; line-height: 1.5; }
+  .pool-card .profile-bits {
+    font-size: 12px; color: var(--tc-grey);
+    display: flex; flex-wrap: wrap; gap: 14px;
+  }
+  .pool-card .profile-bits span { display: inline-flex; align-items: center; gap: 4px; }
+  .pool-card .estimate-block { text-align: right; }
+  .pool-card .estimate {
+    font-size: 20px; font-weight: 800; color: var(--tc-charcoal);
+  }
+  .pool-card .estimate-label { font-size: 11px; color: var(--tc-grey); margin-top: 2px; }
+  .pool-card .discovery-marker {
+    font-size: 12px; color: var(--tc-amber); font-weight: 600;
+    text-align: right;
+  }
+  .invite-bar {
+    position: sticky; bottom: 0;
+    background: var(--tc-charcoal);
+    color: var(--tc-white);
+    padding: 14px 18px; border-radius: var(--radius);
+    margin-top: 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 -6px 16px rgba(0,0,0,0.1);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .invite-bar.shown { opacity: 1; pointer-events: auto; }
+  .invite-bar .count-text { font-weight: 700; font-size: 14px; }
+  .invite-bar .btn { background: var(--tc-green); color: var(--tc-white); border-color: var(--tc-green); }
+
+  /* ── Surface F: Invitation ───────────────────────────── */
+  .invite-screen {
+    max-width: 480px; margin: 0 auto; text-align: center;
+    padding: 32px 24px;
+  }
+  .invite-screen .invite-icon {
+    width: 80px; height: 80px;
+    background: var(--tc-green-l); color: var(--tc-green-d);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px;
+  }
+  .invite-screen h3 { font-size: 22px; margin-bottom: 8px; }
+  .invite-screen .from { font-size: 14px; color: var(--tc-grey); margin-bottom: 20px; }
+  .invite-screen .invite-card {
+    background: var(--tc-grey-ll); border-radius: var(--radius);
+    padding: 18px; margin-bottom: 20px; text-align: left;
+  }
+  .invite-screen .invite-card .job-title { font-weight: 700; margin-bottom: 4px; }
+  .invite-screen .invite-card .job-meta { font-size: 12px; color: var(--tc-grey); }
+  .invite-screen .address-reveal-note {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--tc-grey-l);
+    font-size: 12px;
+    color: var(--tc-green-d);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .invite-screen .address-reveal-note .lock {
+    font-size: 14px;
+  }
+
+  /* Project address display (Surface G) */
+  .address-display {
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    background: var(--tc-green-l);
+    border-left: 3px solid var(--tc-green);
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .address-display .addr-label {
+    font-weight: 700; color: var(--tc-green-d);
+    font-size: 11px; letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .address-display .addr-value {
+    font-weight: 700; color: var(--tc-charcoal);
+    font-size: 14px;
+  }
+  .address-display .addr-pill {
+    background: var(--tc-white);
+    color: var(--tc-green-d);
+    border: 1px solid var(--tc-green);
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: auto;
+  }
+
+  /* ── Surface G: Formal quote builder ─────────────────── */
+  .quote-section {
+    background: var(--tc-grey-ll);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+  .quote-section h3 {
+    font-size: 14px; font-weight: 700; color: var(--tc-charcoal);
+    margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .line-item { display: grid; grid-template-columns: 1fr 120px 24px; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .line-item input { padding: 8px 10px; font-size: 13px; }
+  .line-item .remove-x {
+    color: var(--tc-grey); cursor: pointer; font-size: 16px; text-align: center;
+  }
+  .line-item .remove-x:hover { color: #C84B3F; }
+  .add-line {
+    color: var(--tc-blue); font-size: 13px; font-weight: 600;
+    cursor: pointer; padding: 4px 0;
+  }
+  .line-meta {
+    display: flex; align-items: center; gap: 8px;
+    margin: -2px 0 12px 16px;
+    padding-left: 12px;
+    border-left: 2px solid var(--tc-grey-l);
+  }
+  .line-meta .meta-label {
+    font-size: 10px; font-weight: 700;
+    color: var(--tc-grey);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .line-meta .performer-select {
+    flex-shrink: 0;
+    padding: 5px 8px;
+    border: 1px solid var(--tc-grey-l);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    color: var(--tc-charcoal);
+    background: var(--tc-white);
+    cursor: pointer;
+  }
+  .line-meta .performer-select.subcontracted {
+    color: var(--tc-blue-d);
+    border-color: var(--tc-blue);
+    background: var(--tc-blue-ll);
+  }
+  .line-meta .meta-input {
+    flex: 1;
+    padding: 5px 10px;
+    border: 1px solid var(--tc-grey-l);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--tc-charcoal);
+    background: var(--tc-white);
+  }
+  .line-meta .meta-input::placeholder { color: var(--tc-grey); font-style: italic; }
+  .line-meta.special-meta {
+    border-left-color: var(--tc-blue);
+    background: var(--tc-blue-ll);
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin: -2px 0 12px 16px;
+  }
+
+  /* ── Vendor picker (searchable dropdown) ────────────── */
+  .vendor-picker {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+  }
+  .vendor-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 28px 6px 10px;
+    border: 1px solid var(--tc-grey-l);
+    border-radius: 4px;
+    font-size: 12px;
+    background: var(--tc-white);
+    cursor: pointer;
+    min-height: 32px;
+    position: relative;
+  }
+  .vendor-display::after {
+    content: '▾';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tc-grey);
+    pointer-events: none;
+    font-size: 11px;
+  }
+  .vendor-display .vendor-name {
+    font-weight: 600;
+    color: var(--tc-charcoal);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
+  .vendor-display .vendor-name.empty {
+    color: var(--tc-grey);
+    font-weight: 400;
+    font-style: italic;
+  }
+  .vendor-display .vendor-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .vendor-display .vendor-badge.verified {
+    color: var(--tc-green-d);
+    background: var(--tc-green-l);
+  }
+  .vendor-display .vendor-badge.off-platform {
+    color: var(--tc-grey);
+    background: var(--tc-grey-l);
+  }
+  .vendor-picker.open .vendor-display {
+    border-color: var(--tc-blue);
+    box-shadow: 0 0 0 2px var(--tc-blue-l);
+  }
+
+  .vendor-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: var(--tc-white);
+    border: 1px solid var(--tc-grey-l);
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    z-index: 100;
+    max-height: 320px;
+    overflow: hidden;
+    flex-direction: column;
+  }
+  .vendor-picker.open .vendor-dropdown {
+    display: flex;
+  }
+  .vendor-search {
+    padding: 9px 14px;
+    border: none;
+    border-bottom: 1px solid var(--tc-grey-l);
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    background: var(--tc-grey-ll);
+  }
+  .vendor-options-list {
+    overflow-y: auto;
+    flex: 1;
+  }
+  .vendor-option {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    border-bottom: 1px solid var(--tc-grey-ll);
+    transition: background 0.1s ease;
+  }
+  .vendor-option:last-child { border-bottom: none; }
+  .vendor-option:hover { background: var(--tc-blue-ll); }
+  .vendor-option .name {
+    font-weight: 600;
+    color: var(--tc-charcoal);
+  }
+  .vendor-option .type {
+    font-size: 11px;
+    color: var(--tc-grey);
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .vendor-option .badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    color: var(--tc-green-d);
+    background: var(--tc-green-l);
+    flex-shrink: 0;
+  }
+  .vendor-option.off-platform {
+    background: var(--tc-grey-ll);
+    border-top: 2px solid var(--tc-grey-l);
+    padding: 12px 14px;
+  }
+  .vendor-option.off-platform:hover { background: #EBEEF1; }
+  .vendor-option.off-platform .name {
+    color: var(--tc-charcoal);
+    font-style: italic;
+  }
+  .vendor-option.off-platform .badge {
+    color: var(--tc-grey);
+    background: var(--tc-white);
+    border: 1px solid var(--tc-grey-l);
+    font-style: italic;
+    font-weight: 600;
+  }
+  .vendor-custom-input {
+    display: none;
+    padding: 10px 14px;
+    border: none;
+    border-top: 2px solid var(--tc-amber);
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    background: #FFF8EC;
+  }
+  .vendor-picker.custom-mode .vendor-custom-input { display: block; }
+  .vendor-picker.custom-mode .vendor-options-list { display: none; }
+  .vendor-picker.custom-mode .vendor-search { display: none; }
+  .quote-section .totals {
+    margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--tc-grey-l);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .quote-section .totals .label { font-size: 13px; color: var(--tc-grey); }
+  .quote-section .totals .amount { font-size: 22px; font-weight: 800; color: var(--tc-charcoal); }
+  .quote-section .totals.gst-totals {
+    display: block;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--tc-grey-l);
+  }
+  .quote-section .gst-totals .totals-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 5px 0;
+  }
+  .quote-section .gst-totals .subtotal-row { font-size: 13px; }
+  .quote-section .gst-totals .subtotal-row .label { color: var(--tc-grey); }
+  .quote-section .gst-totals .subtotal-row .amount-ex {
+    font-weight: 700; color: var(--tc-charcoal); font-size: 14px;
+  }
+  .quote-section .gst-totals .gst-row {
+    font-size: 12px; color: var(--tc-grey);
+    padding-bottom: 9px; border-bottom: 1px dashed var(--tc-grey-l);
+    margin-bottom: 9px;
+  }
+  .quote-section .gst-totals .gst-row .label { color: var(--tc-grey); }
+  .quote-section .gst-totals .gst-row .gst-note {
+    font-style: italic; font-size: 10.5px; color: var(--tc-grey);
+    margin-left: 6px;
+  }
+  .quote-section .gst-totals .gst-row .amount-gst {
+    font-weight: 700; color: var(--tc-charcoal); font-size: 13px;
+  }
+  .quote-section .gst-totals .total-row {
+    padding-top: 4px;
+  }
+  .quote-section .gst-totals .total-row .label {
+    font-size: 14px; font-weight: 700; color: var(--tc-charcoal);
+  }
+  .quote-section .gst-totals .total-row .amount {
+    font-size: 24px; font-weight: 800; color: var(--tc-blue-d);
+  }
+  .quote-section .gst-status-line {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--tc-grey-l);
+    text-align: right;
+  }
+  .gst-badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .gst-badge.registered {
+    background: var(--tc-grey-l); color: var(--tc-charcoal);
+  }
+  .gst-badge.not-registered {
+    background: var(--tc-grey-l); color: var(--tc-grey);
+    font-style: italic;
+  }
+
+  /* Payment terms — the key new bit */
+  .payment-section {
+    background: var(--tc-white);
+    border: 2px solid var(--tc-blue);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+  .payment-section .section-title {
+    font-size: 14px; font-weight: 700; color: var(--tc-charcoal);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .payment-section .section-title::before {
+    content: 'NEW IN V2.1';
+    background: var(--tc-blue); color: var(--tc-white);
+    padding: 3px 8px; border-radius: 999px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  }
+  .payment-toggle {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .pay-option {
+    background: var(--tc-white);
+    border: 2px solid var(--tc-grey-l);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+  }
+  .pay-option:hover { border-color: var(--tc-blue); }
+  .pay-option.selected {
+    border-color: var(--tc-blue);
+    background: var(--tc-blue-ll);
+  }
+  .pay-option .opt-title {
+    font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .pay-option .opt-title .recommended {
+    background: var(--tc-green); color: var(--tc-white);
+    font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px;
+    letter-spacing: 0.05em;
+  }
+  .pay-option .opt-sub { font-size: 12px; color: var(--tc-grey); line-height: 1.5; }
+  .milestone-builder { display: none; }
+  .milestone-builder.shown { display: block; }
+  .milestone-row {
+    display: grid; grid-template-columns: 24px 1fr 120px 24px; gap: 10px;
+    align-items: center;
+    padding: 8px 0;
+  }
+  .milestone-row .num {
+    background: var(--tc-blue); color: var(--tc-white);
+    border-radius: 50%; width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+  }
+  .milestone-row.special .num {
+    background: var(--tc-blue-d);
+  }
+  .milestone-row.special input[type="text"] {
+    background: var(--tc-blue-ll);
+    border-color: var(--tc-blue);
+    font-weight: 600;
+    color: var(--tc-blue-d);
+  }
+  .milestone-row.special input[type="number"] {
+    background: var(--tc-blue-ll);
+    border-color: var(--tc-blue);
+    font-weight: 700;
+    color: var(--tc-blue-d);
+  }
+  .milestone-row input { padding: 8px 10px; font-size: 13px; }
+  .milestone-builder .totals {
+    margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--tc-grey-l);
+    display: flex; justify-content: space-between; font-size: 13px;
+  }
+  .milestone-builder .totals .ok { color: var(--tc-green-d); font-weight: 700; }
+  .direct-builder { display: none; }
+  .direct-builder.shown { display: block; }
+
+  /* ── Surface H: Quote comparison + selection ─────────── */
+  .quote-compare {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;
+  }
+  .compare-col {
+    background: var(--tc-white);
+    border: 2px solid var(--tc-grey-l);
+    border-radius: var(--radius);
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .compare-col:hover { border-color: var(--tc-blue); }
+  .compare-col.selected {
+    border-color: var(--tc-green);
+    box-shadow: 0 0 0 2px var(--tc-green-l);
+  }
+  .compare-col .head { margin-bottom: 12px; }
+  .compare-col .name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .compare-col .name { font-weight: 700; font-size: 16px; }
+  .compare-col .firm { font-size: 12px; color: var(--tc-grey); }
+  .compare-col .total { font-size: 28px; font-weight: 800; color: var(--tc-charcoal); margin: 8px 0 0; }
+  .compare-col .total-tag {
+    font-size: 11px;
+    color: var(--tc-grey);
+    font-style: italic;
+    margin: 0 0 8px;
+    letter-spacing: 0.01em;
+  }
+  .compare-col .cost-breakdown {
+    background: var(--tc-grey-ll); border-radius: 6px;
+    padding: 10px 12px; margin: 12px 0;
+    font-size: 12px;
+  }
+  .compare-col .cost-breakdown .cost-label {
+    font-size: 11px; font-weight: 700; color: var(--tc-grey);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .compare-col .cost-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 4px 0;
+    font-size: 12px;
+    gap: 8px;
+  }
+  .compare-col .cost-line.special {
+    color: var(--tc-blue-d);
+    font-weight: 600;
+  }
+  .compare-col .cost-line.special .star {
+    color: var(--tc-blue);
+    margin-right: 2px;
+  }
+  .compare-col .cost-line.gst-subtotal-line {
+    border-top: 1px dashed var(--tc-grey-l);
+    margin-top: 4px; padding-top: 6px;
+    color: var(--tc-grey); font-style: italic;
+    font-size: 11.5px;
+  }
+  .compare-col .cost-line.gst-line {
+    color: var(--tc-grey); font-style: italic;
+    font-size: 11.5px;
+    padding-top: 1px; padding-bottom: 1px;
+  }
+  .compare-col .cost-line.total-line {
+    border-top: 1px solid var(--tc-grey-l);
+    margin-top: 5px; padding-top: 6px;
+    font-weight: 700; font-size: 13px;
+  }
+  .compare-col .zero-rated-tag {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0 5px;
+    border-radius: 3px;
+    background: var(--tc-grey-l);
+    color: var(--tc-grey);
+    font-size: 10px;
+    font-weight: 600;
+    font-style: italic;
+    vertical-align: 1px;
+  }
+  .compare-col .cost-desc-block {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .compare-col .cost-amt {
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .compare-col .verify-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .compare-col .verify-badge.verified {
+    color: var(--tc-green-d);
+    background: var(--tc-green-l);
+  }
+  .compare-col .verify-badge.mixed {
+    color: #8a5b00;
+    background: #FFF4E0;
+  }
+  .compare-col .verify-badge.off-platform {
+    color: var(--tc-grey);
+    background: var(--tc-grey-l);
+  }
+  .compare-col .milestone-line.special {
+    color: var(--tc-blue-d);
+    font-weight: 600;
+  }
+  .compare-col .milestone-line.special::before {
+    content: '★ ';
+    color: var(--tc-blue);
+  }
+  .compare-col .milestone-note {
+    font-size: 10px; color: var(--tc-blue-d);
+    font-style: italic;
+    padding: 2px 0 4px 14px;
+    line-height: 1.3;
+  }
+  .compare-col .payment-summary {
+    background: var(--tc-grey-ll); border-radius: 6px;
+    padding: 10px 12px; margin: 12px 0;
+    font-size: 12px;
+  }
+  .compare-col .payment-summary.tw {
+    background: var(--tc-green-l);
+  }
+  .compare-col .payment-summary .pay-label {
+    font-size: 11px; font-weight: 700; color: var(--tc-grey);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .compare-col .payment-summary.tw .pay-label { color: var(--tc-green-d); }
+  .compare-col .payment-summary.tw .pay-label::after {
+    content: '🛡 TradieWallet'; background: var(--tc-green); color: var(--tc-white);
+    padding: 2px 8px; border-radius: 999px; font-size: 10px; margin-left: 4px;
+  }
+  .compare-col .milestone-line {
+    display: flex; justify-content: space-between;
+    padding: 3px 0; font-size: 12px;
+  }
+  .compare-col .milestone-line .desc { color: var(--tc-charcoal); }
+  .compare-col .milestone-line .amt { font-weight: 700; }
+  .compare-col .direct-terms { font-size: 12px; line-height: 1.5; color: var(--tc-charcoal); }
+  .compare-col .notes { font-size: 12px; color: var(--tc-grey); margin: 10px 0; line-height: 1.5; font-style: italic; }
+  .compare-col .select-btn {
+    width: 100%;
+    background: var(--tc-charcoal); color: var(--tc-white);
+    border: none; padding: 10px;
+    border-radius: var(--radius-sm);
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: background 0.15s ease;
+    margin-top: 8px;
+  }
+  .compare-col .select-btn:hover { background: var(--tc-blue); }
+  .compare-col.selected .select-btn { background: var(--tc-green); }
+
+  /* Selection result */
+  .selection-result {
+    margin-top: 20px; padding: 20px;
+    background: var(--tc-grey-ll);
+    border-radius: var(--radius);
+    display: none;
+  }
+  .selection-result.shown { display: block; }
+  .selection-result h4 {
+    font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .selection-result.tradiewallet h4 { color: var(--tc-green-d); }
+  .selection-result.direct h4 { color: var(--tc-blue-d); }
+  .selection-result .step-list {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .selection-result .step {
+    display: flex; align-items: start; gap: 10px;
+    background: var(--tc-white); padding: 10px 14px;
+    border-radius: 6px; font-size: 13px;
+    border-left: 3px solid var(--tc-blue);
+  }
+  .selection-result.tradiewallet .step { border-left-color: var(--tc-green); }
+  .selection-result .step .step-icon {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--tc-blue-l); color: var(--tc-blue-d);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .selection-result.tradiewallet .step .step-icon {
+    background: var(--tc-green-l); color: var(--tc-green-d);
+  }
+
+  /* ── Responsive ──────────────────────────────────────── */
+  @media (max-width: 880px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      width: 100%; border-right: none; border-bottom: 1px solid var(--tc-grey-l);
+      padding: 14px;
+      max-height: 200px;
+    }
+    .sidebar ul { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+    .sidebar li { flex-shrink: 0; }
+    .sidebar a { padding: 8px 10px; }
+    .sidebar a .text { display: none; }
+    .sidebar a.active .text { display: block; padding-right: 8px; }
+    .sidebar h2 { display: none; }
+    .main { padding: 20px 16px; }
+    .surface-header h1 { font-size: 22px; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    .interest-paths, .payment-toggle { grid-template-columns: 1fr; }
+    .quote-compare { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img id="brandLogo" alt="TradieCheck" />
+    <span class="label">v2.1 Interactive Prototype</span>
+  </div>
+  <span class="badge">Confidential · v2.1 Walkthrough</span>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <h2>Homeowner flow</h2>
+    <ul>
+      <li><a data-surface="A" class="active"><span class="id">A</span><span class="text"><span class="name">Post a job</span><span class="role">Homeowner</span></span></a></li>
+      <li><a data-surface="E"><span class="id">E</span><span class="text"><span class="name">Review pool</span><span class="role">Homeowner</span></span></a></li>
+      <li><a data-surface="H"><span class="id">H</span><span class="text"><span class="name">Compare & select</span><span class="role">Homeowner</span></span></a></li>
+    </ul>
+    <h2>Tradie flow</h2>
+    <ul>
+      <li><a data-surface="B"><span class="id">B</span><span class="text"><span class="name">Job feed</span><span class="role">Tradie</span></span></a></li>
+      <li><a data-surface="C"><span class="id">C</span><span class="text"><span class="name">Express interest</span><span class="role">Tradie</span></span></a></li>
+      <li><a data-surface="F"><span class="id">F</span><span class="text"><span class="name">Invitation</span><span class="role">Tradie</span></span></a></li>
+      <li><a data-surface="G"><span class="id">G</span><span class="text"><span class="name">Formal quote</span><span class="role">Tradie</span></span></a></li>
+    </ul>
+    <h2>Shared</h2>
+    <ul>
+      <li><a data-surface="D"><span class="id">D</span><span class="text"><span class="name">Discovery</span><span class="role">Both</span></span></a></li>
+    </ul>
+  </nav>
+
+  <main class="main">
+
+    <!-- ─── A: Post a job ─────────────────────────────────── -->
+    <section class="surface active" data-surface="A">
+      <div class="surface-header">
+        <span class="surface-id">A</span>
+        <h1>Post a job</h1>
+        <span class="role-tag">Homeowner</span>
+      </div>
+      <p class="surface-narration">Lisa &amp; Tom Ngata posting their bathroom renovation. Sample data filled in for context. The post broadcasts to every Trusted and Assured tradie in the Bathroom category in the Wellington region. <strong>Note the licence requirement panel below the category select</strong> — it flags what licences this category needs, and TradieCheck will check interested tradies against it.</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/post-job</span></div>
+        <div class="mockup-body">
+
+          <div class="post-info">
+            Tradies in your area will see this job and can express interest. You'll review everyone interested and decide who to invite to formally quote.
+          </div>
+
+          <div class="field">
+            <label>Category</label>
+            <select><option>Bathroom Renovation</option><option>Kitchen Renovation</option><option>Roofing</option></select>
+          </div>
+
+          <div class="licence-panel">
+            <div class="top">
+              <span class="icon">!</span>
+              <span class="title">Licence required for this category</span>
+            </div>
+            <div class="body">
+              <strong>Bathroom Renovation</strong> involving consent or restricted building work requires a <strong>Licensed Building Practitioner (LBP)</strong> with Site Supervisor 2 or higher classification. Plumbing and electrical work must be carried out by licensed plumbers and electricians.
+              <br /><br />
+              TradieCheck will flag interested tradies&rsquo; licence status against these requirements. The decision on who to invite remains yours.
+            </div>
+          </div>
+
+          <div class="field" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div>
+              <label>Region</label>
+              <select><option>Wellington</option></select>
+            </div>
+            <div>
+              <label>Suburb</label>
+              <input type="text" value="Lower Hutt" />
+            </div>
+            <div>
+              <label>Postcode</label>
+              <input type="text" value="5010" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Street address</label>
+            <input type="text" value="47 Knights Road" />
+            <div class="address-privacy">
+              <span class="lock-icon">🔒</span>
+              <div>
+                <strong>Withheld until formal quote stage.</strong> Your street address is only revealed to the specific tradies you invite to formally quote. Until then, tradies see only the region, suburb, and postcode.
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Scope</label>
+            <p class="hint">Describe what you'd like done. Include anything you know about constraints, materials preferences, timing.</p>
+            <textarea rows="5">Strip-out and full refit of the family bathroom. Walk-in shower (relocating from corner to opposite wall), heated tile floor, new vanity and toilet, keeping existing window. First major reno for us — budget-conscious but value-led.</textarea>
+          </div>
+
+          <div class="field" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label>Fittings tier</label>
+              <select id="fittingsTier">
+                <option>Builder's basic</option>
+                <option>Standard</option>
+                <option selected>Mid-range</option>
+                <option>Premium</option>
+                <option>Bespoke</option>
+              </select>
+              <p class="tier-help">Reputable brand fittings with good warranties; locally stocked.</p>
+            </div>
+            <div>
+              <label>Finish quality</label>
+              <select id="finishQuality">
+                <option>Standard</option>
+                <option selected>Quality</option>
+                <option>High-detail</option>
+                <option>Bespoke</option>
+              </select>
+              <p class="tier-help">Tidy installation with attention to detail; some specialist work.</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Photos &amp; sketches (up to 8)</label>
+            <div class="photo-grid">
+              <div class="photo-tile filled">📷</div>
+              <div class="photo-tile filled">📷</div>
+              <div class="photo-tile filled">📐</div>
+              <div class="photo-tile filled">📷</div>
+              <div class="photo-tile">+</div>
+              <div class="photo-tile">+</div>
+              <div class="photo-tile">+</div>
+              <div class="photo-tile">+</div>
+            </div>
+          </div>
+
+          <div class="field" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label>Indicative budget — min (NZD, inc-GST)</label>
+              <input type="number" value="35000" />
+              <p style="font-size: 11px; color: var(--tc-grey); margin: 4px 0 0;">Total you'd pay, including any GST</p>
+            </div>
+            <div>
+              <label>Indicative budget — max (NZD, inc-GST)</label>
+              <input type="number" value="40000" />
+              <p style="font-size: 11px; color: var(--tc-grey); margin: 4px 0 0;">Total you'd pay, including any GST</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Payment preference</label>
+            <p style="font-size: 12px; color: var(--tc-grey); margin: -4px 0 4px;">How would you like to handle payment? Tradies will see your preference when they quote.</p>
+            <div class="pref-grid">
+              <div class="pref-card selected" onclick="selectPref(this)">
+                <div class="pref-title">TradieWallet escrow <span class="pref-pill-rec">RECOMMENDED</span></div>
+                <p class="pref-desc">Milestone-based payments held in escrow until you sign off on work stages. Protection for both you and the tradie. 1% fee, capped at $1,000.</p>
+              </div>
+              <div class="pref-card" onclick="selectPref(this)">
+                <div class="pref-title">Settle directly</div>
+                <p class="pref-desc">You and the chosen tradie agree payment terms outside the platform. No escrow protection.</p>
+              </div>
+              <div class="pref-card" onclick="selectPref(this)">
+                <div class="pref-title">Either <span class="pref-pill-neutral">NO PREFERENCE</span></div>
+                <p class="pref-desc">Tradies choose their preferred method at quote time. You'll see each tradie's chosen method when comparing quotes.</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn primary large full">Post job</button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── B: Job feed ───────────────────────────────────── -->
+    <section class="surface" data-surface="B">
+      <div class="surface-header">
+        <span class="surface-id">B</span>
+        <h1>Job feed</h1>
+        <span class="role-tag">Tradie</span>
+      </div>
+      <p class="surface-narration">What Sarah Chen sees when she opens the app. Filtered to her category (Bathroom Renovation) and service region (Wellington). Sort is recency only — no scoring, no "best for you" badges.</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/jobs</span></div>
+        <div class="mockup-body">
+
+          <div class="feed-list">
+            <div class="feed-card featured">
+              <div class="top-row">
+                <span class="category">Bathroom Renovation</span>
+                <span class="time">Just now</span>
+              </div>
+              <div class="scope-preview">Strip-out and full refit of the family bathroom. Walk-in shower (relocating from corner to opposite wall), heated tile floor, new vanity and toilet…</div>
+              <div class="meta-row">
+                <span>📍 Lower Hutt</span>
+                <span>💰 $35k–$40k</span>
+                <span class="interest-count">0 interested</span>
+              </div>
+              <div class="feed-tier-row">
+                <span class="tier-pill-spec compact">Mid-range fittings</span>
+                <span class="tier-pill-spec compact">Quality finish</span>
+              </div>
+            </div>
+            <div class="feed-card">
+              <div class="top-row">
+                <span class="category">Bathroom Renovation</span>
+                <span class="time">3 hours ago</span>
+              </div>
+              <div class="scope-preview">Small ensuite refresh. Replace shower, tile floor, new vanity. Existing plumbing in good shape.</div>
+              <div class="meta-row">
+                <span>📍 Karori</span>
+                <span>💰 $12k–$18k</span>
+                <span class="interest-count">4 interested</span>
+              </div>
+              <div class="feed-tier-row">
+                <span class="tier-pill-spec compact">Standard fittings</span>
+                <span class="tier-pill-spec compact">Standard finish</span>
+              </div>
+            </div>
+            <div class="feed-card">
+              <div class="top-row">
+                <span class="category">Bathroom Renovation</span>
+                <span class="time">Yesterday</span>
+              </div>
+              <div class="scope-preview">Master bathroom rework, freestanding bath, dual vanity. Heritage villa, working with the original layout.</div>
+              <div class="meta-row">
+                <span>📍 Thorndon</span>
+                <span>💰 $40k–$55k</span>
+                <span class="interest-count">7 interested</span>
+              </div>
+              <div class="feed-tier-row">
+                <span class="tier-pill-spec compact">Premium fittings</span>
+                <span class="tier-pill-spec compact">High-detail finish</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── C: Job detail + express interest ──────────────── -->
+    <section class="surface" data-surface="C">
+      <div class="surface-header">
+        <span class="surface-id">C</span>
+        <h1>Job detail &amp; express interest</h1>
+        <span class="role-tag">Tradie</span>
+      </div>
+      <p class="surface-narration">Sarah's view after tapping the Lower Hutt job. Two paths to engage: estimate (if she has enough information to price) or discovery (if she needs more from the homeowner first). The "Discovery so far" panel shows what other tradies have already asked, with their answers if Lisa has responded.</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/jobs/lisa-bathroom</span></div>
+        <div class="mockup-body">
+
+          <div class="job-detail">
+            <h3>Bathroom Renovation</h3>
+            <p class="meta">Lower Hutt &middot; Wellington &middot; Indicative budget $35k–$40k (inc-GST) &middot; Posted yesterday</p>
+            <div class="tier-display">
+              <span class="tier-label">Brief:</span>
+              <span class="tier-pill-spec">Mid-range fittings</span>
+              <span class="tier-pill-spec">Quality finish</span>
+            </div>
+            <div class="scope">Strip-out and full refit of the family bathroom. Walk-in shower (relocating from corner to opposite wall), heated tile floor, new vanity and toilet, keeping existing window. First major reno for us — budget-conscious but value-led.</div>
+
+            <div class="interest-paths">
+              <button class="path-cta">
+                <div class="icon">💰</div>
+                <div class="title">Send estimate</div>
+                <div class="sub">If you have enough information to give an obligation-free indicative price.</div>
+              </button>
+              <button class="path-cta">
+                <div class="icon">❓</div>
+                <div class="title">Need more information</div>
+                <div class="sub">Ask the homeowner clarifying questions. Visible to other interested tradies.</div>
+              </button>
+            </div>
+
+            <div class="discovery-panel">
+              <h4>Discovery so far · 2 tradies have asked</h4>
+              <div class="question-list">
+                <div class="q-card assured-q">
+                  <div class="avatar">SC</div>
+                  <div class="q-body">
+                    <div class="q-meta">
+                      <span class="who">Sarah Chen</span>
+                      <span class="pill assured">Assured</span>
+                      <span class="time">2h ago</span>
+                    </div>
+                    <div class="q-text">"What's the floor structure underneath the existing bathroom — concrete slab or timber-framed? It changes the cost of moving plumbing and adding underfloor heating significantly."</div>
+                  </div>
+                </div>
+                <div class="q-card assured-q">
+                  <div class="avatar">WT</div>
+                  <div class="q-body">
+                    <div class="q-meta">
+                      <span class="who">Wiremu Te Aho</span>
+                      <span class="pill assured">Assured</span>
+                      <span class="time">1h ago</span>
+                    </div>
+                    <div class="q-text">"Are you happy to commission a plumber's scope visit before we quote, or would you prefer indicative quotes based on the photos?"</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── D: Live discovery ─────────────────────────────── -->
+    <section class="surface" data-surface="D">
+      <div class="surface-header">
+        <span class="surface-id">D</span>
+        <h1>Live discovery view</h1>
+        <span class="role-tag">Both</span>
+      </div>
+      <p class="surface-narration">Real-time. Questions visible to all interested tradies and to Lisa. Lisa's answers appear in-line, visible to everyone. Display order is strictly chronological — no platform curation.</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/jobs/lisa-bathroom (discovery)</span></div>
+        <div class="mockup-body">
+
+          <div class="tier-display" style="margin-top: 0;">
+            <span class="tier-label">Brief:</span>
+            <span class="tier-pill-spec">Mid-range fittings</span>
+            <span class="tier-pill-spec">Quality finish</span>
+          </div>
+
+          <h4 style="font-size: 12px; font-weight: 700; color: var(--tc-grey); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px;">Discovery · 6 questions · 6 answered</h4>
+
+          <div class="question-list">
+            <div class="q-card assured-q">
+              <div class="avatar">SC</div>
+              <div class="q-body">
+                <div class="q-meta"><span class="who">Sarah Chen</span><span class="pill assured">Assured</span><span class="time">2 days ago</span></div>
+                <div class="q-text">"What's the floor structure underneath the existing bathroom — concrete slab or timber-framed?"</div>
+                <div class="answer-block">
+                  <div class="a-label">Lisa answered</div>
+                  Timber-framed, suspended over a vented sub-floor.
+                </div>
+              </div>
+            </div>
+            <div class="q-card assured-q">
+              <div class="avatar">WT</div>
+              <div class="q-body">
+                <div class="q-meta"><span class="who">Wiremu Te Aho</span><span class="pill assured">Assured</span><span class="time">2 days ago</span></div>
+                <div class="q-text">"Are you happy to commission a plumber's scope visit before we quote?"</div>
+                <div class="answer-block">
+                  <div class="a-label">Lisa answered</div>
+                  Happy to pay for a scope visit. Let me know if you'd like to organise one.
+                </div>
+              </div>
+            </div>
+            <div class="q-card assured-q">
+              <div class="avatar">SC</div>
+              <div class="q-body">
+                <div class="q-meta"><span class="who">Sarah Chen</span><span class="pill assured">Assured</span><span class="time">2 days ago</span></div>
+                <div class="q-text">"Have you spoken to Hutt City Council about consent? Moving the shower position changes the wet-area layout."</div>
+                <div class="answer-block">
+                  <div class="a-label">Lisa answered</div>
+                  Council confirmed minor consent required for the layout change.
+                </div>
+              </div>
+            </div>
+            <div class="q-card">
+              <div class="avatar">DR</div>
+              <div class="q-body">
+                <div class="q-meta"><span class="who">Dan Roberts</span><span class="pill trusted">Trusted</span><span class="time">2 days ago</span></div>
+                <div class="q-text">"Heated floor — electric mat or hydronic? Very different jobs."</div>
+                <div class="answer-block">
+                  <div class="a-label">Lisa answered</div>
+                  Electric for cost — happy to take guidance on the right product.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── E: Homeowner pool review ───────────────────────── -->
+    <section class="surface" data-surface="E">
+      <div class="surface-header">
+        <span class="surface-id">E</span>
+        <h1>Review pool &amp; invite to quote</h1>
+        <span class="role-tag">Homeowner</span>
+      </div>
+      <p class="surface-narration">Lisa sees the full pool of 11 interested tradies, sorted Assured first then Trusted, by recency within each tier. No filtering, no curation. <strong>Each tradie shows their licence status against the job requirement</strong> — green for verified, amber for an issue. The decision on who to invite remains hers.</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/jobs/lisa-bathroom/pool</span></div>
+        <div class="mockup-body">
+
+          <div class="pool-toolbar">
+            <span class="count">11 interested</span>
+            <span class="chip active">All</span>
+            <span class="chip">Assured</span>
+            <span class="chip">Trusted</span>
+            <span class="chip">Estimate</span>
+            <span class="chip">Discovery</span>
+            <span class="chip">Licence match</span>
+          </div>
+
+          <div class="pool-list" id="poolList">
+            <div class="pool-card" data-tradie="sarah" data-invitable="true">
+              <div class="check"></div>
+              <div class="who-block">
+                <div class="name-row"><span class="name">Sarah Chen</span><span class="pill assured">Assured</span></div>
+                <div class="firm">Chen Bathrooms Ltd · Wellington</div>
+                <div class="message">"Happy to scope after the floor and consent are clear. Indicative based on the photos and your answers."</div>
+                <div class="licence-line">
+                  <span class="licence-status match">✓ LBP Site Supervisor 2 (current)</span>
+                </div>
+              </div>
+              <div class="estimate-block">
+                <div class="estimate">$36,345</div>
+                <div class="estimate-label">indicative · inc-GST</div>
+              </div>
+            </div>
+            <div class="pool-card" data-tradie="wiremu" data-invitable="true">
+              <div class="check"></div>
+              <div class="who-block">
+                <div class="name-row"><span class="name">Wiremu Te Aho</span><span class="pill assured">Assured</span></div>
+                <div class="firm">Te Aho Building Co · Wellington</div>
+                <div class="message">"I'll need a scope visit before I quote firm. Happy to do that Wednesday."</div>
+                <div class="licence-line">
+                  <span class="licence-status match">✓ LBP Site Supervisor 2 (current)</span>
+                </div>
+              </div>
+              <div class="estimate-block">
+                <div class="discovery-marker">3 questions asked</div>
+                <div class="estimate" style="font-size: 16px; color: var(--tc-grey);">est. $37–41k inc-GST</div>
+              </div>
+            </div>
+            <div class="pool-card" data-tradie="jamie" data-invitable="true">
+              <div class="check"></div>
+              <div class="who-block">
+                <div class="name-row"><span class="name">Jamie Tate</span><span class="pill trusted">Trusted</span></div>
+                <div class="firm">Tate &amp; Co · Wellington</div>
+                <div class="message">"Fixed estimate based on what's visible. Will refine after viewing in person."</div>
+                <div class="licence-line">
+                  <span class="licence-status issue">⚠ LBP not on file — required for this job</span>
+                </div>
+              </div>
+              <div class="estimate-block">
+                <div class="estimate">$38,870</div>
+                <div class="estimate-label">indicative · inc-GST</div>
+              </div>
+            </div>
+            <div class="pool-card" data-tradie="dan" data-invitable="true">
+              <div class="check"></div>
+              <div class="who-block">
+                <div class="name-row"><span class="name">Dan Roberts</span><span class="pill trusted">Trusted</span></div>
+                <div class="firm">Dan Roberts (sole trader) · Wellington</div>
+                <div class="message">"Sole trader — would manage the project end-to-end with a small team. Heated floor type matters for the quote."</div>
+                <div class="licence-line">
+                  <span class="licence-status match">✓ LBP Site Supervisor 1 (current)</span>
+                </div>
+              </div>
+              <div class="estimate-block">
+                <div class="estimate">$28,500</div>
+                <div class="estimate-label">indicative · no GST</div>
+              </div>
+            </div>
+            <div class="pool-card" data-tradie="other">
+              <div class="check" style="visibility: hidden"></div>
+              <div class="who-block" style="grid-column: 2 / -1; color: var(--tc-grey); font-size: 13px; padding: 8px 0;">
+                + 7 more tradies (5 with estimates, 2 in discovery)
+              </div>
+            </div>
+          </div>
+
+          <div class="invite-bar" id="inviteBar">
+            <span class="count-text"><span id="inviteCount">0</span> tradies selected to formally quote</span>
+            <button class="btn">Send invitations</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── F: Invitation (tradie view) ────────────────────── -->
+    <section class="surface" data-surface="F">
+      <div class="surface-header">
+        <span class="surface-id">F</span>
+        <h1>Invitation to quote</h1>
+        <span class="role-tag">Tradie</span>
+      </div>
+      <p class="surface-narration">Sarah Chen receives a notification: Lisa has invited her to formally quote. The CTA opens the formal-quote builder (Surface G).</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/invitations</span></div>
+        <div class="mockup-body">
+
+          <div class="invite-screen">
+            <div class="invite-icon">📨</div>
+            <h3>You're invited to formally quote</h3>
+            <p class="from">From Lisa N. · Lower Hutt</p>
+            <div class="invite-card">
+              <div class="job-title">Bathroom Renovation</div>
+              <div class="job-meta">Lower Hutt · Wellington · $35k–$40k budget</div>
+              <div class="address-reveal-note">
+                <span class="lock">🔓</span>
+                <span>The full project address will be revealed when you start the formal quote.</span>
+              </div>
+            </div>
+            <button class="btn primary large full" onclick="navigateTo('G')">Build formal quote</button>
+            <p style="margin-top: 14px; font-size: 12px; color: var(--tc-grey);">No obligation. The invitation expires in 7 days.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── G: Formal quote builder ───────────────────────── -->
+    <section class="surface" data-surface="G">
+      <div class="surface-header">
+        <span class="surface-id">G</span>
+        <h1>Build formal quote</h1>
+        <span class="role-tag">Tradie</span>
+      </div>
+      <p class="surface-narration">Sarah's quote builder. Cost breakdown above, then the new payment terms section. Each labour line carries a performer tag (self-performed vs subcontracted), each materials line carries a supplier source (self-supplied vs sourced from supplier), and each special-order line carries a supplier field — <strong>Phase 2 will turn these into verified entity links</strong> (SubbieCheck and SupplierCheck), with the verification chain extending end-to-end.</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/quote/lisa-bathroom</span></div>
+        <div class="mockup-body">
+
+          <div class="address-display">
+            <span class="addr-label">📍 Project address</span>
+            <span class="addr-value">47 Knights Road, Lower Hutt 5010</span>
+            <span class="addr-pill">🔓 Revealed via invitation</span>
+          </div>
+
+          <div class="tier-display" style="margin-top: 0; margin-bottom: 18px;">
+            <span class="tier-label">Homeowner brief:</span>
+            <span class="tier-pill-spec">Mid-range fittings</span>
+            <span class="tier-pill-spec">Quality finish</span>
+          </div>
+
+          <!-- Cost breakdown -->
+          <div class="quote-section">
+            <h3>Cost breakdown</h3>
+
+            <div class="field">
+              <label>Scope description</label>
+              <textarea rows="3">Strip-out, full refit of family bathroom. Walk-in shower relocated. Heated electric tile floor. New vanity, toilet, fixtures. Mid-range fittings. Council consent application included.</textarea>
+            </div>
+
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 8px; display: block;">Materials</label>
+            <div class="line-item">
+              <input type="text" value="Standard tiles, fixtures, taps" />
+              <input type="number" value="6500" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta">
+              <select class="performer-select" onchange="togglePerformer(this)">
+                <option selected>Self-supplied</option>
+                <option>Sourced from supplier</option>
+              </select>
+              <div class="vendor-picker" data-vendor-type="supplier" style="display: none;">
+                <div class="vendor-display" onclick="toggleVendor(this)">
+                  <span class="vendor-name empty">Select supplier…</span>
+                </div>
+                <div class="vendor-dropdown">
+                  <input type="text" class="vendor-search" placeholder="Search suppliers…" oninput="filterVendors(this)" />
+                  <div class="vendor-options-list">
+                    <div class="vendor-option" onclick="pickVendor(this, 'Italian Tile Imports Ltd', 'Tiles & Stone', 'supplier')"><span><span class="name">Italian Tile Imports Ltd</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'European Stone &amp; Tile NZ', 'Tiles & Stone', 'supplier')"><span><span class="name">European Stone &amp; Tile NZ</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Tile Warehouse Wellington', 'Tiles', 'supplier')"><span><span class="name">Tile Warehouse Wellington</span><span class="type">· Tiles</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Madison Cabinets', 'Joinery', 'supplier')"><span><span class="name">Madison Cabinets</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Bespoke Joinery NZ', 'Joinery', 'supplier')"><span><span class="name">Bespoke Joinery NZ</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Premium Bath Supplies', 'Bathware', 'supplier')"><span><span class="name">Premium Bath Supplies</span><span class="type">· Bathware</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option off-platform" onclick="pickOffPlatform(this, 'supplier')"><span class="name">+ Off-Platform Supplier</span><span class="badge">Type a name</span></div>
+                  </div>
+                  <input type="text" class="vendor-custom-input" placeholder="Supplier name (off-platform) — press Enter to confirm" onkeydown="commitCustomVendor(event, this, 'supplier')" />
+                </div>
+              </div>
+            </div>
+            <div class="line-item">
+              <input type="text" value="Heated floor mat + thermostat" />
+              <input type="number" value="1800" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta">
+              <select class="performer-select subcontracted" onchange="togglePerformer(this)">
+                <option>Self-supplied</option>
+                <option selected>Sourced from supplier</option>
+              </select>
+              <div class="vendor-picker" data-vendor-type="supplier">
+                <div class="vendor-display" onclick="toggleVendor(this)">
+                  <span class="vendor-name">Premium Bath Supplies</span>
+                  <span class="vendor-badge verified">✓ SupplierCheck verified</span>
+                </div>
+                <div class="vendor-dropdown">
+                  <input type="text" class="vendor-search" placeholder="Search suppliers…" oninput="filterVendors(this)" />
+                  <div class="vendor-options-list">
+                    <div class="vendor-option" onclick="pickVendor(this, 'Italian Tile Imports Ltd', 'Tiles & Stone', 'supplier')"><span><span class="name">Italian Tile Imports Ltd</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'European Stone &amp; Tile NZ', 'Tiles & Stone', 'supplier')"><span><span class="name">European Stone &amp; Tile NZ</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Tile Warehouse Wellington', 'Tiles', 'supplier')"><span><span class="name">Tile Warehouse Wellington</span><span class="type">· Tiles</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Madison Cabinets', 'Joinery', 'supplier')"><span><span class="name">Madison Cabinets</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Bespoke Joinery NZ', 'Joinery', 'supplier')"><span><span class="name">Bespoke Joinery NZ</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Premium Bath Supplies', 'Bathware', 'supplier')"><span><span class="name">Premium Bath Supplies</span><span class="type">· Bathware</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option off-platform" onclick="pickOffPlatform(this, 'supplier')"><span class="name">+ Off-Platform Supplier</span><span class="badge">Type a name</span></div>
+                  </div>
+                  <input type="text" class="vendor-custom-input" placeholder="Supplier name (off-platform) — press Enter to confirm" onkeydown="commitCustomVendor(event, this, 'supplier')" />
+                </div>
+              </div>
+            </div>
+            <span class="add-line">+ Add materials line</span>
+
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 8px; margin-top: 14px; display: block; display: flex; align-items: center; gap: 8px;">Special order materials <span style="background: var(--tc-blue); color: var(--tc-white); font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px; letter-spacing: 0.04em;">NEW</span></label>
+            <p style="font-size: 12px; color: var(--tc-grey); margin-bottom: 8px;">Items with lead times that need to be paid for at order (imported tiles, custom cabinetry, bespoke fittings). These generate a dedicated TradieWallet milestone released on supplier invoice.</p>
+            <div class="line-item">
+              <input type="text" value="Italian floor tiles (4-week lead time)" />
+              <input type="number" value="2800" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta special-meta">
+              <span class="meta-label">Supplier</span>
+              <div class="vendor-picker" data-vendor-type="supplier">
+                <div class="vendor-display" onclick="toggleVendor(this)">
+                  <span class="vendor-name">Italian Tile Imports Ltd</span>
+                  <span class="vendor-badge verified">✓ SupplierCheck verified</span>
+                </div>
+                <div class="vendor-dropdown">
+                  <input type="text" class="vendor-search" placeholder="Search suppliers…" oninput="filterVendors(this)" />
+                  <div class="vendor-options-list">
+                    <div class="vendor-option" onclick="pickVendor(this, 'Italian Tile Imports Ltd', 'Tiles & Stone', 'supplier')"><span><span class="name">Italian Tile Imports Ltd</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'European Stone &amp; Tile NZ', 'Tiles & Stone', 'supplier')"><span><span class="name">European Stone &amp; Tile NZ</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Tile Warehouse Wellington', 'Tiles', 'supplier')"><span><span class="name">Tile Warehouse Wellington</span><span class="type">· Tiles</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Madison Cabinets', 'Joinery', 'supplier')"><span><span class="name">Madison Cabinets</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Bespoke Joinery NZ', 'Joinery', 'supplier')"><span><span class="name">Bespoke Joinery NZ</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Premium Bath Supplies', 'Bathware', 'supplier')"><span><span class="name">Premium Bath Supplies</span><span class="type">· Bathware</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option off-platform" onclick="pickOffPlatform(this, 'supplier')"><span class="name">+ Off-Platform Supplier</span><span class="badge">Type a name</span></div>
+                  </div>
+                  <input type="text" class="vendor-custom-input" placeholder="Supplier name (off-platform) — press Enter to confirm" onkeydown="commitCustomVendor(event, this, 'supplier')" />
+                </div>
+              </div>
+            </div>
+            <div class="line-item">
+              <input type="text" value="Custom vanity (cabinet maker, 6-week lead time)" />
+              <input type="number" value="1700" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta special-meta">
+              <span class="meta-label">Supplier</span>
+              <div class="vendor-picker" data-vendor-type="supplier">
+                <div class="vendor-display" onclick="toggleVendor(this)">
+                  <span class="vendor-name">Madison Cabinets</span>
+                  <span class="vendor-badge verified">✓ SupplierCheck verified</span>
+                </div>
+                <div class="vendor-dropdown">
+                  <input type="text" class="vendor-search" placeholder="Search suppliers…" oninput="filterVendors(this)" />
+                  <div class="vendor-options-list">
+                    <div class="vendor-option" onclick="pickVendor(this, 'Italian Tile Imports Ltd', 'Tiles & Stone', 'supplier')"><span><span class="name">Italian Tile Imports Ltd</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'European Stone &amp; Tile NZ', 'Tiles & Stone', 'supplier')"><span><span class="name">European Stone &amp; Tile NZ</span><span class="type">· Tiles &amp; Stone</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Tile Warehouse Wellington', 'Tiles', 'supplier')"><span><span class="name">Tile Warehouse Wellington</span><span class="type">· Tiles</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Madison Cabinets', 'Joinery', 'supplier')"><span><span class="name">Madison Cabinets</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Bespoke Joinery NZ', 'Joinery', 'supplier')"><span><span class="name">Bespoke Joinery NZ</span><span class="type">· Joinery</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Premium Bath Supplies', 'Bathware', 'supplier')"><span><span class="name">Premium Bath Supplies</span><span class="type">· Bathware</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option off-platform" onclick="pickOffPlatform(this, 'supplier')"><span class="name">+ Off-Platform Supplier</span><span class="badge">Type a name</span></div>
+                  </div>
+                  <input type="text" class="vendor-custom-input" placeholder="Supplier name (off-platform) — press Enter to confirm" onkeydown="commitCustomVendor(event, this, 'supplier')" />
+                </div>
+              </div>
+            </div>
+            <span class="add-line">+ Add special order line</span>
+
+            <label style="font-size: 13px; font-weight: 600; margin-bottom: 8px; margin-top: 14px; display: block;">Labour</label>
+            <div class="line-item">
+              <input type="text" value="Demo, framing, waterproofing" />
+              <input type="number" value="4500" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta">
+              <select class="performer-select" onchange="togglePerformer(this)">
+                <option selected>Self-performed</option>
+                <option>Subcontracted</option>
+              </select>
+              <input type="text" placeholder="Subbie name" class="meta-input" style="display: none;" />
+            </div>
+            <div class="line-item">
+              <input type="text" value="Plumbing rough-in & connections" />
+              <input type="number" value="3500" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta">
+              <select class="performer-select subcontracted" onchange="togglePerformer(this)">
+                <option>Self-performed</option>
+                <option selected>Subcontracted</option>
+              </select>
+              <div class="vendor-picker" data-vendor-type="subbie">
+                <div class="vendor-display" onclick="toggleVendor(this)">
+                  <span class="vendor-name">James Walker Plumbing</span>
+                  <span class="vendor-badge verified">✓ SubbieCheck verified</span>
+                </div>
+                <div class="vendor-dropdown">
+                  <input type="text" class="vendor-search" placeholder="Search subbies…" oninput="filterVendors(this)" />
+                  <div class="vendor-options-list">
+                    <div class="vendor-option" onclick="pickVendor(this, 'James Walker Plumbing', 'Plumbing', 'subbie')"><span><span class="name">James Walker Plumbing</span><span class="type">· Plumbing</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Capital Plumbing Co', 'Plumbing', 'subbie')"><span><span class="name">Capital Plumbing Co</span><span class="type">· Plumbing</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Hutt Valley Plumbing &amp; Drainage', 'Plumbing', 'subbie')"><span><span class="name">Hutt Valley Plumbing &amp; Drainage</span><span class="type">· Plumbing</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Wellington Sparks Ltd', 'Electrical', 'subbie')"><span><span class="name">Wellington Sparks Ltd</span><span class="type">· Electrical</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'PowerLine Electrical Wellington', 'Electrical', 'subbie')"><span><span class="name">PowerLine Electrical Wellington</span><span class="type">· Electrical</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Reliable Sparkies', 'Electrical', 'subbie')"><span><span class="name">Reliable Sparkies</span><span class="type">· Electrical</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option off-platform" onclick="pickOffPlatform(this, 'subbie')"><span class="name">+ Off-Platform Subcontractor</span><span class="badge">Type a name</span></div>
+                  </div>
+                  <input type="text" class="vendor-custom-input" placeholder="Subcontractor name (off-platform) — press Enter to confirm" onkeydown="commitCustomVendor(event, this, 'subbie')" />
+                </div>
+              </div>
+            </div>
+            <div class="line-item">
+              <input type="text" value="Electrical (heated floor, lights)" />
+              <input type="number" value="2500" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta">
+              <select class="performer-select subcontracted" onchange="togglePerformer(this)">
+                <option>Self-performed</option>
+                <option selected>Subcontracted</option>
+              </select>
+              <div class="vendor-picker" data-vendor-type="subbie">
+                <div class="vendor-display" onclick="toggleVendor(this)">
+                  <span class="vendor-name">Wellington Sparks Ltd</span>
+                  <span class="vendor-badge verified">✓ SubbieCheck verified</span>
+                </div>
+                <div class="vendor-dropdown">
+                  <input type="text" class="vendor-search" placeholder="Search subbies…" oninput="filterVendors(this)" />
+                  <div class="vendor-options-list">
+                    <div class="vendor-option" onclick="pickVendor(this, 'James Walker Plumbing', 'Plumbing', 'subbie')"><span><span class="name">James Walker Plumbing</span><span class="type">· Plumbing</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Capital Plumbing Co', 'Plumbing', 'subbie')"><span><span class="name">Capital Plumbing Co</span><span class="type">· Plumbing</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Hutt Valley Plumbing &amp; Drainage', 'Plumbing', 'subbie')"><span><span class="name">Hutt Valley Plumbing &amp; Drainage</span><span class="type">· Plumbing</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Wellington Sparks Ltd', 'Electrical', 'subbie')"><span><span class="name">Wellington Sparks Ltd</span><span class="type">· Electrical</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'PowerLine Electrical Wellington', 'Electrical', 'subbie')"><span><span class="name">PowerLine Electrical Wellington</span><span class="type">· Electrical</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option" onclick="pickVendor(this, 'Reliable Sparkies', 'Electrical', 'subbie')"><span><span class="name">Reliable Sparkies</span><span class="type">· Electrical</span></span><span class="badge">✓ verified</span></div>
+                    <div class="vendor-option off-platform" onclick="pickOffPlatform(this, 'subbie')"><span class="name">+ Off-Platform Subcontractor</span><span class="badge">Type a name</span></div>
+                  </div>
+                  <input type="text" class="vendor-custom-input" placeholder="Subcontractor name (off-platform) — press Enter to confirm" onkeydown="commitCustomVendor(event, this, 'subbie')" />
+                </div>
+              </div>
+            </div>
+            <div class="line-item">
+              <input type="text" value="Tiling, fixtures install" />
+              <input type="number" value="5500" />
+              <span class="remove-x">✕</span>
+            </div>
+            <div class="line-meta">
+              <select class="performer-select" onchange="togglePerformer(this)">
+                <option selected>Self-performed</option>
+                <option>Subcontracted</option>
+              </select>
+              <input type="text" placeholder="Subbie name" class="meta-input" style="display: none;" />
+            </div>
+            <span class="add-line">+ Add labour line</span>
+
+            <div class="field" style="margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div>
+                <label>Council consent fee</label>
+                <input type="number" value="1500" />
+              </div>
+              <div>
+                <label>Contingency (10%)</label>
+                <input type="number" value="1500" />
+              </div>
+            </div>
+
+            <div class="totals gst-totals">
+              <div class="totals-row subtotal-row">
+                <span class="label">Subtotal (ex-GST)</span>
+                <span class="amount-ex">$31,800</span>
+              </div>
+              <div class="totals-row gst-row">
+                <span class="label">GST (15%) <span class="gst-note">applied to taxable lines · council consent zero-rated</span></span>
+                <span class="amount-gst">$4,545</span>
+              </div>
+              <div class="totals-row total-row">
+                <span class="label">Quote total (inc-GST)</span>
+                <span class="amount">$36,345</span>
+              </div>
+              <div class="gst-status-line">
+                <span class="gst-badge registered">✓ GST-registered · NZBN-verified</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment terms — the new bit -->
+          <div class="payment-section">
+            <div class="section-title">Payment terms</div>
+
+            <div class="payment-toggle">
+              <button class="pay-option selected" data-pay="tw" onclick="switchPayment('tw')">
+                <div class="opt-title">TradieWallet escrow <span class="recommended">RECOMMENDED</span></div>
+                <div class="opt-sub">Milestone-based payments held in escrow. Protection for both you and the homeowner.</div>
+              </button>
+              <button class="pay-option" data-pay="direct" onclick="switchPayment('direct')">
+                <div class="opt-title">Settle directly</div>
+                <div class="opt-sub">You and the homeowner agree payment terms outside the platform.</div>
+              </button>
+            </div>
+
+            <div class="milestone-builder shown" id="milestoneBuilder">
+              <p style="font-size: 12px; color: var(--tc-grey); margin-bottom: 12px;">Suggested milestones for this job category and value. The special-order milestone has been added automatically because special-order items were entered above.</p>
+              <div class="milestone-row">
+                <div class="num">1</div>
+                <input type="text" value="Deposit" />
+                <input type="number" value="3500" />
+                <span class="remove-x">✕</span>
+              </div>
+              <div class="milestone-row special">
+                <div class="num">2</div>
+                <input type="text" value="Special order materials" />
+                <input type="number" value="5175" />
+                <span class="remove-x">✕</span>
+              </div>
+              <div style="font-size: 11px; color: var(--tc-blue-d); margin: -2px 0 6px 34px; font-style: italic;">↳ Released on supplier invoice presentation, not work completion.</div>
+              <div class="milestone-row">
+                <div class="num">3</div>
+                <input type="text" value="Demo + framing + plumbing rough-in" />
+                <input type="number" value="10400" />
+                <span class="remove-x">✕</span>
+              </div>
+              <div class="milestone-row">
+                <div class="num">4</div>
+                <input type="text" value="Tiling, fixtures, finishes" />
+                <input type="number" value="13225" />
+                <span class="remove-x">✕</span>
+              </div>
+              <div class="milestone-row">
+                <div class="num">5</div>
+                <input type="text" value="Snagging + final sign-off" />
+                <input type="number" value="4045" />
+                <span class="remove-x">✕</span>
+              </div>
+              <span class="add-line">+ Add milestone</span>
+              <div class="totals">
+                <span>Milestone total (inc-GST)</span>
+                <span class="ok">$36,345 ✓ matches quote</span>
+              </div>
+            </div>
+
+            <div class="direct-builder" id="directBuilder">
+              <div class="field">
+                <label>Payment terms</label>
+                <p class="hint">Describe how and when you'd like to be paid.</p>
+                <textarea rows="3" placeholder="e.g. 30% deposit on signing, 30% on completion of demo and plumbing, 30% on tiling and fixtures complete, 10% on final sign-off."></textarea>
+              </div>
+              <div style="background: #FFF4E0; border-left: 3px solid var(--tc-amber); padding: 10px 14px; border-radius: 6px; font-size: 12px; color: #8a5b00;">
+                ⓘ No platform escrow protection. You and the homeowner manage payment between yourselves.
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-section">
+            <h3>Notes</h3>
+            <div class="field">
+              <textarea rows="3">Happy to walk through the scope on site after invitation. Suggested timeline: 5–6 weeks from start. Materials lead time 2 weeks — would like to order on signing.</textarea>
+            </div>
+          </div>
+
+          <button class="btn primary large full">Submit formal quote</button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── H: Quote comparison + selection ───────────────── -->
+    <section class="surface" data-surface="H">
+      <div class="surface-header">
+        <span class="surface-id">H</span>
+        <h1>Compare quotes &amp; select</h1>
+        <span class="role-tag">Homeowner</span>
+      </div>
+      <p class="surface-narration">Lisa receives three formal quotes. Each shows the cost breakdown, payment structure, and <strong>aggregate vendor verification per line</strong> — without exposing specific subbie or supplier names. Three states: <strong>✓ verified</strong>, <strong>⚠ mixed</strong>, or <strong>⚠ off-platform</strong>. Click "Select this quote" to see how the platform branches on the payment method.</p>
+
+      <div class="mockup">
+        <div class="mockup-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">tradiecheck.co.nz/jobs/lisa-bathroom/quotes</span></div>
+        <div class="mockup-body">
+
+          <div class="quote-compare" id="quoteCompare">
+
+            <div class="compare-col" data-quote="sarah" data-pay="tradiewallet">
+              <div class="head">
+                <div class="name-row"><span class="name">Sarah Chen</span><span class="pill assured">Assured</span></div>
+                <div class="firm">Chen Bathrooms Ltd</div>
+                <div style="margin-top: 6px;"><span class="licence-status match">✓ LBP verified</span></div>
+                <div style="margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;">
+                  <span class="tier-pill-spec compact">Mid-range</span>
+                  <span class="tier-pill-spec compact">Quality finish</span>
+                  <span class="gst-badge registered">✓ GST-registered</span>
+                </div>
+              </div>
+              <div class="total">$36,345</div>
+              <div class="total-tag">inc-GST</div>
+              <div class="cost-breakdown">
+                <div class="cost-label">Cost breakdown</div>
+                <div class="cost-line special"><div class="cost-desc-block"><span><span class="star">★</span>Special order materials</span><span class="verify-badge verified">✓ Verified suppliers</span></div><span class="cost-amt">$4,500</span></div>
+                <div class="cost-line"><div class="cost-desc-block"><span>Materials</span><span class="verify-badge verified">✓ Self-supplied + verified supplier</span></div><span class="cost-amt">$8,300</span></div>
+                <div class="cost-line"><div class="cost-desc-block"><span>Labour</span><span class="verify-badge verified">✓ Self-performed + verified subbies</span></div><span class="cost-amt">$16,000</span></div>
+                <div class="cost-line"><span>Council consent <span class="zero-rated-tag">zero-rated</span></span><span class="cost-amt">$1,500</span></div>
+                <div class="cost-line"><span>Contingency</span><span class="cost-amt">$1,500</span></div>
+                <div class="cost-line gst-subtotal-line"><span>Subtotal (ex-GST)</span><span class="cost-amt">$31,800</span></div>
+                <div class="cost-line gst-line"><span>GST (15%)</span><span class="cost-amt">$4,545</span></div>
+                <div class="cost-line total-line"><span>Total (inc-GST)</span><span class="cost-amt">$36,345</span></div>
+              </div>
+              <div class="payment-summary tw">
+                <div class="pay-label">PAYMENT</div>
+                <div class="milestone-line"><span class="desc">Deposit</span><span class="amt">$3,500</span></div>
+                <div class="milestone-line special"><span class="desc">Special order materials</span><span class="amt">$5,175</span></div>
+                <div class="milestone-note">Released on supplier invoice, not work completion</div>
+                <div class="milestone-line"><span class="desc">Demo + plumbing</span><span class="amt">$10,400</span></div>
+                <div class="milestone-line"><span class="desc">Tiling, fixtures</span><span class="amt">$13,225</span></div>
+                <div class="milestone-line"><span class="desc">Snagging</span><span class="amt">$4,045</span></div>
+              </div>
+              <div class="notes">"Suggested timeline 5–6 weeks. Italian tiles + custom vanity on order lead times."</div>
+              <button class="select-btn" onclick="selectQuote('sarah','tradiewallet')">Select this quote</button>
+            </div>
+
+            <div class="compare-col" data-quote="wiremu" data-pay="tradiewallet">
+              <div class="head">
+                <div class="name-row"><span class="name">Wiremu Te Aho</span><span class="pill assured">Assured</span></div>
+                <div class="firm">Te Aho Building Co</div>
+                <div style="margin-top: 6px;"><span class="licence-status match">✓ LBP verified</span></div>
+                <div style="margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;">
+                  <span class="tier-pill-spec compact">Mid-range</span>
+                  <span class="tier-pill-spec compact">Quality finish</span>
+                  <span class="gst-badge registered">✓ GST-registered</span>
+                </div>
+              </div>
+              <div class="total">$39,105</div>
+              <div class="total-tag">inc-GST</div>
+              <div class="cost-breakdown">
+                <div class="cost-label">Cost breakdown</div>
+                <div class="cost-line"><div class="cost-desc-block"><span>Materials</span><span class="verify-badge verified">✓ Self-supplied</span></div><span class="cost-amt">$10,000</span></div>
+                <div class="cost-line"><div class="cost-desc-block"><span>Labour</span><span class="verify-badge verified">✓ Own crew, no subbies</span></div><span class="cost-amt">$20,000</span></div>
+                <div class="cost-line"><span>Council consent <span class="zero-rated-tag">zero-rated</span></span><span class="cost-amt">$1,500</span></div>
+                <div class="cost-line"><span>Contingency</span><span class="cost-amt">$2,700</span></div>
+                <div class="cost-line gst-subtotal-line"><span>Subtotal (ex-GST)</span><span class="cost-amt">$34,200</span></div>
+                <div class="cost-line gst-line"><span>GST (15%)</span><span class="cost-amt">$4,905</span></div>
+                <div class="cost-line total-line"><span>Total (inc-GST)</span><span class="cost-amt">$39,105</span></div>
+              </div>
+              <div class="payment-summary tw">
+                <div class="pay-label">PAYMENT</div>
+                <div class="milestone-line"><span class="desc">Deposit</span><span class="amt">$5,700</span></div>
+                <div class="milestone-line"><span class="desc">Demo + framing</span><span class="amt">$9,200</span></div>
+                <div class="milestone-line"><span class="desc">Plumbing + tiling</span><span class="amt">$14,800</span></div>
+                <div class="milestone-line"><span class="desc">Finishes</span><span class="amt">$7,000</span></div>
+                <div class="milestone-line"><span class="desc">Snagging</span><span class="amt">$2,405</span></div>
+              </div>
+              <div class="notes">"Post site visit. Higher labour allowance for plumbing rework. Standard materials only."</div>
+              <button class="select-btn" onclick="selectQuote('wiremu','tradiewallet')">Select this quote</button>
+            </div>
+
+            <div class="compare-col" data-quote="dan" data-pay="direct">
+              <div class="head">
+                <div class="name-row"><span class="name">Dan Roberts</span><span class="pill trusted">Trusted</span></div>
+                <div class="firm">Sole trader · Path B</div>
+                <div style="margin-top: 6px;"><span class="licence-status match">✓ LBP verified</span></div>
+                <div style="margin-top: 6px; display: flex; gap: 5px; flex-wrap: wrap;">
+                  <span class="tier-pill-spec compact diverge">Builder's basic</span>
+                  <span class="tier-pill-spec compact diverge">Standard finish</span>
+                  <span class="gst-badge not-registered">Not GST-registered</span>
+                </div>
+              </div>
+              <div class="divergence-flag">
+                <strong>Quote diverges from brief.</strong> Brief asked for Mid-range fittings and Quality finish; this quote uses Builder's basic and Standard finish, which explains the lower total.
+              </div>
+              <div class="total">$28,500</div>
+              <div class="total-tag">no GST charged</div>
+              <div class="cost-breakdown">
+                <div class="cost-label">Cost breakdown</div>
+                <div class="cost-line"><div class="cost-desc-block"><span>Materials</span><span class="verify-badge off-platform">⚠ Off-platform suppliers</span></div><span class="cost-amt">$9,500</span></div>
+                <div class="cost-line"><div class="cost-desc-block"><span>Labour</span><span class="verify-badge off-platform">⚠ Off-platform subbies</span></div><span class="cost-amt">$14,500</span></div>
+                <div class="cost-line"><span>Council consent</span><span class="cost-amt">$1,500</span></div>
+                <div class="cost-line"><span>Contingency</span><span class="cost-amt">$3,000</span></div>
+                <div class="cost-line total-line"><span>Total</span><span class="cost-amt">$28,500</span></div>
+              </div>
+              <div class="payment-summary">
+                <div class="pay-label">PAYMENT · Direct</div>
+                <div class="direct-terms">"30% deposit on signing ($8,550), 40% on completion of demo and plumbing ($11,400), 25% on tiling and fixtures complete ($7,125), 5% on final sign-off ($1,425)."</div>
+              </div>
+              <div class="notes">"Sole-trader rates. Standard materials. Happy to coordinate with the council direct."</div>
+              <button class="select-btn" onclick="selectQuote('dan','direct')">Select this quote</button>
+            </div>
+
+          </div>
+
+          <div class="selection-result" id="selectionResult">
+            <h4 id="selectionTitle"></h4>
+            <div class="step-list" id="selectionSteps"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Embed logo
+  document.getElementById('brandLogo').src = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/wAARCAHABiADACIAAREBAhEB/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0aHx4dGhwcICQuJyAiLCMcHCg3KSwwMTQ0NB8nOT04MjwuMzQy/9sAQwEJCQkMCwwYDQ0YMiEcITIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIy/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMAAAERAhEAPwD36iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoopsjiONnb7qjJoAdRWF/wl2k/89Jf+/Zo/wCEu0n/AJ6S/wDfs1p7Kp/K/uMfrFL+ZfejdorC/wCEu0n/AJ6S/wDfs0f8JdpP/PSX/v2aPZVP5X9wfWKP86+9G7RWF/wl2k/89Jf+/Zo/4S7Sf+ekv/fs0eyqfyv7g+sUf5196N2is/T9YstT3C2lJZeqsMH8q0KhprRmkZKSvF3QUUUUigooooAKKKKACiiigAooooAKKKKACiiigAoopCcUALRWbqGuWOmyrFcyHeedqrkj61U/4S7Sf+ekv/fs1apzeqTMpVqcXaUkvmbtFYX/AAl2k/8APSX/AL9mj/hLtJ/56S/9+zT9lU/lf3C+sUf5196N2isL/hLtJ/56S/8Afs0f8JdpP/PSX/v2aPZVP5X9wfWKP86+9G7RWF/wl2k/89Jf+/ZqxZa/ZajceTbeazYyT5ZAH1NJ0ppXaf3DVek3ZSX3mrRRRUGoUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABUN3/x5zf9c2/lU1Q3f/HnN/1zb+VAnseT0lKaSvfWx8jLcM0ZoooEGaM0UUASwXEttMs0LlJFOQRXfaH4gi1NBFLiO5A5Xs3uK88p0cjxSLIjFXU5DDqKyrUI1V5nThsVKhLTbseuZpa5vQPEi3wW1u2C3A+63QP/APXrpK8icJQfLI+ipVY1Y80WFFFFQahRRRQAUUUUAFFFFABRRRQAUUUUAJWJr+vx6ZGYYSHumHC/3fc03X/ECabGYICGumH1Ce5rgZZHmlaSRizscknvXXh8M6j5pbHnYzGqkuSHxfkEssk8rSSuXdjkse9MzRRXqWSVkeC227sM0ZoooEGaM0Va0+wn1G6WCBcsep7KPU0XtqxpNuyF0/T59SulggXJPVuyj1NejaXpVvpdqIol+Y8u56saNL0uDSrURRDLH77kcsavV5eJxHtHyx2PewWCVJc8/i/IKKKK5D0QooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACobv8A485v+ubfyqaobv8A485v+ubfyoE9jyc0lKaSvf6HyL3CiiigQUUUUAFFFFACgkHIJB9RXY+H/E4cJaX74bokp7+xrjaKirSjVVmbUMROjLmievZpa4nQPErW5W1vmJi6JITyvsfau1VgyhlIIPIIrx6lKVN2Z9HQxEK8eaItFFFZm4UUUUAFFFFABRRRQAVz/iDxCmnIba3Ia5Yc/wCx/wDXpPEPiFdPVra2Ia6I5PZP/r1wbu0js7sWZjkk9zXXhsNz+9LY83G432XuQ+L8gkkaV2d2LOxySTyTTaKK9TRKyPCbbd2FFFFAgooqzYWE+o3KwW65Y9T2Uepo8xpNuyFsLCfUbpYIFyx6nso9TXo2laVBpVqIohljy7nqxo0rSoNKtRFEMueXc9WNX68vE4lz92O35nvYLBKkuefxfkFFFUdT1OLTbcyPy5+4ndjXFKSirvY9EvUVFbSGa1ikbG50DHHuKlpxakroAooopgFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABUN3/AMec3/XNv5VNUN3/AMec3/XNv5UCex5OaSlNJXv9D5F7hRRRQIKKKKACiiigAooooAWt/QfEb6cwt7ks9qeAepT/AOtXP0VM4RqLlkaUqsqUuaB65FKk0SyRsGRhkMDwafXnOia9LpUmxsvbMfmT+77ivQLW5hu7dZoHDow4IryK1CVJ+R9FhsVGvHTfsTUUUVidQUUUhoAU1zniDxEtirWtqQ1yRy3ZP/r0zxD4jFmGtLRgbg8M4/g/+vXDsxZizEkk5JPeuzDYZz96Wx5uNxqp+5D4vyFd2dy7MWYnJJ6mm0UV6m2iPBu3qwooopAFFFWLKynv7pbeBNzt+QHqaPUEm3ZC2NlPqF0tvAm5m6nsB6mvRtJ0qDSrURRjc5+/IRyxpNI0mDSbXy0+aRuXk7sf8K0a8vEYnn92Ox7+CwSpLnn8X5BRRVHU9Th023LucufuJ3JrilJRV2eiGp6lFptv5jnLnhEHUmuEvLya9uGmmbLHt2A9BS3l5LfXDTTNuY/kB6Cq56V83jca675Y/CvxMZSuekWP/Hhb/wDXNf5VYqvY/wDHhb/9cl/lVivoqP8ADj6I1WwUUUVoMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACobv8A485v+ubfyqaobv8A485v+ubfyoE9jyc0lKaSvf6HyL3CiiigQUYorX8OWkV7qn2edd0bxtkUpNRi5MqEXOSiupkUVra1oc+kzE8vbsflk/oayaIyjOPNEdSnKnLlktQooopkBRRRQAua0dJ1m40m4DRktET88ZPB/wDr1m0UpRUlZlQnKEuaL1PVbDULfUbYTW75U9R3B9DVqvLNN1K40y6E0Df7ynow969D0vVrfVbfzIjhx9+M9VNeVXw7pu62PoMJjI1lZ6SNDNcx4i8Ri1DWdmwM54dx/B/9em+IvEgtw1nZNmY8PIP4PYe9cUSSSSSSepNaYbDc/vz2MsbjvZ+5T3/ICSxJJJJ6k96SiivT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hr+P+Qhp/wCbf4Uv/Cj9f/5/7D82/wAK95ooFyo8G/4Uhr//AD/2H5t/hXbfDjwDqHg68v7i+ubeX7RGiKsOeMEnJz9a9DooCyCiiigYVyXj3wZF4w0hYo2SK/gO6CVhx7qfY11tFAHg3/CkNf8A+ghYfm3+FH/Cj9f/AOf+w/Nv8K95ooFyo8G/4Ufr/wDz/wBh+bf4UqfBLxDG6umo2KspyGBbIP5V7xRQFkUNGj1CHSLWLVJIpL1ECyvFnaxHfn1FX6KKBhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAEF3ZwX1u0FxGHQ9j2+lcBrWgT6VIXXMlsej4+77GvRqY8aSoyOoZWGCCOtb0a8qT02OTE4WFda6PueSYpK6fXfDD2pa5sVLQ9WjHJX6e1cxXrU6kakeaJ8/VozpS5ZIKKKKoyCiiigAzXUaB4maDba3zlouiSHkr7H2rl6KmpSjUjZmtGtOjLmievK6uoZSCpGQR3pa8/0LxFJprLBOS9qT+KfT2rvIJo7iJZYXDxsMhgeDXkVqMqTsz6LD4mFeN1uSUZpCQASTxXHeIPE28PZ2DfL0eUd/Yf41FOnKo7RNK1aFKPNNlnxD4mEAa0sWzL0eQdF9h71xTMWYsSSTySe9JRXr0qMaSstz53E4mdeV3t2CiiitTmCiiigAopa6bQfDDXJW6vlKw9VjPVvr7VM5xgryNKVKdWXLFFTQ/D02puJZcx2o6t3f6f4131tbRWkCwwIEjUYAFPRFjQIgCqBgAdqdXk168qrt0PocLhI0Ffd9wooorA6wooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAA1y2u+GFn3XVgoWXq0Y6N9PeuporSnUlTd4mNahCtHlmeROrIxR1KsvBBGCKbXomt+HodUQyx4juQOG7N7GuBurWazuGhnjKOvY9/evVo141VpufPYnCzoS127kNFFFbHMFFFFABWto2uT6TNjl7dj80ef1FZNFKUFNcsi4VJU5c0XqdHrniZr4G3sy0cB+83Qt7ewrnKKKmnSjTVolVq860uabCiiirMgooooAKcql2CqCWJwAByafb28tzOsMKF5GOAorvNC8OxaaonnAkuiOvZPpWdWtGkrs3w+HnWlaJT0HwuIdt1fqDJ1SI9F9z711VFFeRVqyqO8j6Khh4UY8sQooorM3CiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigArP1TSLbVYNkq4kH3JB1WtCinGTi7omcIzXLJXR5dqWlXGl3HlTrwfuuOjCqNer3lnBfWzQToGRv09xXAa1oM+lSF1Bktj0k9PY16lDEqp7stzwcXgpUvejrH8jHooorrseeFFFFIAooooAKKKKACrVhp9xqNyILdNzHqT0UepqxpOj3GrT7YxtiH35COB/wDXr0LT9Ot9NtxDbpj+8x6sfesK+IjTVlqzswuElXd9olbSNFt9KhAUb5iPnkI5P/1q1KKK8mc3N80j6CnSjTjyxWgUUUVJoFFFFABRRRQAUUUUAFFF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RRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAGKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAJijFLRQAmKMUtFACYoxS0UAf/Z';
+
+  // ── Navigation
+  const navLinks = document.querySelectorAll('.sidebar a');
+  const surfaces = document.querySelectorAll('.surface');
+
+  function navigateTo(id) {
+    navLinks.forEach(a => a.classList.toggle('active', a.dataset.surface === id));
+    surfaces.forEach(s => s.classList.toggle('active', s.dataset.surface === id));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  navLinks.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      navigateTo(a.dataset.surface);
+    });
+  });
+
+  // ── Surface E: pool selection
+  const poolList = document.getElementById('poolList');
+  const inviteBar = document.getElementById('inviteBar');
+  const inviteCount = document.getElementById('inviteCount');
+
+  if (poolList) {
+    poolList.querySelectorAll('.pool-card').forEach(card => {
+      if (card.dataset.invitable !== 'true') return;
+      card.querySelector('.check').addEventListener('click', () => {
+        card.classList.toggle('checked');
+        const count = poolList.querySelectorAll('.pool-card.checked').length;
+        inviteCount.textContent = count;
+        inviteBar.classList.toggle('shown', count > 0);
+      });
+    });
+  }
+
+  // ── Surface G: payment toggle
+  function switchPayment(mode) {
+    document.querySelectorAll('.pay-option').forEach(opt => {
+      opt.classList.toggle('selected', opt.dataset.pay === mode);
+    });
+    document.getElementById('milestoneBuilder').classList.toggle('shown', mode === 'tw');
+    document.getElementById('directBuilder').classList.toggle('shown', mode === 'direct');
+  }
+
+  // ── Surface A: payment preference selection
+  function selectPref(card) {
+    const siblings = card.parentElement.querySelectorAll('.pref-card');
+    siblings.forEach(s => s.classList.remove('selected'));
+    card.classList.add('selected');
+  }
+
+  // ── Surface G: performer/source toggle (self-* vs vendor-bound)
+  function togglePerformer(select) {
+    const meta = select.parentElement.querySelector('.vendor-picker') || select.parentElement.querySelector('.meta-input');
+    // Self-performed (labour) and Self-supplied (materials) are the "no vendor" states
+    const selfStates = ['Self-performed', 'Self-supplied'];
+    const isVendorBound = !selfStates.includes(select.value);
+    if (isVendorBound) {
+      select.classList.add('subcontracted');
+      if (meta) meta.style.display = '';
+    } else {
+      select.classList.remove('subcontracted');
+      if (meta) meta.style.display = 'none';
+    }
+  }
+
+  // ── Surface G: vendor picker (subbie / supplier searchable dropdown)
+  function toggleVendor(displayEl) {
+    const thisPicker = displayEl.closest('.vendor-picker');
+    // Close any other open pickers
+    document.querySelectorAll('.vendor-picker.open').forEach(p => {
+      if (p !== thisPicker) {
+        p.classList.remove('open');
+        p.classList.remove('custom-mode');
+      }
+    });
+    const wasOpen = thisPicker.classList.contains('open');
+    thisPicker.classList.toggle('open');
+    thisPicker.classList.remove('custom-mode');
+    if (!wasOpen) {
+      const search = thisPicker.querySelector('.vendor-search');
+      if (search) {
+        search.value = '';
+        filterVendors(search);
+        setTimeout(() => search.focus(), 50);
+      }
+    }
+  }
+
+  function filterVendors(searchEl) {
+    const term = searchEl.value.toLowerCase().trim();
+    const opts = searchEl.closest('.vendor-dropdown').querySelectorAll('.vendor-option:not(.off-platform)');
+    opts.forEach(opt => {
+      const name = opt.querySelector('.name').textContent.toLowerCase();
+      const type = (opt.querySelector('.type')?.textContent || '').toLowerCase();
+      opt.style.display = (name.includes(term) || type.includes(term)) ? '' : 'none';
+    });
+  }
+
+  function pickVendor(optionEl, name, vendorClass, vendorType) {
+    const picker = optionEl.closest('.vendor-picker');
+    const display = picker.querySelector('.vendor-display');
+    const certLabel = vendorType === 'subbie' ? 'SubbieCheck' : 'SupplierCheck';
+    display.innerHTML =
+      '<span class="vendor-name">' + name + '</span>' +
+      '<span class="vendor-badge verified">✓ ' + certLabel + ' verified</span>';
+    picker.classList.remove('open');
+    picker.classList.remove('custom-mode');
+  }
+
+  function pickOffPlatform(optionEl, vendorType) {
+    const picker = optionEl.closest('.vendor-picker');
+    picker.classList.add('custom-mode');
+    const input = picker.querySelector('.vendor-custom-input');
+    input.value = '';
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function commitCustomVendor(event, inputEl, vendorType) {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    const name = inputEl.value.trim();
+    if (!name) return;
+    const picker = inputEl.closest('.vendor-picker');
+    const display = picker.querySelector('.vendor-display');
+    display.innerHTML =
+      '<span class="vendor-name">' + name + '</span>' +
+      '<span class="vendor-badge off-platform">Off-platform</span>';
+    picker.classList.remove('open');
+    picker.classList.remove('custom-mode');
+  }
+
+  // Close any open vendor picker on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.vendor-picker')) {
+      document.querySelectorAll('.vendor-picker.open').forEach(p => {
+        p.classList.remove('open');
+        p.classList.remove('custom-mode');
+      });
+    }
+  });
+
+  // ── Surface H: selection branching
+  function selectQuote(who, payMethod) {
+    document.querySelectorAll('.compare-col').forEach(col => {
+      col.classList.toggle('selected', col.dataset.quote === who);
+    });
+    const result = document.getElementById('selectionResult');
+    const title = document.getElementById('selectionTitle');
+    const steps = document.getElementById('selectionSteps');
+
+    result.classList.remove('shown', 'tradiewallet', 'direct');
+    void result.offsetHeight; // reflow to restart animation
+
+    const names = { sarah: 'Sarah Chen', wiremu: 'Wiremu Te Aho', dan: 'Dan Roberts' };
+    const name = names[who];
+
+    if (payMethod === 'tradiewallet') {
+      const hasSpecialOrder = who === 'sarah';
+      result.classList.add('shown', 'tradiewallet');
+      title.innerHTML = '✓ Selected ' + name + ' \u2014 TradieWallet path';
+      const steps_arr = [
+        ['1', 'Job marked closed. Contract recorded between Lisa and ' + name + '.'],
+        ['2', 'TradieWallet escrow account set up via IPromise (FSP1002306).'],
+        ['3', 'Milestone structure loaded from the formal quote' + (hasSpecialOrder ? ', including the dedicated special-order materials milestone.' : '.')],
+        ['4', 'Lisa lodges the deposit. IPromise releases milestones on her sign-off.'],
+      ];
+      if (hasSpecialOrder) {
+        steps_arr.push(['5', 'Special-order milestone releases against supplier invoice presentation, not work completion. The remaining milestones release on Lisa\'s work-stage sign-off as usual.']);
+        steps_arr.push(['6', 'TradieCheck\'s 1% fee deducted at source by IPromise on each release.']);
+      } else {
+        steps_arr.push(['5', 'TradieCheck\'s 1% fee deducted at source by IPromise on each release.']);
+      }
+      steps.innerHTML = steps_arr.map(s => '<div class="step"><div class="step-icon">' + s[0] + '</div><span>' + s[1] + '</span></div>').join('');
+    } else {
+      result.classList.add('shown', 'direct');
+      title.innerHTML = '✓ Selected ' + name + ' \u2014 Direct settlement path';
+      steps.innerHTML = [
+        ['1', 'Job marked closed. Contract recorded between Lisa and ' + name + '.'],
+        ['2', 'Downloadable PDF contract artifact generated with the agreed scope, total, and payment terms.'],
+        ['3', 'Contact details surfaced to both parties.'],
+        ['4', 'TradieCheck\'s role on this transaction is complete. Platform withdraws cleanly.'],
+        ['5', 'No nudges, no follow-ups to switch to TradieWallet.'],
+      ].map(s => '<div class="step"><div class="step-icon">' + s[0] + '</div><span>' + s[1] + '</span></div>').join('');
+    }
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+
+</body>
+</html>
