@@ -290,6 +290,43 @@
     border-radius: 6px;
     font-size: 12px;
   }
+
+  /* Payment preference display (read-only on Surface C) */
+  .payment-pref-display {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px;
+    margin: 12px 0;
+    padding: 10px 14px;
+    background: var(--tc-green-l);
+    border-left: 3px solid var(--tc-green);
+    border-radius: 6px;
+    font-size: 12px;
+  }
+  .payment-pref-display .payment-pref-label {
+    font-weight: 700; color: var(--tc-green-d);
+    text-transform: uppercase; letter-spacing: 0.04em;
+    font-size: 11px;
+  }
+  .payment-pref-display .payment-pref-value {
+    font-weight: 700; color: var(--tc-charcoal);
+    font-size: 13px;
+  }
+  .payment-pref-display .payment-pref-note {
+    color: var(--tc-grey); font-style: italic;
+    font-size: 11.5px;
+    flex-basis: 100%;
+    margin-top: 2px;
+  }
+
+  /* Detail section labels (Photos, Scope sections on Surface C) */
+  .detail-photos, .detail-scope-section {
+    margin-top: 14px;
+  }
+  .detail-label {
+    font-size: 11px; font-weight: 700;
+    color: var(--tc-grey);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
   .tier-display .tier-label {
     font-weight: 700; color: var(--tc-blue-d);
     text-transform: uppercase; letter-spacing: 0.04em;
@@ -350,6 +387,12 @@
     background: linear-gradient(135deg, var(--tc-grey-l), #CBD2D6);
     border: 1px solid var(--tc-grey-l);
   }
+
+  .photo-tile.filled-1 { background: #eef2f5 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZWVmMmY1Ii8+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTQ1IiBmaWxsPSIjZGRlNmVjIi8+CjxnIHN0cm9rZT0iI2MwY2RkNSIgc3Ryb2tlLXdpZHRoPSIwLjUiIGZpbGw9Im5vbmUiPgo8bGluZSB4MT0iMCIgeTE9IjM2IiB4Mj0iMjAwIiB5Mj0iMzYiLz48bGluZSB4MT0iMCIgeTE9IjcyIiB4Mj0iMjAwIiB5Mj0iNzIiLz4KPGxpbmUgeDE9IjAiIHkxPSIxMDgiIHgyPSIyMDAiIHkyPSIxMDgiLz4KPGxpbmUgeDE9IjQwIiB5MT0iMCIgeDI9IjQwIiB5Mj0iMTQ1Ii8+PGxpbmUgeDE9IjgwIiB5MT0iMCIgeDI9IjgwIiB5Mj0iMTQ1Ii8+CjxsaW5lIHgxPSIxMjAiIHkxPSIwIiB4Mj0iMTIwIiB5Mj0iMTQ1Ii8+PGxpbmUgeDE9IjE2MCIgeTE9IjAiIHgyPSIxNjAiIHkyPSIxNDUiLz4KPC9nPgo8cGF0aCBkPSJNIDAgMCBMIDMyIDE2IEwgMzIgMTQ1IEwgMzIgMTYxIEwgMCAxNzUgWiIgZmlsbD0iI2M0ZDFkOSIgb3BhY2l0eT0iMC41NSIvPgo8ZyBzdHJva2U9IiNjMGNkZDUiIHN0cm9rZS13aWR0aD0iMC41IiBmaWxsPSJub25lIj4KPGxpbmUgeDE9IjAiIHkxPSIxNzAiIHgyPSIyMDAiIHkyPSIxNzAiLz48bGluZSB4MT0iMCIgeTE9IjE5MCIgeDI9IjIwMCIgeTI9IjE5MCIvPgo8bGluZSB4MT0iNDAiIHkxPSIxNDUiIHgyPSI0MCIgeTI9IjIwMCIvPjxsaW5lIHgxPSI4MCIgeTE9IjE0NSIgeDI9IjgwIiB5Mj0iMjAwIi8+CjxsaW5lIHgxPSIxMjAiIHkxPSIxNDUiIHgyPSIxMjAiIHkyPSIyMDAiLz48bGluZSB4MT0iMTYwIiB5MT0iMTQ1IiB4Mj0iMTYwIiB5Mj0iMjAwIi8+CjwvZz4KPHJlY3QgeD0iOTgiIHk9IjI0IiB3aWR0aD0iMyIgaGVpZ2h0PSIxMzAiIGZpbGw9IiM3ZGE0YzAiIG9wYWNpdHk9IjAuNTUiLz4KPHJlY3QgeD0iOTgiIHk9IjI0IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjMiIGZpbGw9IiM3ZGE0YzAiIG9wYWNpdHk9IjAuNTUiLz4KPHJlY3QgeD0iMTAxIiB5PSIyNyIgd2lkdGg9Ijk1IiBoZWlnaHQ9IjEyNSIgZmlsbD0iI2JjZDVlMiIgb3BhY2l0eT0iMC4yMiIvPgo8cmVjdCB4PSIxOTUiIHk9IjI0IiB3aWR0aD0iMyIgaGVpZ2h0PSIxMzAiIGZpbGw9IiM3ZGE0YzAiIG9wYWNpdHk9IjAuNTUiLz4KPGxpbmUgeDE9IjE4MCIgeTE9IjMyIiB4Mj0iMTgwIiB5Mj0iNTQiIHN0cm9rZT0iIzRhNWE2NCIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxjaXJjbGUgY3g9IjE4MCIgY3k9IjU4IiByPSI4IiBmaWxsPSIjNmE3YTgyIiBzdHJva2U9IiMyYzNhNDAiIHN0cm9rZS13aWR0aD0iMC44Ii8+CjxnIGZpbGw9IiMzYzRhNTIiPjxjaXJjbGUgY3g9IjE3OCIgY3k9IjU2IiByPSIwLjgiLz48Y2lyY2xlIGN4PSIxODIiIGN5PSI1NiIgcj0iMC44Ii8+PGNpcmNsZSBjeD0iMTc4IiBjeT0iNjAiIHI9IjAuOCIvPjxjaXJjbGUgY3g9IjE4MiIgY3k9IjYwIiByPSIwLjgiLz48Y2lyY2xlIGN4PSIxODAiIGN5PSI1OCIgcj0iMC44Ii8+PC9nPgo8ZyBzdHJva2U9IiMxRTkwRDQiIHN0cm9rZS13aWR0aD0iMC44IiBvcGFjaXR5PSIwLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CjxsaW5lIHgxPSIxNzUiIHkxPSI2OCIgeDI9IjE3MSIgeTI9Ijk1Ii8+PGxpbmUgeDE9IjE3OCIgeTE9IjY4IiB4Mj0iMTc2IiB5Mj0iMTAwIi8+CjxsaW5lIHgxPSIxODAiIHkxPSI2OCIgeDI9IjE4MCIgeTI9IjEwMyIvPjxsaW5lIHgxPSIxODIiIHkxPSI2OCIgeDI9IjE4NCIgeTI9IjEwMCIvPgo8bGluZSB4MT0iMTg1IiB5MT0iNjgiIHgyPSIxODkiIHkyPSI5NSIvPgo8L2c+CjxyZWN0IHg9IjE3NiIgeT0iODYiIHdpZHRoPSI4IiBoZWlnaHQ9IjQiIGZpbGw9IiM1YTZhNzIiIHJ4PSIxIi8+CjxjaXJjbGUgY3g9IjE4MCIgY3k9IjkyIiByPSIyLjUiIGZpbGw9IiM3YThhOTIiIHN0cm9rZT0iIzNjNGE1MiIgc3Ryb2tlLXdpZHRoPSIwLjQiLz4KPGNpcmNsZSBjeD0iMTUwIiBjeT0iMTc4IiByPSI3IiBmaWxsPSJub25lIiBzdHJva2U9IiM4ODgiIHN0cm9rZS13aWR0aD0iMSIvPgo8ZyBzdHJva2U9IiM4ODgiIHN0cm9rZS13aWR0aD0iMC42Ij48bGluZSB4MT0iMTQ1IiB5MT0iMTc4IiB4Mj0iMTU1IiB5Mj0iMTc4Ii8+PGxpbmUgeDE9IjE1MCIgeTE9IjE3MyIgeDI9IjE1MCIgeTI9IjE4MyIvPjwvZz4KPC9zdmc+") center/cover no-repeat; border: 1px solid var(--tc-grey-l); font-size: 0; }
+  .photo-tile.filled-2 { background: #eef2f5 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjFmNGY2Ii8+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiIGZpbGw9IiNlM2VhZWYiLz4KPHJlY3QgeD0iMjUiIHk9IjE0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjY4IiBmaWxsPSIjY2ZlMmVjIiBzdHJva2U9IiM4YmE2YjYiIHN0cm9rZS13aWR0aD0iMSIgcng9IjIiLz4KPHJlY3QgeD0iMjgiIHk9IjE3IiB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjYyIiBmaWxsPSIjZTZmMGY1IiBzdHJva2U9IiNhMGI2YzIiIHN0cm9rZS13aWR0aD0iMC40IiByeD0iMSIvPgo8bGluZSB4MT0iNDAiIHkxPSIyMiIgeDI9IjU2IiB5Mj0iMjIiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjgiIG9wYWNpdHk9IjAuNyIvPgo8bGluZSB4MT0iNDAiIHkxPSIyNiIgeDI9IjQ4IiB5Mj0iMjYiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuNSIvPgo8cmVjdCB4PSI5MiIgeT0iMiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjEwIiBmaWxsPSIjYzRjY2M0IiBzdHJva2U9IiM2YTdhNzIiIHN0cm9rZS13aWR0aD0iMC42IiByeD0iMSIvPgo8cmVjdCB4PSI5NiIgeT0iMCIgd2lkdGg9IjgiIGhlaWdodD0iMiIgZmlsbD0iIzZhN2E3MiIvPgo8cmVjdCB4PSIyMCIgeT0iOTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iMTQiIGZpbGw9IiNjZmQ1ZDgiIHN0cm9rZT0iIzdhODU5MCIgc3Ryb2tlLXdpZHRoPSIwLjYiLz4KPHJlY3QgeD0iMjIiIHk9Ijk0IiB3aWR0aD0iMTU2IiBoZWlnaHQ9IjEwIiBmaWxsPSIjZThlZGVmIiBzdHJva2U9IiNhMGE4YjAiIHN0cm9rZS13aWR0aD0iMC4zIi8+CjxlbGxpcHNlIGN4PSIxMDAiIGN5PSIxMDUiIHJ4PSI0MiIgcnk9IjExIiBmaWxsPSIjZmZmIiBzdHJva2U9IiM4YTk2YTAiIHN0cm9rZS13aWR0aD0iMC44Ii8+CjxlbGxpcHNlIGN4PSIxMDAiIGN5PSIxMDUiIHJ4PSIzOCIgcnk9IjgiIGZpbGw9IiNlMmVhZjAiIHN0cm9rZT0iI2E4YjRiZSIgc3Ryb2tlLXdpZHRoPSIwLjUiLz4KPGxpbmUgeDE9IjEwMCIgeTE9Ijg2IiB4Mj0iMTAwIiB5Mj0iOTYiIHN0cm9rZT0iIzVhNmE3MiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0gOTUgODYgUSA5NSA4MiAxMDAgODIgUSAxMDUgODIgMTA1IDg2IEwgMTA1IDg4IEwgOTUgODggWiIgZmlsbD0iIzdhOGE5MiIgc3Ryb2tlPSIjM2M0YTUyIiBzdHJva2Utd2lkdGg9IjAuNSIvPgo8Y2lyY2xlIGN4PSI5MiIgY3k9IjkxIiByPSIxLjUiIGZpbGw9IiM3YThhOTIiLz4KPGNpcmNsZSBjeD0iMTA4IiBjeT0iOTEiIHI9IjEuNSIgZmlsbD0iIzdhOGE5MiIvPgo8cmVjdCB4PSIyMCIgeT0iMTA2IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjYTQ5MDZlIiBzdHJva2U9IiM2YTU2MzgiIHN0cm9rZS13aWR0aD0iMC44Ii8+CjxyZWN0IHg9IjIyIiB5PSIxMDgiIHdpZHRoPSI3NiIgaGVpZ2h0PSI4NiIgZmlsbD0iI2IwOWI3OCIgc3Ryb2tlPSIjNmE1NjM4IiBzdHJva2Utd2lkdGg9IjAuNCIvPgo8cmVjdCB4PSIxMDIiIHk9IjEwOCIgd2lkdGg9Ijc2IiBoZWlnaHQ9Ijg2IiBmaWxsPSIjYjA5Yjc4IiBzdHJva2U9IiM2YTU2MzgiIHN0cm9rZS13aWR0aD0iMC40Ii8+CjxyZWN0IHg9IjU4IiB5PSIxNDgiIHdpZHRoPSI0IiBoZWlnaHQ9IjgiIGZpbGw9IiMzYzJhMTgiLz4KPHJlY3QgeD0iMTM4IiB5PSIxNDgiIHdpZHRoPSI0IiBoZWlnaHQ9IjgiIGZpbGw9IiMzYzJhMTgiLz4KPGcgc3Ryb2tlPSIjOGE3NjYwIiBzdHJva2Utd2lkdGg9IjAuMyIgb3BhY2l0eT0iMC42Ij4KPGxpbmUgeDE9IjIyIiB5MT0iMTI1IiB4Mj0iOTgiIHkyPSIxMjUiLz48bGluZSB4MT0iMjIiIHkxPSIxNjAiIHgyPSI5OCIgeTI9IjE2MCIvPgo8bGluZSB4MT0iMTAyIiB5MT0iMTI1IiB4Mj0iMTc4IiB5Mj0iMTI1Ii8+PGxpbmUgeDE9IjEwMiIgeTE9IjE2MCIgeDI9IjE3OCIgeTI9IjE2MCIvPgo8L2c+Cjwvc3ZnPg==") center/cover no-repeat; border: 1px solid var(--tc-grey-l); font-size: 0; }
+  .photo-tile.filled-3 { background: #eef2f5 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZjdmMWUzIi8+CjxnIG9wYWNpdHk9IjAuMDgiIHN0cm9rZT0iIzhhNzA1MCIgc3Ryb2tlLXdpZHRoPSIwLjMiPgo8bGluZSB4MT0iMCIgeTE9IjIwIiB4Mj0iMjAwIiB5Mj0iMjAiLz48bGluZSB4MT0iMCIgeTE9IjQwIiB4Mj0iMjAwIiB5Mj0iNDAiLz4KPGxpbmUgeDE9IjAiIHkxPSI2MCIgeDI9IjIwMCIgeTI9IjYwIi8+PGxpbmUgeDE9IjAiIHkxPSI4MCIgeDI9IjIwMCIgeTI9IjgwIi8+CjxsaW5lIHgxPSIwIiB5MT0iMTAwIiB4Mj0iMjAwIiB5Mj0iMTAwIi8+PGxpbmUgeDE9IjAiIHkxPSIxMjAiIHgyPSIyMDAiIHkyPSIxMjAiLz4KPGxpbmUgeDE9IjAiIHkxPSIxNDAiIHgyPSIyMDAiIHkyPSIxNDAiLz48bGluZSB4MT0iMCIgeTE9IjE2MCIgeDI9IjIwMCIgeTI9IjE2MCIvPgo8bGluZSB4MT0iMCIgeTE9IjE4MCIgeDI9IjIwMCIgeTI9IjE4MCIvPgo8L2c+CjxnIHN0cm9rZT0iIzNjMmExOCIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Ik0gMTggMjIgTCAxODQgMjQiLz48cGF0aCBkPSJNIDE4NCAyNCBMIDE4NiAxNzgiLz4KPHBhdGggZD0iTSAxODYgMTc4IEwgMjIgMTc2Ii8+PHBhdGggZD0iTSAyMiAxNzYgTCAxOCAyMiIvPgo8L2c+CjxnIHN0cm9rZT0iIzNjMmExOCIgc3Ryb2tlLXdpZHRoPSIwLjYiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuNyI+CjxwYXRoIGQ9Ik0gMjIgMjYgTCAxODAgMjgiLz48cGF0aCBkPSJNIDE4MCAyOCBMIDE4MiAxNzQiLz4KPHBhdGggZD0iTSAxODIgMTc0IEwgMjYgMTcyIi8+PHBhdGggZD0iTSAyNiAxNzIgTCAyMiAyNiIvPgo8L2c+CjxnIHN0cm9rZT0iIzNjMmExOCIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CjxwYXRoIGQ9Ik0gMTUyIDE3NCBRIDE1NiAxNTQgMTc0IDE1MiIvPgo8L2c+CjxsaW5lIHgxPSIxNTIiIHkxPSIxNzIiIHgyPSIxNTIiIHkyPSIxNzgiIHN0cm9rZT0iI2Y3ZjFlMyIgc3Ryb2tlLXdpZHRoPSI0Ii8+CjxnIHN0cm9rZT0iIzNjMmExOCIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiPgo8cmVjdCB4PSIyOCIgeT0iMzIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgcng9IjEiLz4KPC9nPgo8ZyBzdHJva2U9IiMxRTkwRDQiIHN0cm9rZS13aWR0aD0iMC43IiBmaWxsPSJub25lIiBvcGFjaXR5PSIwLjciPgo8bGluZSB4MT0iMzIiIHkxPSIzNiIgeDI9Ijg0IiB5Mj0iMzYiLz48bGluZSB4MT0iMzIiIHkxPSI0MiIgeDI9Ijg0IiB5Mj0iNDIiLz4KPGxpbmUgeDE9IjMyIiB5MT0iNDgiIHgyPSI4NCIgeTI9IjQ4Ii8+PGxpbmUgeDE9IjMyIiB5MT0iNTQiIHgyPSI4NCIgeTI9IjU0Ii8+CjxsaW5lIHgxPSIzMiIgeTE9IjYwIiB4Mj0iODQiIHkyPSI2MCIvPjxsaW5lIHgxPSIzMiIgeTE9IjY2IiB4Mj0iODQiIHkyPSI2NiIvPgo8bGluZSB4MT0iMzIiIHkxPSI3MiIgeDI9Ijg0IiB5Mj0iNzIiLz4KPC9nPgo8Y2lyY2xlIGN4PSIzOCIgY3k9IjQwIiByPSIyIiBmaWxsPSIjM2MyYTE4Ii8+Cjx0ZXh0IHg9IjMyIiB5PSI5MiIgZm9udC1mYW1pbHk9IidDYXZlYXQnLCAnQ29taWMgU2FucyBNUycsIGN1cnNpdmUiIGZvbnQtc2l6ZT0iOSIgZmlsbD0iIzNjMmExOCIgZm9udC13ZWlnaHQ9IjcwMCI+d2Fsay1pbiBzaG93ZXI8L3RleHQ+CjxnIHN0cm9rZT0iIzNjMmExOCIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiPgo8cmVjdCB4PSIxMTAiIHk9IjMyIiB3aWR0aD0iNjQiIGhlaWdodD0iMjIiIHJ4PSIxIi8+CjxlbGxpcHNlIGN4PSIxNDIiIGN5PSI0MyIgcng9IjE0IiByeT0iNiIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxsaW5lIHgxPSIxNDAiIHkxPSIzNSIgeDI9IjE0MCIgeTI9IjQwIiBzdHJva2Utd2lkdGg9IjEuNCIvPgo8L2c+Cjx0ZXh0IHg9IjExNiIgeT0iNjgiIGZvbnQtZmFtaWx5PSInQ2F2ZWF0JywgJ0NvbWljIFNhbnMgTVMnLCBjdXJzaXZlIiBmb250LXNpemU9IjkiIGZpbGw9IiMzYzJhMTgiIGZvbnQtd2VpZ2h0PSI3MDAiPm5ldyB2YW5pdHk8L3RleHQ+CjxnIHN0cm9rZT0iIzNjMmExOCIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiPgo8cmVjdCB4PSIxMjQiIHk9Ijk4IiB3aWR0aD0iMzQiIGhlaWdodD0iMjIiIHJ4PSIxIi8+CjxlbGxpcHNlIGN4PSIxNDEiIGN5PSIxMTEiIHJ4PSIxMSIgcnk9IjciIHN0cm9rZS13aWR0aD0iMSIvPgo8L2c+Cjx0ZXh0IHg9IjExNiIgeT0iMTM0IiBmb250LWZhbWlseT0iJ0NhdmVhdCcsICdDb21pYyBTYW5zIE1TJywgY3Vyc2l2ZSIgZm9udC1zaXplPSI5IiBmaWxsPSIjM2MyYTE4IiBmb250LXdlaWdodD0iNzAwIj50b2lsZXQ8L3RleHQ+CjxnIHN0cm9rZT0iIzNjMmExOCIgc3Ryb2tlLXdpZHRoPSIwLjUiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuNSIgc3Ryb2tlLWRhc2hhcnJheT0iMiAyIj4KPGxpbmUgeDE9IjMyIiB5MT0iMTUwIiB4Mj0iMTAwIiB5Mj0iMTUwIi8+PGxpbmUgeDE9IjMyIiB5MT0iMTU4IiB4Mj0iMTAwIiB5Mj0iMTU4Ii8+CjxsaW5lIHgxPSIzMiIgeTE9IjE2NiIgeDI9IjEwMCIgeTI9IjE2NiIvPgo8bGluZSB4MT0iNDAiIHkxPSIxNDgiIHgyPSI0MCIgeTI9IjE3MCIvPjxsaW5lIHgxPSI1MiIgeTE9IjE0OCIgeDI9IjUyIiB5Mj0iMTcwIi8+CjxsaW5lIHgxPSI2NCIgeTE9IjE0OCIgeDI9IjY0IiB5Mj0iMTcwIi8+PGxpbmUgeDE9Ijc2IiB5MT0iMTQ4IiB4Mj0iNzYiIHkyPSIxNzAiLz4KPGxpbmUgeDE9Ijg4IiB5MT0iMTQ4IiB4Mj0iODgiIHkyPSIxNzAiLz4KPC9nPgo8dGV4dCB4PSIzMiIgeT0iMTQ2IiBmb250LWZhbWlseT0iJ0NhdmVhdCcsICdDb21pYyBTYW5zIE1TJywgY3Vyc2l2ZSIgZm9udC1zaXplPSI3IiBmaWxsPSIjM2MyYTE4IiBmb250LXdlaWdodD0iNzAwIiBvcGFjaXR5PSIwLjc1Ij5oZWF0ZWQgdGlsZSBmbG9vcjwvdGV4dD4KPGcgc3Ryb2tlPSIjM2MyYTE4IiBzdHJva2Utd2lkdGg9IjAuOCIgZmlsbD0ibm9uZSI+CjxsaW5lIHgxPSIxNTIiIHkxPSIxNzQiIHgyPSIxNDgiIHkyPSIxODAiLz4KPGxpbmUgeDE9IjE0OCIgeTE9IjE4MCIgeDI9IjE0OCIgeTI9IjE4NiIvPgo8bGluZSB4MT0iMTQ4IiB5MT0iMTg2IiB4Mj0iMTU4IiB5Mj0iMTg2Ii8+CjwvZz4KPHRleHQgeD0iMTI1IiB5PSIxOTAiIGZvbnQtZmFtaWx5PSInQ2F2ZWF0JywgJ0NvbWljIFNhbnMgTVMnLCBjdXJzaXZlIiBmb250LXNpemU9IjciIGZpbGw9IiMzYzJhMTgiIGZvbnQtd2VpZ2h0PSI2MDAiIG9wYWNpdHk9IjAuNzUiPmRvb3I8L3RleHQ+Cjwvc3ZnPg==") center/cover no-repeat; border: 1px solid var(--tc-grey-l); font-size: 0; }
+  .photo-tile.filled-4 { background: #eef2f5 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBzbGljZSI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZWVmMmY1Ii8+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTE1IiBmaWxsPSIjZGRlNmVjIi8+CjxnIHN0cm9rZT0iI2MwY2RkNSIgc3Ryb2tlLXdpZHRoPSIwLjUiIGZpbGw9Im5vbmUiPgo8bGluZSB4MT0iMCIgeTE9IjM1IiB4Mj0iMjAwIiB5Mj0iMzUiLz48bGluZSB4MT0iMCIgeTE9IjcwIiB4Mj0iMjAwIiB5Mj0iNzAiLz4KPGxpbmUgeDE9IjAiIHkxPSIxMDUiIHgyPSIyMDAiIHkyPSIxMDUiLz4KPGxpbmUgeDE9IjUwIiB5MT0iMCIgeDI9IjUwIiB5Mj0iMTE1Ii8+PGxpbmUgeDE9IjEwMCIgeTE9IjAiIHgyPSIxMDAiIHkyPSIxMTUiLz4KPGxpbmUgeDE9IjE1MCIgeTE9IjAiIHgyPSIxNTAiIHkyPSIxMTUiLz4KPC9nPgo8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjYiIHk9IjExNSIgZmlsbD0iI2E4YjRiZSIvPgo8ZyBzdHJva2U9IiNhMGFlYjYiIHN0cm9rZS13aWR0aD0iMC41IiBmaWxsPSJub25lIj4KPGxpbmUgeDE9IjAiIHkxPSIxMzUiIHgyPSIyMDAiIHkyPSIxMzUiLz48bGluZSB4MT0iMCIgeTE9IjE1NSIgeDI9IjIwMCIgeTI9IjE1NSIvPgo8bGluZSB4MT0iMCIgeTE9IjE3NSIgeDI9IjIwMCIgeTI9IjE3NSIvPjxsaW5lIHgxPSIwIiB5MT0iMTk1IiB4Mj0iMjAwIiB5Mj0iMTk1Ii8+CjxsaW5lIHgxPSIyNSIgeTE9IjEyMSIgeDI9IjI1IiB5Mj0iMjAwIi8+PGxpbmUgeDE9IjUwIiB5MT0iMTIxIiB4Mj0iNTAiIHkyPSIyMDAiLz4KPGxpbmUgeDE9Ijc1IiB5MT0iMTIxIiB4Mj0iNzUiIHkyPSIyMDAiLz48bGluZSB4MT0iMTAwIiB5MT0iMTIxIiB4Mj0iMTAwIiB5Mj0iMjAwIi8+CjxsaW5lIHgxPSIxMjUiIHkxPSIxMjEiIHgyPSIxMjUiIHkyPSIyMDAiLz48bGluZSB4MT0iMTUwIiB5MT0iMTIxIiB4Mj0iMTUwIiB5Mj0iMjAwIi8+CjxsaW5lIHgxPSIxNzUiIHkxPSIxMjEiIHgyPSIxNzUiIHkyPSIyMDAiLz4KPC9nPgo8cmVjdCB4PSI3OCIgeT0iMzAiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjN2E4NTkwIiBzdHJva2Utd2lkdGg9IjAuOCIgcng9IjMiLz4KPHJlY3QgeD0iODAiIHk9IjMyIiB3aWR0aD0iNDAiIGhlaWdodD0iMzgiIGZpbGw9IiNmNGY4ZmEiIHN0cm9rZT0iI2EwYWRiYSIgc3Ryb2tlLXdpZHRoPSIwLjQiIHJ4PSIyIi8+CjxyZWN0IHg9Ijg0IiB5PSIzNiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjQiIGZpbGw9IiNjZmQ4ZGYiIHJ4PSIxIi8+CjxyZWN0IHg9IjkyIiB5PSI2OCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjMiIGZpbGw9IiNhMGFkYmEiLz4KPHJlY3QgeD0iNzQiIHk9Ijc0IiB3aWR0aD0iNTIiIGhlaWdodD0iNDIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzdhODU5MCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHJ4PSI2Ii8+CjxlbGxpcHNlIGN4PSIxMDAiIGN5PSI5NSIgcng9IjIyIiByeT0iMTQiIGZpbGw9IiNlNmVlZjIiIHN0cm9rZT0iI2EwYWRiYSIgc3Ryb2tlLXdpZHRoPSIwLjYiLz4KPGVsbGlwc2UgY3g9IjEwMCIgY3k9Ijk1IiByeD0iMTgiIHJ5PSIxMSIgZmlsbD0iI2NmZGRlNSIgc3Ryb2tlPSIjYTBhZGJhIiBzdHJva2Utd2lkdGg9IjAuNCIvPgo8cmVjdCB4PSI3OCIgeT0iMTE2IiB3aWR0aD0iNDQiIGhlaWdodD0iMjIiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzdhODU5MCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHJ4PSIzIi8+CjxyZWN0IHg9IjgwIiB5PSIxMTgiIHdpZHRoPSI0MCIgaGVpZ2h0PSIxOCIgZmlsbD0iI2Y0ZjhmYSIgc3Ryb2tlPSIjYTBhZGJhIiBzdHJva2Utd2lkdGg9IjAuNCIgcng9IjIiLz4KPHJlY3QgeD0iOTIiIHk9IjEzNSIgd2lkdGg9IjE2IiBoZWlnaHQ9IjYiIGZpbGw9IiNhMGFkYmEiIHJ4PSIxIi8+CjxsaW5lIHgxPSI4NCIgeTE9IjEyNCIgeDI9IjExNiIgeTI9IjEyNCIgc3Ryb2tlPSIjY2ZkOGRmIiBzdHJva2Utd2lkdGg9IjAuNiIvPgo8bGluZSB4MT0iODQiIHkxPSIxMzAiIHgyPSIxMTYiIHkyPSIxMzAiIHN0cm9rZT0iI2NmZDhkZiIgc3Ryb2tlLXdpZHRoPSIwLjYiLz4KPC9zdmc+") center/cover no-repeat; border: 1px solid var(--tc-grey-l); font-size: 0; }
+
   .post-info {
     background: var(--tc-blue-ll); padding: 12px 14px;
     border-left: 3px solid var(--tc-blue);
@@ -1197,7 +1240,7 @@
   }
   .compare-col .payment-summary.tw .pay-label { color: var(--tc-green-d); }
   .compare-col .payment-summary.tw .pay-label::after {
-    content: '🛡 TradieWallet'; background: var(--tc-green); color: var(--tc-white);
+    content: '🛡 TradieWallet · IPromise'; background: var(--tc-green); color: var(--tc-white);
     padding: 2px 8px; border-radius: 999px; font-size: 10px; margin-left: 4px;
   }
   .compare-col .milestone-line {
@@ -1403,10 +1446,10 @@
           <div class="field">
             <label>Photos &amp; sketches (up to 8)</label>
             <div class="photo-grid">
-              <div class="photo-tile filled">📷</div>
-              <div class="photo-tile filled">📷</div>
-              <div class="photo-tile filled">📐</div>
-              <div class="photo-tile filled">📷</div>
+              <div class="photo-tile filled filled-1"></div>
+              <div class="photo-tile filled filled-2"></div>
+              <div class="photo-tile filled filled-3"></div>
+              <div class="photo-tile filled filled-4"></div>
               <div class="photo-tile">+</div>
               <div class="photo-tile">+</div>
               <div class="photo-tile">+</div>
@@ -1432,8 +1475,8 @@
             <p style="font-size: 12px; color: var(--tc-grey); margin: -4px 0 4px;">How would you like to handle payment? Tradies will see your preference when they quote.</p>
             <div class="pref-grid">
               <div class="pref-card selected" onclick="selectPref(this)">
-                <div class="pref-title">TradieWallet escrow <span class="pref-pill-rec">RECOMMENDED</span></div>
-                <p class="pref-desc">Milestone-based payments held in escrow until you sign off on work stages. Protection for both you and the tradie. 1% fee, capped at $1,000.</p>
+                <div class="pref-title">TradieWallet escrow with IPromise <span class="pref-pill-rec">RECOMMENDED</span></div>
+                <p class="pref-desc">Milestone payments are held in escrow by <strong>IPromise</strong> (a licensed third-party escrow provider, FSP1002306) and released as you sign off on each work stage. Protection for both you and the tradie.</p>
               </div>
               <div class="pref-card" onclick="selectPref(this)">
                 <div class="pref-title">Settle directly</div>
@@ -1541,7 +1584,37 @@
               <span class="tier-pill-spec">Mid-range fittings</span>
               <span class="tier-pill-spec">Quality finish</span>
             </div>
-            <div class="scope">Strip-out and full refit of the family bathroom. Walk-in shower (relocating from corner to opposite wall), heated tile floor, new vanity and toilet, keeping existing window. First major reno for us — budget-conscious but value-led.</div>
+
+            <div class="payment-pref-display">
+              <span class="payment-pref-label">Homeowner payment preference:</span>
+              <span class="payment-pref-value">TradieWallet escrow with IPromise</span>
+              <span class="payment-pref-note">Milestones held in escrow by IPromise (FSP1002306) until Lisa signs off each stage. 1% fee deducted at source, capped at $1,000.</span>
+            </div>
+
+            <div class="detail-photos">
+              <div class="detail-label">Photos &amp; sketches (4)</div>
+              <div class="photo-grid">
+                <div class="photo-tile filled filled-1"></div>
+                <div class="photo-tile filled filled-2"></div>
+                <div class="photo-tile filled filled-3"></div>
+                <div class="photo-tile filled filled-4"></div>
+              </div>
+            </div>
+
+            <div class="detail-scope-section">
+              <div class="detail-label">Scope</div>
+              <div class="scope">Strip-out and full refit of the family bathroom. Walk-in shower (relocating from corner to opposite wall), heated tile floor, new vanity and toilet, keeping existing window. First major reno for us — budget-conscious but value-led.</div>
+            </div>
+
+            <div class="licence-panel" style="margin-top: 12px;">
+              <div class="top">
+                <span class="icon">!</span>
+                <span class="title">Licence required for this category</span>
+              </div>
+              <div class="body">
+                <strong>Bathroom Renovation</strong> involving consent or restricted building work requires a <strong>Licensed Building Practitioner (LBP)</strong> with Site Supervisor 2 or higher classification. Plumbing and electrical work must be carried out by licensed plumbers and electricians.
+              </div>
+            </div>
 
             <div class="interest-paths">
               <button class="path-cta">
@@ -2072,8 +2145,8 @@
 
             <div class="payment-toggle">
               <button class="pay-option selected" data-pay="tw" onclick="switchPayment('tw')">
-                <div class="opt-title">TradieWallet escrow <span class="recommended">RECOMMENDED</span></div>
-                <div class="opt-sub">Milestone-based payments held in escrow. Protection for both you and the homeowner.</div>
+                <div class="opt-title">TradieWallet escrow with IPromise <span class="recommended">RECOMMENDED</span></div>
+                <div class="opt-sub">Milestone payments held by IPromise (FSP1002306, licensed escrow provider). 1% fee deducted at source on disbursement, capped at $1,000.</div>
               </button>
               <button class="pay-option" data-pay="direct" onclick="switchPayment('direct')">
                 <div class="opt-title">Settle directly</div>
