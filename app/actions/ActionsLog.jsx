@@ -159,7 +159,8 @@ export default function ActionsLog() {
   }
 
   const filtered = entries.filter(e => {
-    if (filterStatus !== "All" && e.status !== filterStatus) return false;
+    if (filterStatus === "Not Done") { if (e.status === "Done") return false; }
+    else if (filterStatus !== "All" && e.status !== filterStatus) return false;
     if (filterOwner !== "All" && e.owner !== filterOwner) return false;
     if (filterCategory !== "All" && e.category !== filterCategory) return false;
     if (search && !e.action.toLowerCase().includes(search.toLowerCase()) && !(e.meeting || "").toLowerCase().includes(search.toLowerCase()) && !(e.decision || "").toLowerCase().includes(search.toLowerCase())) return false;
@@ -416,7 +417,7 @@ export default function ActionsLog() {
         <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search actions, decisions, meetings…" style={{ ...inputStyle, width: 260, flex: "none" }} />
           {[
-            { label: "Status", value: filterStatus, set: setFilterStatus, opts: ["All", ...STATUSES] },
+            { label: "Status", value: filterStatus, set: setFilterStatus, opts: ["All", "Not Done", ...STATUSES] },
             { label: "Owner", value: filterOwner, set: setFilterOwner, opts: ["All", ...OWNERS] },
             { label: "Category", value: filterCategory, set: setFilterCategory, opts: ["All", ...CATEGORIES] },
           ].map(f => (
